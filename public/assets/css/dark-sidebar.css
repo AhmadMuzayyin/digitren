@@ -1,0 +1,47 @@
+html.dark-sidebar .sidebar-wrapper {
+	background: #16191c;
+	border-right: 1px solid #e4e4e400;
+}
+html.dark-sidebar .sidebar-wrapper .sidebar-header {
+	background: #16191c;
+	border-right: 1px solid #e4e4e400;
+	border-bottom: 1px solid rgb(255 255 255 / 15%);
+}
+html.dark-sidebar .sidebar-wrapper .sidebar-header .logo-text {
+	color: #e7e9ec;
+}
+html.dark-sidebar .sidebar-wrapper .sidebar-header .toggle-btn {
+	color: #e7e9ec;
+}
+html.dark-sidebar .sidebar-wrapper .metismenu a {
+	color: #9ea4aa;
+}
+html.dark-sidebar .sidebar-wrapper .metismenu a:hover,
+html.dark-sidebar .sidebar-wrapper .metismenu a:focus,
+html.dark-sidebar .sidebar-wrapper .metismenu a:active,
+html.dark-sidebar .sidebar-wrapper .metismenu .mm-active>a {
+	color: #fff;
+	text-decoration: none;
+	background: rgb(255 255 255 / 18%);
+}
+html.dark-sidebar .sidebar-wrapper .metismenu ul {
+	border: 1px solid #ffffff00;
+	background: rgb(255 255 255 / 8%);
+}
+html.dark-sidebar .simplebar-scrollbar:before {
+	background: rgba(255, 255, 255, 0.40);
+}
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-1,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-2,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-3,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-4,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-5,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-6,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-7,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-8,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-9,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-10,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-11,
+html.ColorLessIcons .sidebar-wrapper .metismenu .icon-color-12 {
+	color: inherit;
+}
