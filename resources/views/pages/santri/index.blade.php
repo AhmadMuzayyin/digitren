@@ -56,22 +56,28 @@
                                                         <td>{{ date('d F, Y', strtotime($item->tahun_masuk)) }}</td>
                                                         <td>{{ $item->status }}</td>
                                                         <td>
-                                                            <img src="{{ url('/storage/uploads/santri') . '/' . $item->foto }}"
-                                                                alt="santri" class="img-fluid rounded-circle"
-                                                                width="70px">
+                                                            @if ($item->foto === 'santri.png')
+                                                                <img src="{{ url('/img') . '/' . $item->foto }}"
+                                                                    alt="santri" class="img-fluid rounded-circle"
+                                                                    width="70px">
+                                                            @else
+                                                                <img src="{{ url('/storage/uploads/santri') . '/' . $item->foto }}"
+                                                                    alt="santri" class="img-fluid rounded-circle"
+                                                                    width="70px">
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             <div class="btn-group pull-right">
                                                                 @if ($item->wali_santri->count() > 0)
                                                                     <a href="{{ route('santri.print.kts', $item->no_induk) }}"
                                                                         target="_blank" class="btn btn-sm btn-success">
-                                                                        <span class="lni lni-printer"> </span>
+                                                                        <span class="bx bx-printer"> </span>
                                                                     </a>
                                                                 @endif
                                                                 <button data-bs-toggle="modal"
                                                                     data-bs-target="#detailModal-{{ $item->id }}"
                                                                     class="btn btn-sm btn-info">
-                                                                    <span class="lni lni-eye"> </span>
+                                                                    <span class="bx bx-show-alt"> </span>
                                                                 </button>
                                                                 <x-detail-modal title="Detail data santri"
                                                                     id="{{ $item->id }}" modalSize='modal-lg'>

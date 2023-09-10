@@ -74,8 +74,15 @@
                                         $('#santri_noinduk').val(data.no_induk)
                                         $('#santri_nama').val(data.name)
                                         $('#foto_santri').show()
-                                        $('#santri_profile').attr('src',
-                                            '/storage/uploads/santri/' + data.foto)
+                                        if (data.foto === 'santri.png') {
+                                            $('#santri_profile').attr('src',
+                                                '/img/' + data
+                                                .foto)
+                                        } else {
+                                            $('#santri_profile').attr('src',
+                                                '/storage/uploads/santri/' + data
+                                                .foto)
+                                        }
                                         $('#santri_id').val(data.id)
                                         $('#debit').focus()
                                         $('#saldo').text(data.saldo)
