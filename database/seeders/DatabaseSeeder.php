@@ -13,14 +13,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(50)->create();
-        \App\Models\User::create([
-            'name' => 'Ahmad Muzayyin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password'),
-        ]);
+        // \App\Models\User::create([
+        //     'name' => 'Administrator',
+        //     'email' => 'admin@digitren.com',
+        //     'password' => bcrypt('password'),
+        //     'role' => 'Administrator'
+        // ]);
+        // \App\Models\User::create([
+        //     'name' => 'Operator Tabungan',
+        //     'email' => 'keuangan@digitren.com',
+        //     'password' => bcrypt('password'),
+        //     'role' => 'Keuangan'
+        // ]);
+
         $kelas = \App\Models\Kelas::create([
             'tingkatan' => 'ALFIYAH',
             'kelas' => 'ALFIYAH SATU',
+            'keterangan' => 'Asuhan K. Zain Fairuz'
         ]);
         \App\Models\Kamar::create([
             'nama' => 'As Syafii',
@@ -29,12 +38,13 @@ class DatabaseSeeder extends Seeder
         $kamar = \App\Models\Kamar::create([
             'nama' => 'Anwarul Qulubi',
             'blok' => 'A',
-            'jumlah_santri' => 1
+            'jumlah_santri' => 1,
         ]);
         $user = \App\Models\User::create([
             'name' => 'Ahmad Muzayyin',
             'email' => 'ahmad-muzayyin@digitren.net',
             'password' => bcrypt('password'),
+            'role' => 'Santri'
         ]);
         \App\Models\Santri::create([
             'user_id' => $user->id,

@@ -62,6 +62,12 @@
                                                         </td>
                                                         <td>
                                                             <div class="btn-group pull-right">
+                                                                @if ($item->wali_santri->count() > 0)
+                                                                    <a href="{{ route('santri.print.kts', $item->no_induk) }}"
+                                                                        target="_blank" class="btn btn-sm btn-success">
+                                                                        <span class="lni lni-printer"> </span>
+                                                                    </a>
+                                                                @endif
                                                                 <button data-bs-toggle="modal"
                                                                     data-bs-target="#detailModal-{{ $item->id }}"
                                                                     class="btn btn-sm btn-info">
@@ -101,6 +107,7 @@
                                                                         @method('DELETE')
                                                                     </x-delete-modal>
                                                                 </div>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 @endforeach

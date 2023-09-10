@@ -314,8 +314,8 @@
                             data-bs-toggle="dropdown">
                             <div class="d-flex user-box align-items-center">
                                 <div class="user-info">
-                                    <p class="user-name mb-0">Jessica Doe</p>
-                                    <p class="designattion mb-0">Available</p>
+                                    <p class="user-name mb-0">{{ ucfirst(auth()->user()->name) }}</p>
+                                    <p class="designattion mb-0">Online</p>
                                 </div>
                                 <img src="{{ url('assets/images/avatars/avatar-1.png') }}" class="user-img"
                                     alt="user avatar">

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\MataPelajaran;
+use App\Models\Santri;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,12 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('rapor_santris', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', ['Administrator', 'Keuangan', 'Pengurus', 'Santri', 'Owner']);
+            $table->foreignIdFor(Santri::class)->constrained()->cascadeOnDelete();
+            $table->enum('semester', ['Satu', 'Dua']);
+            $table->integer('nilai_semester');
+            $table->integer('nilai_rata_rata');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('rapor_santris');
     }
 };

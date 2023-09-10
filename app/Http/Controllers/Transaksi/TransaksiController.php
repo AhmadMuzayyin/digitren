@@ -24,20 +24,24 @@ class TransaksiController extends Controller
                     'no_induk' => $santri->santri->no_induk,
                     'name' => $santri->santri->user->name,
                     'saldo' => number_format($santri->sum('saldo')),
-                    'foto' => $santri->santri->foto
+                    'foto' => $santri->santri->foto,
                 ];
+
                 return response()->json(['data' => $data], 200);
             }
-            return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>' . $noinduk . '</strong>'], 200);
+
+            return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>'.$noinduk.'</strong>'], 200);
         }
+
         return view('pages.transaksi.index');
     }
+
     public function store(Request $request)
     {
         $validate = $request->validate([
             'santri_noinduk' => 'required|numeric|digits:8|exists:santris,no_induk',
             'debit' => 'required|numeric',
-            'jenis_transaksi' => 'required'
+            'jenis_transaksi' => 'required',
         ]);
         try {
             if ($validate['debit'] < 50000) {
@@ -58,18 +62,21 @@ class TransaksiController extends Controller
                 ]);
                 Toastr::success('Berhasil menyimpan data');
             }
+
             return redirect()->back();
         } catch (\Throwable $th) {
             Toastr::error('Gagal menyimpan data');
+
             return redirect()->back()->withInput();
         }
     }
+
     public function update(Request $request)
     {
         $validate = $request->validate([
             'santri_noinduk' => 'required|numeric|digits:8|exists:santris,no_induk',
             'debit' => 'required|numeric',
-            'jenis_transaksi' => 'required'
+            'jenis_transaksi' => 'required',
         ]);
         try {
             if ($validate['debit'] < 10000) {
@@ -78,7 +85,7 @@ class TransaksiController extends Controller
                 $santri = Santri::firstWhere('no_induk', $validate['santri_noinduk']);
                 $tabungan = Tabungan::firstWhere('santri_id', $santri->id);
                 if ($tabungan->saldo == 0) {
-                    Toastr::info('Saldo tidak cukup saldo saat ini ' . $tabungan->saldo);
+                    Toastr::info('Saldo tidak cukup saldo saat ini '.$tabungan->saldo);
                 } else {
                     $transaksi = TransaksiTabungan::create([
                         'santri_id' => $santri->id,
@@ -94,9 +101,11 @@ class TransaksiController extends Controller
                     Toastr::success('Berhasil menyimpan data');
                 }
             }
+
             return redirect()->back()->withQuery(['jenis_transaksi' => 'Penarikan']);
         } catch (\Throwable $th) {
             Toastr::error('Gagal menyimpan data');
+
             return redirect()->back()->withInput();
         }
     }

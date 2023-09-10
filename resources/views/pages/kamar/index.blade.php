@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelas | DIGITREN')
+@section('title', 'Kamar | DIGITREN')
 
 @section('content')
     <div>
@@ -9,7 +9,7 @@
             <!--page-content-wrapper-->
             <div class="page-content-wrapper">
                 <div class="page-content">
-                    <x-breadcrumb url="{{ route('dashboard') }}" path='Kelas'></x-breadcrumb>
+                    <x-breadcrumb url="{{ route('dashboard') }}" path='Kamar'></x-breadcrumb>
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
@@ -32,19 +32,21 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Tingkat</th>
-                                                    <th>Kelas</th>
-                                                    <th>Keterangan</th>
+                                                    <th>Nama</th>
+                                                    <th>Blok</th>
+                                                    <th>Jumlah Santri</th>
+                                                    <th>Maksimal Santri</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($kelas as $item)
+                                                @foreach ($kamar as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->tingkatan }}</td>
-                                                        <td>{{ $item->kelas }}</td>
-                                                        <td>{{ $item->keterangan }}</td>
+                                                        <td>{{ $item->nama }}</td>
+                                                        <td>{{ $item->blok }}</td>
+                                                        <td>{{ $item->jumlah_santri }}</td>
+                                                        <td>{{ $item->maksimal_santri }}</td>
                                                         <td>
                                                             <div class="btn-group pull-right">
                                                                 <button data-bs-toggle="modal"
@@ -53,29 +55,35 @@
                                                                     <span class="bx bx-edit"> </span>
                                                                 </button>
 
-                                                                <x-edit-modal title="Edit data kelas"
+                                                                <x-edit-modal title="Edit data kamar"
                                                                     id="{{ $item->id }}"
-                                                                    fn="{{ route('kelas.update', $item->id) }}"
+                                                                    fn="{{ route('kamar.update', $item->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('PATCH')
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='tingkatan'
-                                                                            id="tingkatan" label='Tingkatan'
-                                                                            placeholder='Nama Tingkatan'
-                                                                            value="{{ $item->tingkatan }}"></x-input>
+                                                                        <x-input type='text' name='nama'
+                                                                            id="nama" label='Nama Kamar'
+                                                                            placeholder='Nama Kamar'
+                                                                            value="{{ $item->nama }}"></x-input>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='kelas'
-                                                                            id="kelas" label='Kelas'
-                                                                            placeholder='Nama Kelas'
-                                                                            value="{{ $item->kelas }}"></x-input>
+                                                                        <x-input type='text' name='blok'
+                                                                            id="blok" label='Blok'
+                                                                            placeholder='Nama Blok'
+                                                                            value="{{ $item->blok }}"></x-input>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='keterangan'
-                                                                            id="keterangan" label='Keterangan'
-                                                                            placeholder='Keterangan'
-                                                                            value="{{ $item->keterangan }}"></x-input>
+                                                                        <x-input type='number' name='jumlah_santri'
+                                                                            id="jumlah_santri" label='Jumlah Santri'
+                                                                            placeholder='Jumlah Santri'
+                                                                            value="{{ $item->jumlah_santri }}"></x-input>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <x-input type='number' name='maksimal_santri'
+                                                                            id="maksimal_santri" label='Maksimal Santri'
+                                                                            placeholder='Maksimal Santri'
+                                                                            value="{{ $item->maksimal_santri }}"></x-input>
                                                                     </div>
                                                                 </x-edit-modal>
 
@@ -86,7 +94,7 @@
                                                                 </button>
 
                                                                 <x-delete-modal title='Hapus data' id="{{ $item->id }}"
-                                                                    fn="{{ route('kelas.destroy', $item->id) }}"
+                                                                    fn="{{ route('kamar.destroy', $item->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -105,18 +113,22 @@
                 </div>
             </div>
             <!--end page-content-wrapper-->
-            <x-modal-form id='exampleModal' title='Tambah data tingkatan' fn="{{ route('kelas.store') }}" method="POST">
+            <x-modal-form id='exampleModal' title='Tambah data tingkatan' fn="{{ route('kamar.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <x-input type='text' name='tingkatan' id="tingkatan" label='Tingkatan'
-                        placeholder='Nama Tingkatan'></x-input>
+                    <x-input type='text' name='nama' id="nama" label='Nama Kamar'
+                        placeholder='Nama Kamar'></x-input>
                 </div>
                 <div class="mb-3">
-                    <x-input type='text' name='kelas' id="kelas" label='Kelas' placeholder='Nama Kelas'></x-input>
+                    <x-input type='text' name='blok' id="blok" label='Blok' placeholder='Nama Blok'></x-input>
                 </div>
                 <div class="mb-3">
-                    <x-input type='text' name='keterangan' id="keterangan" label='Keterangan'
-                        placeholder='Keterangan'></x-input>
+                    <x-input type='number' name='jumlah_santri' id="jumlah_santri" label='Jumlah Santri'
+                        placeholder='Jumlah Santri'></x-input>
+                </div>
+                <div class="mb-3">
+                    <x-input type='number' name='maksimal_santri' id="maksimal_santri" label='Maksimal Santri'
+                        placeholder='Maksimal Santri'></x-input>
                 </div>
             </x-modal-form>
         </div>

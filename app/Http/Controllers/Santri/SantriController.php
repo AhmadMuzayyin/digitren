@@ -24,9 +24,9 @@ class SantriController extends Controller
         return view('pages.santri.index', compact('santri'));
     }
 
-    public function show(Santri $santri)
+    public function print_kts(Santri $santri)
     {
-        return view('pages.santri.detail', compact('santri'));
+        return view('pages.santri.print', compact('santri'));
     }
 
     public function store(Request $request)
@@ -75,7 +75,7 @@ class SantriController extends Controller
             $validate['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
-            $validate['whatsapp'] = '62' . $request->whatsapp;
+            $validate['whatsapp'] = '62'.$request->whatsapp;
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
 
@@ -83,12 +83,12 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);
-                if (!$santri) {
+                if (! $santri) {
                     $user->delete();
                 }
                 // insert wali santri
@@ -108,19 +108,19 @@ class SantriController extends Controller
                 $path = storage_path('app/public/uploads/santri/');
                 $filename = $foto->hashName();
 
-                if (!file_exists($path)) {
+                if (! file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
 
                 Image::make($foto->getRealPath())->resize(400, 400, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($path . $filename);
+                })->save($path.$filename);
 
                 // insert user login santri
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
 
@@ -213,11 +213,11 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::where('id', $santri->user_id)->update([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
                 $santri->update($validate);
-                if (!$santri) {
+                if (! $santri) {
                     $user->delete();
                 }
                 // update wali santri
@@ -227,12 +227,12 @@ class SantriController extends Controller
                         WaliSantri::create([
                             'santri_id' => $santri->id,
                             'nama' => $validate['nama_ayah'],
-                            'wali' => true
+                            'wali' => true,
                         ]);
                         WaliSantri::create([
                             'santri_id' => $santri->id,
                             'nama' => $validate['nama_ibu'],
-                            'wali' => false
+                            'wali' => false,
                         ]);
                     } else {
                         $wali->where('wali', true)->update([
@@ -251,19 +251,19 @@ class SantriController extends Controller
                 $path = storage_path('app/public/uploads/santri/');
                 $filename = $foto->hashName();
 
-                if (!file_exists($path)) {
+                if (! file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
 
                 Image::make($foto->getRealPath())->resize(400, 400, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($path . $filename);
+                })->save($path.$filename);
 
                 // update user login santri
                 $user = User::where('id', $santri->user_id)->update([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
 

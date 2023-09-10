@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\LogActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, LogActivity, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -40,4 +42,19 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($user) {
+            $user->CreateLog('Creatting ' . class_basename($user));
+        });
+
+        self::updating(function ($user) {
+            $user->CreateLog('Updating ' . class_basename($user));
+        });
+        self::deleting(function ($user) {
+            $user->CreateLog('Deleting ' . class_basename($user));
+        });
+    }
 }

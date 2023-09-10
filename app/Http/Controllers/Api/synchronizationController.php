@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Models\Kamar;
 use App\Models\Kelas;
 use App\Models\Santri;
+use App\Models\User;
 use App\Models\WaliSantri;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Helper;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class synchronizationController extends Controller
@@ -20,12 +20,14 @@ class synchronizationController extends Controller
     public function get_kelas()
     {
         $kelas = Kelas::all();
+
         return response()->json([
             'status' => true,
             'message' => 'get all data kelas',
-            'data' => $kelas
+            'data' => $kelas,
         ], 200);
     }
+
     public function store_kelas(Request $request)
     {
         $validate = $request->validate([
@@ -35,10 +37,11 @@ class synchronizationController extends Controller
         ]);
         try {
             $kelas = Kelas::create($validate);
+
             return response()->json([
                 'status' => true,
                 'message' => 'successfully created data',
-                'data' => $kelas
+                'data' => $kelas,
             ], 201);
         } catch (\Throwable $th) {
             return response()->json([
@@ -52,12 +55,14 @@ class synchronizationController extends Controller
     public function get_santri()
     {
         $kelas = Kelas::all();
+
         return response()->json([
             'status' => true,
             'message' => 'get all data kelas',
-            'data' => $kelas
+            'data' => $kelas,
         ], 200);
     }
+
     public function store_santri(Request $request)
     {
         $validate = $request->validate([
@@ -103,19 +108,19 @@ class synchronizationController extends Controller
             $validate['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
-            $validate['whatsapp'] = '62' . $request->whatsapp;
+            $validate['whatsapp'] = '62'.$request->whatsapp;
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
             $foto = $request->file('foto');
             if (isset($foto) == false) {
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);
-                if (!$santri) {
+                if (! $santri) {
                     $user->delete();
                 }
                 // insert wali santri
@@ -135,19 +140,19 @@ class synchronizationController extends Controller
                 $path = storage_path('app/public/uploads/santri/');
                 $filename = $foto->hashName();
 
-                if (!file_exists($path)) {
+                if (! file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
 
                 Image::make($foto->getRealPath())->resize(400, 400, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($path . $filename);
+                })->save($path.$filename);
 
                 // insert user login santri
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
 
@@ -174,10 +179,11 @@ class synchronizationController extends Controller
             $kamar->update([
                 'jumlah_santri' => $kamar->jumlah_santri + 1,
             ]);
+
             return response()->json([
                 'status' => true,
                 'message' => 'successfully created data',
-                'data' => $santri
+                'data' => $santri,
             ], 201);
         } catch (\Throwable $th) {
             return response()->json([

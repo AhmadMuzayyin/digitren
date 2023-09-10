@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,10 @@ class AuthController extends Controller
             'password' => 'required|min:8',
         ]);
         if (Auth::attempt($validate)) {
+            ActivityLog::create([
+                'user_id' => auth()->user()->id,
+                'activity' => auth()->user()->name . ' Login pada ' . date('d F Y H:i s')
+            ]);
             $request->session()->regenerate();
 
             return redirect()->intended(route('dashboard'));
@@ -31,6 +36,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        ActivityLog::create([
+            'user_id' => auth()->user()->id,
+            'activity' => auth()->user()->name . ' Logout pada ' . date('d F Y H:i s')
+        ]);
         Auth::logout();
         $request->session()->regenerateToken();
 
