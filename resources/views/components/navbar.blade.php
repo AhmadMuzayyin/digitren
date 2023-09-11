@@ -25,7 +25,7 @@
                 </li>
             </ul>
         </li>
-        @if (auth()->user()->role == 'Administrator')
+        @if (auth()->user()->role->name == 'Administrator')
             <!-- master data -->
             <li class="menu-label">Master Data</li>
             <li class="{{ request()->routeIs('kamar.*') ? 'mm-active' : '' }}">
@@ -81,15 +81,15 @@
                 </a>
             </li>
             <li class="menu-label">Utilitis</li>
-            <li class="{{ request()->routeIs('role.*') ? 'mm-active' : '' }}">
-                <a href="#">
+            <li class="{{ request()->routeIs('roles.*') ? 'mm-active' : '' }}">
+                <a href="{{ route('roles.index') }}">
                     <div class="parent-icon text-warning"><i class="bx bx-shield"></i>
                     </div>
                     <div class="menu-title">Jabatan</div>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('user.*') ? 'mm-active' : '' }}">
-                <a href="#">
+            <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
+                <a href="{{ route('users.index') }}">
                     <div class="parent-icon text-info"><i class="bx bx-user-circle"></i>
                     </div>
                     <div class="menu-title">Pengguna</div>
@@ -112,7 +112,7 @@
         @endif
 
         {{-- only for keuangan --}}
-        @if (auth()->user()->role == 'Keuangan')
+        @if (auth()->user()->role->name == 'Keuangan')
             <!-- transaksi data -->
             <li class="menu-label">Tabungan</li>
             <li class="{{ request()->routeIs('saldo_debit.*') ? 'mm-active' : '' }}">

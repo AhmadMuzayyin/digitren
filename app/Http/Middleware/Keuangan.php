@@ -15,7 +15,7 @@ class Keuangan
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role == 'Keuangan') {
+        if (auth()->user()->role->name == 'Keuangan') {
             return $next($request);
         }
         abort(401);

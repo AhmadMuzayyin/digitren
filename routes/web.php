@@ -9,10 +9,12 @@ use App\Http\Controllers\MapelController;
 use App\Http\Controllers\Santri\SantriController;
 use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Rapor\RaportSantriController;
+use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Tabungan\SaldoDebitController;
 use App\Http\Controllers\Tingkatan\TingkatanController;
 use App\Http\Controllers\Transaksi\TransaksiController;
 use App\Http\Controllers\Sinkronisasi\SinkronisasiController;
+use App\Http\Controllers\Users\UsersController;
 use App\Models\Kamar;
 
 Route::get('set_theme', function (Illuminate\Http\Request $request) {
@@ -39,7 +41,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['auth', 'Administrator'])->prefix('admin')->group(function () {
         Route::get('tingkatan', [TingkatanController::class, 'index'])->name('tingkatan.index');
-
         // kamar
         Route::controller(KamarController::class)->as('kamar.')->group(function () {
             Route::get('/kamar', 'index')->name('index');
@@ -56,7 +57,6 @@ Route::middleware(['auth'])->group(function () {
             Route::patch('/kelas/update/{kelas}', 'update')->name('update');
             Route::delete('/kelas/destroy/{kelas}', 'destroy')->name('destroy');
         });
-
         // santri dan kelas santri
         Route::controller(SantriController::class)->as('santri.')->group(function () {
             Route::get('/santri', 'index')->name('index');
@@ -66,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/santri/destroy/{santri}', 'destroy')->name('destroy');
             Route::get('print/kts/{santri:no_induk}', 'print_kts')->name('print.kts');
         });
-
         // mapel
         Route::controller(MapelController::class)->as('mapel.')->group(function () {
             Route::get('/mapel', 'index')->name('index');
@@ -80,12 +79,24 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/rapor/santri/{kelas}', 'santri')->name('santri');
             Route::get('/rapor/nilai/{santri}', 'nilai')->name('nilai');
         });
-
+        // roles
+        Route::controller(RoleController::class)->as('roles.')->group(function () {
+            Route::get('/roles', 'index')->name('index');
+            Route::post('/roles', 'store')->name('store');
+            Route::patch('/roles/{role}/update', 'update')->name('update');
+            Route::delete('/roles/{role}/destroy', 'destroy')->name('destroy');
+        });
+        // users
+        Route::controller(UsersController::class)->as('users.')->group(function () {
+            Route::get('/users', 'index')->name('index');
+            Route::post('/users', 'store')->name('store');
+            Route::patch('/users/{user}/update', 'update')->name('update');
+            Route::delete('/users/{user}/destroy', 'destroy')->name('destroy');
+        });
         // riwayat
         Route::controller(RiwayatController::class)->as('riwayat.')->group(function () {
             Route::get('/riwayat', 'index')->name('index');
         });
-
         // sinkronisasi data lokal dengan data di cloud
         Route::controller(SinkronisasiController::class)->as('sinkronisasi.')->group(function () {
             Route::get('/sinkronisasi', 'index')->name('index');
@@ -98,7 +109,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('tabungan', 'store')->name('store');
             Route::delete('tabungan/{tabungan}/destroy', 'destroy')->name('destroy');
         });
-
         // transaksi tabungan (saldo debit)
         Route::controller(TransaksiController::class)->as('transaksi.')->group(function () {
             Route::get('/transaksi', 'index')->name('index');
@@ -107,6 +117,7 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    // untuk bagian keuangan
     Route::middleware(['auth', 'Keuangan'])->prefix('keuangan')->group(function () {
         // saldo debit tabungan santri
         Route::controller(SaldoDebitController::class)->as('keuangan.saldo_debit.')->group(function () {

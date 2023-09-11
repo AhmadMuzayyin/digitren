@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengguna | DIGITREN')
+@section('title', 'Jabatan | DIGITREN')
 
 @section('content')
     <div>
@@ -9,7 +9,7 @@
             <!--page-content-wrapper-->
             <div class="page-content-wrapper">
                 <div class="page-content">
-                    <x-breadcrumb url="{{ route('dashboard') }}" path='Pengguna'></x-breadcrumb>
+                    <x-breadcrumb url="{{ route('dashboard') }}" path='Jabatan'></x-breadcrumb>
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
@@ -33,18 +33,18 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Name</th>
-                                                    <th>email</th>
-                                                    <th>Role</th>
+                                                    <th>Created_at</th>
+                                                    <th>Updated_at</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($users as $item)
+                                                @foreach ($roles as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->name }}</td>
-                                                        <td>{{ $item->email }}</td>
-                                                        <td>{{ $item->role->name }}</td>
+                                                        <td>{{ $item->created_at->format('d F Y') }}</td>
+                                                        <td>{{ $item->updated_at->format('d F Y') }}</td>
                                                         <td>
                                                             <div class="btn-group pull-right">
                                                                 <button data-bs-toggle="modal"
@@ -53,40 +53,20 @@
                                                                     <span class="bx bx-edit"> </span>
                                                                 </button>
 
-                                                                <x-edit-modal title="Edit data pengguna"
+                                                                <x-edit-modal title="Edit data jabatan"
                                                                     id="{{ $item->id }}"
-                                                                    fn="{{ route('users.update', $item->id) }}"
+                                                                    fn="{{ route('roles.update', $item->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('PATCH')
                                                                     <div class="mb-3">
                                                                         <x-input type='text' name='name'
-                                                                            id="name" label='Nama Lengkap'
-                                                                            placeholder='Nama Lengkap'
+                                                                            id="name" label='Nama' placeholder='Nama'
                                                                             value="{{ $item->name }}"
                                                                             attribute='required'></x-input>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='email' name='email'
-                                                                            id="email" label='Email'
-                                                                            placeholder='Email' value="{{ $item->email }}"
-                                                                            attribute='required'></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-select-option id="role_id" name="role_id"
-                                                                            label="Jabatan">
-                                                                            <option value="" selected disabled>Pilih
-                                                                                jabatan</option>
-                                                                            @foreach ($roles as $role)
-                                                                                <option value="{{ $role->id }}"
-                                                                                    {{ $item->role->id == $role->id ? 'selected' : '' }}>
-                                                                                    {{ $role->name }}</option>
-                                                                            @endforeach
-                                                                        </x-select-option>
-                                                                    </div>
                                                                 </x-edit-modal>
-
-                                                                @if ($item->id > 1)
+                                                                @if ($item->user->count() == 0)
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#deleteModal-{{ $item->id }}"
                                                                         class="btn btn-sm btn-danger">
@@ -95,7 +75,7 @@
 
                                                                     <x-delete-modal title='Hapus data'
                                                                         id="{{ $item->id }}"
-                                                                        fn="{{ route('users.destroy', $item->id) }}"
+                                                                        fn="{{ route('roles.destroy', $item->id) }}"
                                                                         method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
@@ -115,34 +95,11 @@
                 </div>
             </div>
             <!--end page-content-wrapper-->
-            <x-modal-form id='exampleModal' title='Tambah data pengguna' fn="{{ route('users.store') }}" method="POST">
+            <x-modal-form id='exampleModal' title='Tambah data jabatan' fn="{{ route('roles.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <x-input type='text' name='name' id="name" label='Nama Lengkap' placeholder='Nama Lengkap'
                         value="{{ old('name') }}"></x-input>
-                </div>
-                <div class="mb-3">
-                    <x-input type='email' name='email' id="email" label='Email' placeholder='Email'
-                        value="{{ old('email') }}"></x-input>
-                </div>
-                <div class="mb-3">
-                    <x-input type='password' name='password' id="password" label='Password' placeholder='Password'
-                        value="{{ old('password') }}"></x-input>
-                </div>
-                <div class="mb-3">
-                    <x-input type='password' name='password_confirmation' id="password_confirmation"
-                        label='Konfirmasi Password' placeholder='Konfirmasi Password'></x-input>
-                </div>
-                <div class="mb-3">
-                    <x-select-option id="role_id" name="role_id" label="Jabatan">
-                        <option value="" selected disabled>Pilih
-                            jabatan</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}"
-                                {{ old('role_id') != null ? (old('role_id') == $role->id ? 'selected' : '') : '' }}>
-                                {{ $role->name }}</option>
-                        @endforeach
-                    </x-select-option>
                 </div>
             </x-modal-form>
         </div>

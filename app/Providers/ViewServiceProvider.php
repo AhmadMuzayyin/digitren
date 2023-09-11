@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Kamar;
 use App\Models\Kelas;
+use App\Models\Role;
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
@@ -27,6 +28,10 @@ class ViewServiceProvider extends ServiceProvider
 
             $kamar = Kamar::all();
             $view->with('kamar', $kamar);
+        });
+        view()->composer('pages.users.index', function ($view) {
+            $roles = Role::all();
+            $view->with('roles', $roles);
         });
     }
 }
