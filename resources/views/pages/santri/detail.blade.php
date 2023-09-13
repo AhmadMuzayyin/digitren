@@ -11,8 +11,13 @@
             </tr>
             <tr>
                 <td>Tempat/Tanggal Lahir</td>
-                <td>{{ $item->tempat_lahir . ', ' . date('d', strtotime($item->tanggal_lahir)) . ' ' . date('F',
-                    strtotime($item->bulan_lahir)) . ' ' . $item->tahun_lahir }}
+                <td>{{ $item->tempat_lahir .
+                    ', ' .
+                    date('d', strtotime($item->tanggal_lahir)) .
+                    ' ' .
+                    date('F', strtotime($item->bulan_lahir)) .
+                    ' ' .
+                    $item->tahun_lahir }}
                 </td>
             </tr>
             <tr>
@@ -28,18 +33,23 @@
                 <td>{{ $item->tahun_masuk . ' - ' . $item->tahun_masuk_hijriyah }}</td>
             </tr>
             @if ($item->status === 'Santri Alumni')
-            <tr>
-                <td>Tanggal Boyong</td>
-                <td>{{ $item->tanggal_boyong . ' - ' . $item->tanggal_boyong_hijriyah }}</td>
-            </tr>
+                <tr>
+                    <td>Tanggal Boyong</td>
+                    <td>{{ $item->tanggal_boyong . ' - ' . $item->tanggal_boyong_hijriyah }}</td>
+                </tr>
             @endif
             <tr>
                 <td>Status</td>
                 <td>{{ $item->status }}</td>
             </tr>
             <tr>
-                <img src="{{ url('storage/uploads/santri') . '/' . $item->foto }}" alt="santri"
-                    class="img-fluid rounded-circle" width="100px">
+                @if ($item->foto !== 'santri.png')
+                    <img src="{{ url('storage/uploads/santri') . '/' . $item->foto }}" alt="santri"
+                        class="img-fluid rounded-circle" width="100px">
+                @else
+                    <img src="{{ url('img') . '/' . $item->foto }}" alt="santri" class="img-fluid rounded-circle"
+                        width="100px">
+                @endif
             </tr>
             <tr>
                 <td>Data Kependudukan</td>

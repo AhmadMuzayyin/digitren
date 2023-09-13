@@ -28,9 +28,11 @@ class KamarController extends Controller
         try {
             Kamar::create($validate);
             Toastr::success('Berhasil menambah data');
+
             return redirect()->back();
         } catch (\Throwable $th) {
             Toastr::error('Gagal menambah data');
+
             return redirect()->back();
         }
     }
@@ -64,9 +66,11 @@ class KamarController extends Controller
             } else {
                 Toastr::info('Kamar telah diisi, tidak dapat dihapus');
             }
+
             return redirect()->back();
         } catch (\Throwable $th) {
             Toastr::error('Gagal menghapus data');
+
             return redirect()->back();
         }
     }

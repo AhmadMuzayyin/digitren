@@ -66,7 +66,7 @@
                                                                             attribute='required'></x-input>
                                                                     </div>
                                                                 </x-edit-modal>
-                                                                @if ($item->user->count() == 0)
+                                                                @if (auth()->user()->getRoleNames()[0] != $item->name)
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#deleteModal-{{ $item->id }}"
                                                                         class="btn btn-sm btn-danger">

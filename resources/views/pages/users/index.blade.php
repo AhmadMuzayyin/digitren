@@ -44,7 +44,7 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->name }}</td>
                                                         <td>{{ $item->email }}</td>
-                                                        <td>{{ $item->role->name }}</td>
+                                                        <td>{{ $item->roles->first()->name }}</td>
                                                         <td>
                                                             <div class="btn-group pull-right">
                                                                 <button data-bs-toggle="modal"
@@ -79,7 +79,7 @@
                                                                                 jabatan</option>
                                                                             @foreach ($roles as $role)
                                                                                 <option value="{{ $role->id }}"
-                                                                                    {{ $item->role->id == $role->id ? 'selected' : '' }}>
+                                                                                    {{ $item->roles->first()->id == $role->id ? 'selected' : '' }}>
                                                                                     {{ $role->name }}</option>
                                                                             @endforeach
                                                                         </x-select-option>

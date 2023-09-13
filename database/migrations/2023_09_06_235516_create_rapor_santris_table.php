@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\MataPelajaran;
 use App\Models\Santri;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

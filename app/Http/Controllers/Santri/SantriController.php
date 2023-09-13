@@ -85,6 +85,7 @@ class SantriController extends Controller
                     'name' => $request->nama_lengkap,
                     'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
                     'password' => bcrypt('password'),
+                    'role_id' => 4,
                 ]);
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);

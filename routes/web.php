@@ -1,21 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Kamar\KamarController;
 use App\Http\Controllers\Kelas\KelasController;
 use App\Http\Controllers\MapelController;
-use App\Http\Controllers\Santri\SantriController;
-use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Rapor\RaportSantriController;
+use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Role\RoleController;
-use App\Http\Controllers\Tabungan\SaldoDebitController;
-use App\Http\Controllers\Tingkatan\TingkatanController;
-use App\Http\Controllers\Transaksi\TransaksiController;
+use App\Http\Controllers\Santri\SantriController;
 use App\Http\Controllers\Sinkronisasi\SinkronisasiController;
+use App\Http\Controllers\Tabungan\SaldoDebitController;
+use App\Http\Controllers\Transaksi\TransaksiController;
 use App\Http\Controllers\Users\UsersController;
 use App\Models\Kamar;
+use Illuminate\Support\Facades\Route;
 
 Route::get('set_theme', function (Illuminate\Http\Request $request) {
     if ($request['newTheme'] == 'light-theme') {
@@ -38,9 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-
-    Route::middleware(['auth', 'Administrator'])->prefix('admin')->group(function () {
-        Route::get('tingkatan', [TingkatanController::class, 'index'])->name('tingkatan.index');
+    Route::group(['middleware' => ['role:Administrator|Pengurus']], function () {
         // kamar
         Route::controller(KamarController::class)->as('kamar.')->group(function () {
             Route::get('/kamar', 'index')->name('index');
@@ -79,6 +76,15 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/rapor/santri/{kelas}', 'santri')->name('santri');
             Route::get('/rapor/nilai/{santri}', 'nilai')->name('nilai');
         });
+        // sinkronisasi data lokal dengan data di cloud
+        Route::controller(SinkronisasiController::class)->as('sinkronisasi.')->group(function () {
+            Route::get('/sinkronisasi', 'index')->name('index');
+            Route::post('/sinkronisasi', 'store')->name('store');
+            Route::patch('/sinkronisasi/update', 'update')->name('update');
+        });
+    });
+
+    Route::group(['middleware' => ['role:Administrator']], function () {
         // roles
         Route::controller(RoleController::class)->as('roles.')->group(function () {
             Route::get('/roles', 'index')->name('index');
@@ -97,12 +103,9 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(RiwayatController::class)->as('riwayat.')->group(function () {
             Route::get('/riwayat', 'index')->name('index');
         });
-        // sinkronisasi data lokal dengan data di cloud
-        Route::controller(SinkronisasiController::class)->as('sinkronisasi.')->group(function () {
-            Route::get('/sinkronisasi', 'index')->name('index');
-            Route::post('/sinkronisasi', 'store')->name('store');
-            Route::patch('/sinkronisasi/update', 'update')->name('update');
-        });
+    });
+
+    Route::group(['middleware' => ['role:Administrator|Keuangan']], function () {
         // saldo debit tabungan santri
         Route::controller(SaldoDebitController::class)->as('saldo_debit.')->group(function () {
             Route::get('tabungan', 'index')->name('index');
@@ -111,23 +114,6 @@ Route::middleware(['auth'])->group(function () {
         });
         // transaksi tabungan (saldo debit)
         Route::controller(TransaksiController::class)->as('transaksi.')->group(function () {
-            Route::get('/transaksi', 'index')->name('index');
-            Route::post('/transaksi', 'store')->name('store');
-            Route::patch('/transaksi/update', 'update')->name('update');
-        });
-    });
-
-    // untuk bagian keuangan
-    Route::middleware(['auth', 'Keuangan'])->prefix('keuangan')->group(function () {
-        // saldo debit tabungan santri
-        Route::controller(SaldoDebitController::class)->as('keuangan.saldo_debit.')->group(function () {
-            Route::get('tabungan', 'index')->name('index');
-            Route::post('tabungan', 'store')->name('store');
-            Route::delete('tabungan/{tabungan}/destroy', 'destroy')->name('destroy');
-        });
-
-        // transaksi tabungan (saldo debit)
-        Route::controller(TransaksiController::class)->as('keuangan.transaksi.')->group(function () {
             Route::get('/transaksi', 'index')->name('index');
             Route::post('/transaksi', 'store')->name('store');
             Route::patch('/transaksi/update', 'update')->name('update');

@@ -12,7 +12,7 @@
     </div>
     <!--navigation-->
     <ul class="metismenu" id="menu">
-        <li class="{{ request()->routeIs('santri.*') == 'dashboard' ? 'mm-active' : '' }}">
+        <li class="{{ request()->routeIs('dashboard.*') ? 'mm-active' : '' }}">
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon icon-color-1"><i class="bx bx-home-alt"></i>
                 </div>
@@ -25,7 +25,7 @@
                 </li>
             </ul>
         </li>
-        @if (auth()->user()->role->name == 'Administrator')
+        @role('Administrator|Pengurus')
             <!-- master data -->
             <li class="menu-label">Master Data</li>
             <li class="{{ request()->routeIs('kamar.*') ? 'mm-active' : '' }}">
@@ -64,7 +64,28 @@
                 </a>
             </li>
             <!-- master data -->
-            <!-- transaksi data -->
+
+            <!-- surat menyurat -->
+            <li class="menu-label">Surat Menyurat</li>
+            <li class="{{ request()->routeIs('jenis_surat.*') ? 'mm-active' : '' }}">
+                <a href="#">
+                    <div class="parent-icon icon-color-7"><i class="bx bx-abacus"></i>
+                    </div>
+                    <div class="menu-title">Jenis Surat</div>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('surat.*') ? 'mm-active' : '' }}">
+                <a href="#">
+                    <div class="parent-icon icon-color-4"><i class="bx bx-file"></i>
+                    </div>
+                    <div class="menu-title">Surat</div>
+                </a>
+            </li>
+            <!-- surat menyurat -->
+        @endrole
+
+        @hasanyrole('Administrator|Keuangan')
+            <!-- tabungan -->
             <li class="menu-label">Tabungan</li>
             <li class="{{ request()->routeIs('saldo_debit.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('saldo_debit.index') }}">
@@ -80,7 +101,12 @@
                     <div class="menu-title">Transaksi</div>
                 </a>
             </li>
-            <li class="menu-label">Utilitis</li>
+            <!-- tabungan -->
+        @endrole
+
+        <!-- utilities -->
+        <li class="menu-label">Utilitis</li>
+        @role('Administrator')
             <li class="{{ request()->routeIs('roles.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('roles.index') }}">
                     <div class="parent-icon text-warning"><i class="bx bx-shield"></i>
@@ -109,28 +135,17 @@
                     <div class="menu-title">Sinkronisasi</div>
                 </a>
             </li>
-        @endif
-
-        {{-- only for keuangan --}}
-        @if (auth()->user()->role->name == 'Keuangan')
-            <!-- transaksi data -->
-            <li class="menu-label">Tabungan</li>
-            <li class="{{ request()->routeIs('saldo_debit.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('keuangan.saldo_debit.index') }}">
-                    <div class="parent-icon icon-color-5"><i class="bx bx-dollar"></i>
+        @endrole
+        @role('Pengurus')
+            <li class="{{ request()->routeIs('sinkronisasi.*') ? 'mm-active' : '' }}">
+                <a href="{{ route('sinkronisasi.index') }}">
+                    <div class="parent-icon icon-color-9"><i class="bx bx-sync"></i>
                     </div>
-                    <div class="menu-title">Tabungan</div>
+                    <div class="menu-title">Sinkronisasi</div>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('transaksi.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('keuangan.transaksi.index') }}">
-                    <div class="parent-icon icon-color-7"><i class="bx bx-transfer-alt"></i>
-                    </div>
-                    <div class="menu-title">Transaksi</div>
-                </a>
-            </li>
-        @endif
-    </ul>
-    <!--end navigation-->
+        @endrole
+        <!-- utilities -->
+        <!--end navigation-->
 </div>
 <!--end sidebar-wrapper-->

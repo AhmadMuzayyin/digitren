@@ -5,6 +5,11 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    // list module
+    'modules' => [
+        'kamar', 'kelas', 'santri', 'mata pelajaran', 'rapor santri', 'surat izin', 'tabungan', 'transaksi tabungan', 'roles', 'users', 'riwayat', 'sinkronisasi',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -171,6 +176,7 @@ return [
         App\Providers\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 
     /*

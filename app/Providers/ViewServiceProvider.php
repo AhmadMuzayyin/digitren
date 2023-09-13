@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Models\Kamar;
 use App\Models\Kelas;
-use App\Models\Role;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Role;
 
 class ViewServiceProvider extends ServiceProvider
 {

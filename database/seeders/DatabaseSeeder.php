@@ -14,25 +14,23 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(50)->create();
 
-        $roles = ['Administrator', 'Keuangan', 'Pengurus', 'Santri', 'Owner'];
-        foreach ($roles as $role) {
-            \App\Models\Role::create([
-                'name' => $role
-            ]);
-        }
-
         \App\Models\User::create([
             'name' => 'Administrator',
             'email' => 'admin@digitren.com',
             'password' => bcrypt('password'),
-            'role_id' => '1'
         ]);
         \App\Models\User::create([
             'name' => 'Operator Tabungan',
             'email' => 'keuangan@digitren.com',
             'password' => bcrypt('password'),
-            'role_id' => '2'
         ]);
+        \App\Models\User::create([
+            'name' => 'Pengurus Pondok',
+            'email' => 'pengurus@digitren.com',
+            'password' => bcrypt('password'),
+        ]);
+        $this->call(RoleSeeder::class);
+
 
         // $kelas = \App\Models\Kelas::create([
         //     'tingkatan' => 'ALFIYAH',

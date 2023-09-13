@@ -23,7 +23,7 @@ class AuthController extends Controller
         if (Auth::attempt($validate)) {
             ActivityLog::create([
                 'user_id' => auth()->user()->id,
-                'activity' => auth()->user()->name . ' Login pada ' . date('d F Y H:i s')
+                'activity' => auth()->user()->name.' Login pada '.date('d F Y H:i s'),
             ]);
             $request->session()->regenerate();
 
@@ -38,7 +38,7 @@ class AuthController extends Controller
     {
         ActivityLog::create([
             'user_id' => auth()->user()->id,
-            'activity' => auth()->user()->name . ' Logout pada ' . date('d F Y H:i s')
+            'activity' => auth()->user()->name.' Logout pada '.date('d F Y H:i s'),
         ]);
         Auth::logout();
         $request->session()->regenerateToken();

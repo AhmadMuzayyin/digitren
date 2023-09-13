@@ -16,17 +16,17 @@ class Kamar extends Model
     {
         parent::boot();
         self::creating(function ($kamar) {
-            $activity = class_basename($kamar) . ' ' . $kamar->nama;
-            $kamar->CreateLog('Creating ' . $activity);
+            $activity = class_basename($kamar).' '.$kamar->nama;
+            $kamar->CreateLog('Creating '.$activity);
         });
 
         self::updating(function ($kamar) {
-            $activity = class_basename($kamar) . ' ' . $kamar->nama;
-            $kamar->CreateLog('Updating ' . $activity);
+            $activity = class_basename($kamar).' '.$kamar->nama;
+            $kamar->CreateLog('Updating '.$activity);
         });
         self::deleting(function ($kamar) {
-            $activity = class_basename($kamar) . ' ' . $kamar->nama;
-            $kamar->CreateLog('Deleting ' . $activity);
+            $activity = class_basename($kamar).' '.$kamar->nama;
+            $kamar->CreateLog('Deleting '.$activity);
         });
     }
 }
