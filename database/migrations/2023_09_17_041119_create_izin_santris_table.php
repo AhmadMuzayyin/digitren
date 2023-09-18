@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\MataPelajaran;
+use App\Models\JenisSurat;
 use App\Models\Santri;
-use App\Models\TahunAkademik;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nilais', function (Blueprint $table) {
+        Schema::create('izin_santris', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(JenisSurat::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Santri::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(MataPelajaran::class)->constrained();
-            $table->foreignIdFor(TahunAkademik::class)->constrained()->cascadeOnDelete();
-            $table->integer('nilai')->nullable();
+            $table->string('tujuan');
+            $table->date('tanggal_keluar');
+            $table->date('tanggal_kembali');
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nilais');
+        Schema::dropIfExists('izin_santris');
     }
 };

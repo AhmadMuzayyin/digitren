@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Role;
 
-use Toastr;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
+use Toastr;
 
 class RoleController extends Controller
 {
@@ -22,7 +22,22 @@ class RoleController extends Controller
             'name' => 'required|min:5|max:255|unique:roles,name',
         ]);
         try {
-            Role::create($validate);
+            $role = Role::create($validate);
+            if (isset($request->index)) {
+                $role->givePermissionTo($request->index);
+            }
+            if (isset($request->view)) {
+                $role->givePermissionTo($request->view);
+            }
+            if (isset($request->store)) {
+                $role->givePermissionTo($request->store);
+            }
+            if (isset($request->update)) {
+                $role->givePermissionTo($request->update);
+            }
+            if (isset($request->destroy)) {
+                $role->givePermissionTo($request->destroy);
+            }
             Toastr::success('Berhasil menambah data');
 
             return redirect()->back();

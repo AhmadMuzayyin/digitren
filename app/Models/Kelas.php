@@ -16,14 +16,17 @@ class Kelas extends Model
     {
         parent::boot();
         self::creating(function ($kelas) {
-            $kelas->CreateLog('Creatting '.class_basename($kelas));
+            $activity = class_basename($kelas).' '.$kelas->tingkatan.' '.$kelas->kelas;
+            $kelas->CreateLog('Creating '.$activity);
         });
 
         self::updating(function ($kelas) {
-            $kelas->CreateLog('Updating '.class_basename($kelas));
+            $activity = class_basename($kelas).' '.$kelas->tingkatan.' '.$kelas->kelas;
+            $kelas->CreateLog('Updating '.$activity);
         });
         self::deleting(function ($kelas) {
-            $kelas->CreateLog('Deleting '.class_basename($kelas));
+            $activity = class_basename($kelas).' '.$kelas->tingkatan.' '.$kelas->kelas;
+            $kelas->CreateLog('Deleting '.$activity);
         });
     }
 }

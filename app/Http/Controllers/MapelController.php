@@ -18,7 +18,7 @@ class MapelController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'kategori' => 'required|in:Fan Pokok, Non Pokok, Tes Kelas Tertentu, Absensi, Kondisi Siswa',
+            'kategori' => 'required|in:Fan Pokok,Non Pokok,Tes Kelas Tertentu',
             'nama' => 'required|string|min:5',
         ]);
         try {
@@ -28,6 +28,21 @@ class MapelController extends Controller
             return redirect()->back();
         } catch (\Throwable $th) {
             Toastr::error('Gagal menyimpan data');
+
+            return redirect()->back();
+        }
+    }
+
+    public function destroy(MataPelajaran $mapel)
+    {
+        try {
+            $mapel->delete();
+            Toastr::success('Berhasil menghapus data');
+
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            Toastr::error('Gagal menghapus data');
 
             return redirect()->back();
         }

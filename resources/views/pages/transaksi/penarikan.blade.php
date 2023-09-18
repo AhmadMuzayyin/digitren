@@ -2,6 +2,7 @@
     <div class="col">
         <ul>
             <li>Minimal Penarikan Rp. 10.000</li>
+            <li>Maksimal Penarikan 1x sehari</li>
         </ul>
     </div>
 </div>

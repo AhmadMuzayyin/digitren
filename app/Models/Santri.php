@@ -2,9 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\Kamar;
+use App\Models\Kelas;
+use App\Models\Nilai;
+use App\Models\Tabungan;
+use App\Models\WaliSantri;
+use App\Models\RaporSantri;
 use App\Traits\LogActivity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TransaksiTabungan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Santri extends Model
 {
@@ -46,13 +54,17 @@ class Santri extends Model
     {
         return $this->hasMany(RaporSantri::class);
     }
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class);
+    }
 
     public static function boot()
     {
         parent::boot();
         self::creating(function ($santri) {
             // buat log
-            $activity = class_basename($santri).' '.$santri->user->name;
+            $activity = class_basename($santri) . ' ' . $santri->user->name;
             $santri->CreateLog("Creating $activity");
             // Saat pembuatan santri baru, tambahkan jumlah_santri
             if ($santri->kamar_id) {
@@ -65,7 +77,7 @@ class Santri extends Model
 
         self::updating(function ($santri) {
             // buat log
-            $activity = class_basename($santri).' '.$santri->user->name;
+            $activity = class_basename($santri) . ' ' . $santri->user->name;
             $santri->CreateLog("Updating $activity");
             // Saat pembaruan kamar_id, kurangkan dari kamar lama dan tambahkan ke kamar baru
             if ($santri->isDirty('kamar_id')) {
@@ -85,7 +97,7 @@ class Santri extends Model
 
         self::deleting(function ($santri) {
             // buat log
-            $activity = class_basename($santri).' '.$santri->user->name;
+            $activity = class_basename($santri) . ' ' . $santri->user->name;
             $santri->CreateLog("Deleting $activity");
             // Saat santri dihapus, kurangkan jumlah_santri di kamar terkait
             $kamar = Kamar::find($santri->kamar_id);

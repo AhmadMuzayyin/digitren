@@ -36,6 +36,14 @@ return [
         'jenis_surat' => ['jenis_surat index', 'jenis_surat view', 'jenis_surat store', 'jenis_surat update', 'jenis_surat destroy'],
         'surat' => ['surat index', 'surat view', 'surat store', 'surat update', 'surat destroy'],
     ],
+    'santri' => [
+        'kamar' => ['kamar index', 'kamar view'],
+        'kelas' => ['kelas index', 'kelas view'],
+        'santri' => ['santri index', 'santri view'],
+        'mapel' => ['mapel index', 'mapel view'],
+        'rapor' => ['rapor index', 'rapor view'],
+        'surat' => ['surat index', 'surat view'],
+    ],
 
     'models' => [
 

@@ -30,7 +30,7 @@ class TransaksiController extends Controller
                 return response()->json(['data' => $data], 200);
             }
 
-            return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>'.$noinduk.'</strong>'], 200);
+            return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>' . $noinduk . '</strong>'], 200);
         }
 
         return view('pages.transaksi.index');
@@ -65,6 +65,7 @@ class TransaksiController extends Controller
 
             return redirect()->back();
         } catch (\Throwable $th) {
+            // dd($th->getMessage());
             Toastr::error('Gagal menyimpan data');
 
             return redirect()->back()->withInput();
@@ -85,20 +86,26 @@ class TransaksiController extends Controller
                 $santri = Santri::firstWhere('no_induk', $validate['santri_noinduk']);
                 $tabungan = Tabungan::firstWhere('santri_id', $santri->id);
                 if ($tabungan->saldo == 0) {
-                    Toastr::info('Saldo tidak cukup saldo saat ini '.$tabungan->saldo);
+                    Toastr::info('Saldo tidak cukup saldo saat ini ' . $tabungan->saldo);
                 } else {
-                    $transaksi = TransaksiTabungan::create([
-                        'santri_id' => $santri->id,
-                        'tanggal_transaksi' => date('Y-m-d'),
-                        'jenis_transaksi' => $validate['jenis_transaksi'],
-                        'jumlah_transaksi' => $validate['debit'],
-                    ]);
+                    $transaksi = new TransaksiTabungan();
+                    $tr_now = $transaksi->whereDate('created_at', now()->toDateString())->first();
+                    if ($tr_now) {
+                        Toastr::info('Santri dengan nomor induk ' . "$santri->no_induk" . ' telah selesai melakukan transaksi');
+                    } else {
+                        $transaksi = TransaksiTabungan::create([
+                            'santri_id' => $santri->id,
+                            'tanggal_transaksi' => date('Y-m-d'),
+                            'jenis_transaksi' => $validate['jenis_transaksi'],
+                            'jumlah_transaksi' => $validate['debit'],
+                        ]);
 
-                    $tabungan->update([
-                        'saldo' => $tabungan->saldo - $transaksi->jumlah_transaksi,
-                        'tanggal_setor' => date('Y-m-d'),
-                    ]);
-                    Toastr::success('Berhasil menyimpan data');
+                        $tabungan->update([
+                            'saldo' => $tabungan->saldo - $transaksi->jumlah_transaksi,
+                            'tanggal_setor' => date('Y-m-d'),
+                        ]);
+                        Toastr::success('Berhasil menyimpan data');
+                    }
                 }
             }
 

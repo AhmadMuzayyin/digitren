@@ -16,14 +16,17 @@ class Tabungan extends Model
     {
         parent::boot();
         self::creating(function ($tabungan) {
-            $tabungan->CreateLog('Creatting '.class_basename($tabungan));
+            $activity = class_basename($tabungan).' '.$tabungan->santri->user->name;
+            $tabungan->CreateLog('Creating '.$activity);
         });
 
         self::updating(function ($tabungan) {
-            $tabungan->CreateLog('Updating '.class_basename($tabungan));
+            $activity = class_basename($tabungan).' '.$tabungan->santri->user->name;
+            $tabungan->CreateLog('Updating '.$activity);
         });
         self::deleting(function ($tabungan) {
-            $tabungan->CreateLog('Deleting '.class_basename($tabungan));
+            $activity = class_basename($tabungan).' '.$tabungan->santri->user->name;
+            $tabungan->CreateLog('Deleting '.$activity);
         });
     }
 

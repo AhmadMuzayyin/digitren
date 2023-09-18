@@ -68,7 +68,7 @@
             <!-- surat menyurat -->
             <li class="menu-label">Surat Menyurat</li>
             <li class="{{ request()->routeIs('jenis_surat.*') ? 'mm-active' : '' }}">
-                <a href="#">
+                <a href="{{ route('jenis_surat.index') }}">
                     <div class="parent-icon icon-color-7"><i class="bx bx-abacus"></i>
                     </div>
                     <div class="menu-title">Jenis Surat</div>

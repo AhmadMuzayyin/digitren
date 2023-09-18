@@ -41,6 +41,7 @@ class SaldoDebitController extends Controller
 
             return redirect()->back();
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             Toastr::error('Gagal menyimpan data');
 
             return redirect()->back();

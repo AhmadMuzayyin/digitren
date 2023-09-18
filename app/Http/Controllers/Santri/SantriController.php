@@ -83,10 +83,11 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.com',
                     'password' => bcrypt('password'),
                     'role_id' => 4,
                 ]);
+                $user->assignRole('Santri');
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);
                 if (! $santri) {

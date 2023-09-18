@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Kamar\KamarController;
-use App\Http\Controllers\Kelas\KelasController;
-use App\Http\Controllers\MapelController;
-use App\Http\Controllers\Rapor\RaportSantriController;
-use App\Http\Controllers\Riwayat\RiwayatController;
-use App\Http\Controllers\Role\RoleController;
-use App\Http\Controllers\Santri\SantriController;
-use App\Http\Controllers\Sinkronisasi\SinkronisasiController;
-use App\Http\Controllers\Tabungan\SaldoDebitController;
-use App\Http\Controllers\Transaksi\TransaksiController;
-use App\Http\Controllers\Users\UsersController;
 use App\Models\Kamar;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MapelController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\Kamar\KamarController;
+use App\Http\Controllers\Kelas\KelasController;
+use App\Http\Controllers\Surat\SuratController;
+use App\Http\Controllers\Users\UsersController;
+use App\Http\Controllers\Santri\SantriController;
+use App\Http\Controllers\Riwayat\RiwayatController;
+use App\Http\Controllers\Rapor\RaportSantriController;
+use App\Http\Controllers\Tabungan\SaldoDebitController;
+use App\Http\Controllers\Transaksi\TransaksiController;
+use App\Http\Controllers\Sinkronisasi\SinkronisasiController;
+use App\Http\Controllers\Surat\JenisSuratController;
 
 Route::get('set_theme', function (Illuminate\Http\Request $request) {
     if ($request['newTheme'] == 'light-theme') {
@@ -67,14 +69,28 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(MapelController::class)->as('mapel.')->group(function () {
             Route::get('/mapel', 'index')->name('index');
             Route::post('/mapel/store', 'store')->name('store');
-            Route::patch('/mapel/{santri}/update', 'update')->name('update');
-            Route::delete('/mapel/{santri}/destroy', 'destroy')->name('destroy');
+            Route::patch('/mapel/{mapel}/update', 'update')->name('update');
+            Route::delete('/mapel/{mapel}/destroy', 'destroy')->name('destroy');
         });
         // rapor santri
         Route::controller(RaportSantriController::class)->as('rapor.')->group(function () {
             Route::get('/rapor', 'index')->name('index');
             Route::get('/rapor/santri/{kelas}', 'santri')->name('santri');
             Route::get('/rapor/nilai/{santri}', 'nilai')->name('nilai');
+            Route::post('/rapor/nilai/store', 'store')->name('store');
+            Route::post('/rapor/nilai/update', 'update')->name('update');
+        });
+        // surat menyurat
+        Route::controller(JenisSuratController::class)->as('jenis_surat.')->group(function () {
+            Route::get('/jenis_surat', 'index')->name('index');
+            Route::post('/jenis_surat', 'store')->name('store');
+            Route::patch('/jenis_surat/{jenis_surat}/update', 'update')->name('update');
+            Route::delete('/jenis_surat/{jenis_surat}/destroy', 'destroy')->name('destroy');
+        });
+        Route::controller(SuratController::class)->as('surat.')->group(function () {
+            Route::get('/surat', 'index')->name('index');
+            Route::get('/surat/update', 'update')->name('update');
+            Route::post('/surat', 'store');
         });
         // sinkronisasi data lokal dengan data di cloud
         Route::controller(SinkronisasiController::class)->as('sinkronisasi.')->group(function () {

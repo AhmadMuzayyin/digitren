@@ -10,6 +10,12 @@ return [
         'kamar', 'kelas', 'santri', 'mata pelajaran', 'rapor santri', 'surat izin', 'tabungan', 'transaksi tabungan', 'roles', 'users', 'riwayat', 'sinkronisasi',
     ],
 
+    'dewan' => [
+        'pengasuh' => 'K. H. Hayatul Islam',
+        'ketua_umum' => 'K. Zain Fairuz',
+        'pengganti' => 'K. Ali Maimun'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

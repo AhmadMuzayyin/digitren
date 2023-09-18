@@ -1,18 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Mata Pelajaran | DIGITREN')
+@section('title', 'Jabatan | DIGITREN')
 
 @section('content')
-    @php
-        $id;
-    @endphp
     <div>
         <!--page-wrapper-->
         <div class="page-wrapper">
             <!--page-content-wrapper-->
             <div class="page-content-wrapper">
                 <div class="page-content">
-                    <x-breadcrumb url="{{ route('dashboard') }}" path='Mata Pelajaran'></x-breadcrumb>
+                    <x-breadcrumb url="{{ route('dashboard') }}" path='Jabatan'></x-breadcrumb>
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
@@ -35,19 +32,17 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Kategori</th>
-                                                    <th>Nama</th>
+                                                    <th>Name</th>
                                                     <th>Created_at</th>
                                                     <th>Updated_at</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($mapel as $item)
+                                                @foreach ($jenis_surat as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->kategori }}</td>
-                                                        <td>{{ $item->nama }}</td>
+                                                        <td>{{ $item->name }}</td>
                                                         <td>{{ $item->created_at->format('d F Y') }}</td>
                                                         <td>{{ $item->updated_at->format('d F Y') }}</td>
                                                         <td>
@@ -58,29 +53,17 @@
                                                                     <span class="bx bx-edit"> </span>
                                                                 </button>
 
-                                                                <x-edit-modal title="Edit data kelas"
+                                                                <x-edit-modal title="Edit data jenis surat"
                                                                     id="{{ $item->id }}"
-                                                                    fn="{{ route('kelas.update', $item->id) }}"
-                                                                    method="POST">
+                                                                    fn="{{ route('jenis_surat.update', $item->id) }}"
+                                                                    method="POST" modalSize="modal-lg">
                                                                     @csrf
                                                                     @method('PATCH')
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='tingkatan'
-                                                                            id="tingkatan" label='Tingkatan'
-                                                                            placeholder='Nama Tingkatan'
-                                                                            value="{{ $item->tingkatan }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='kelas'
-                                                                            id="kelas" label='Kelas'
-                                                                            placeholder='Nama Kelas'
-                                                                            value="{{ $item->kelas }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='keterangan'
-                                                                            id="keterangan" label='Keterangan'
-                                                                            placeholder='Keterangan'
-                                                                            value="{{ $item->keterangan }}"></x-input>
+                                                                        <x-input type='text' name='name'
+                                                                            id="name" label='Nama' placeholder='Nama'
+                                                                            value="{{ $item->name }}"
+                                                                            attribute='required'></x-input>
                                                                     </div>
                                                                 </x-edit-modal>
 
@@ -91,7 +74,7 @@
                                                                 </button>
 
                                                                 <x-delete-modal title='Hapus data' id="{{ $item->id }}"
-                                                                    fn="{{ route('mapel.destroy', $item->id) }}"
+                                                                    fn="{{ route('jenis_surat.destroy', $item->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -110,20 +93,12 @@
                 </div>
             </div>
             <!--end page-content-wrapper-->
-            <x-modal-form id='exampleModal' title='Tambah data mata pelajaran' fn="{{ route('mapel.store') }}"
-                method="POST">
+            <x-modal-form id='exampleModal' title='Tambah data jenis surat' fn="{{ route('jenis_surat.store') }}"
+                method="POST" modalSize="modal-lg">
                 @csrf
                 <div class="mb-3">
-                    <x-select-option label="Kategori Mapel" name="kategori" id="kategori" attribute="required">
-                        <option value="" selected disabled>Pilih kategori</option>
-                        <option value="Fan Pokok">Fan Pokok</option>
-                        <option value="Non Pokok">Non Pokok</option>
-                        <option value="Tes Kelas Tertentu">Tes Kelas Tertentu</option>
-                    </x-select-option>
-                </div>
-                <div class="mb-3">
-                    <x-input type='text' name='nama' id="nama" label='Nama Mata Pelajaran'
-                        placeholder='Nama Mata Pelajaran' attribute="required"></x-input>
+                    <x-input type='text' name='name' id="name" label='Nama' placeholder='Nama'
+                        value="{{ old('name') }}"></x-input>
                 </div>
             </x-modal-form>
         </div>

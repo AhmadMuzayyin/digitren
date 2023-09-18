@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -44,6 +44,13 @@ class RoleSeeder extends Seeder
                 $pengurusPermission[] = $permission;
             }
         }
+        $santri = config('permission.santri');
+        $santriPermission = [];
+        foreach ($santri as $label => $permissions) {
+            foreach ($permissions as $permission) {
+                $santriPermission[] = $permission;
+            }
+        }
 
         Permission::insert($listPermissionAdmin);
         $role = Role::create([
@@ -64,13 +71,21 @@ class RoleSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+        $santri = Role::create([
+            'name' => config('permission.roles')[3],
+            'guard_name' => 'web',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
         $role->givePermissionTo($superAdminPermission);
-        User::find(1)->assignRole("Administrator");
+        User::find(1)->assignRole('Administrator');
 
         $keuangan->givePermissionTo($keuanganPermission);
-        User::find(2)->assignRole("Keuangan");
+        User::find(2)->assignRole('Keuangan');
 
         $pengurus->givePermissionTo($pengurusPermission);
-        User::find(3)->assignRole("Pengurus");
+        User::find(3)->assignRole('Pengurus');
+        $santri->givePermissionTo($santriPermission);
+        User::find(4)->assignRole('Santri');
     }
 }
