@@ -90,6 +90,7 @@ class SantriController extends Controller
                 $user->assignRole('Santri');
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);
+                User::find($validate['user_id'])->assignRole('Santri');
                 if (! $santri) {
                     $user->delete();
                 }
@@ -130,6 +131,7 @@ class SantriController extends Controller
                 $validate['user_id'] = $user->id;
                 $validate['foto'] = $filename;
                 $santri = Santri::create($validate);
+                User::find($validate['user_id'])->assignRole('Santri');
 
                 // insert wali santri
                 WaliSantri::create([
@@ -285,7 +287,6 @@ class SantriController extends Controller
                     'wali' => false,
                 ]);
             }
-
             Toastr::success('Berhasil merubah data');
 
             return redirect()->back();
