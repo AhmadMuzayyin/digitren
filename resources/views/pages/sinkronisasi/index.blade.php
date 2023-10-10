@@ -16,16 +16,6 @@
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
-                                <div class="toolbar hidden-print">
-                                    <div class="text-end">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                            <i class="bx bx-plus"></i>
-                                            Tambah Data
-                                        </button>
-                                    </div>
-                                    <hr />
-                                </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col">

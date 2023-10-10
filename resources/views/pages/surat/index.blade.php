@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jabatan | DIGITREN')
+@section('title', 'Izin Santri | DIGITREN')
 
 @section('content')
     <div>
@@ -9,7 +9,7 @@
             <!--page-content-wrapper-->
             <div class="page-content-wrapper">
                 <div class="page-content">
-                    <x-breadcrumb url="{{ route('dashboard') }}" path='Jabatan'></x-breadcrumb>
+                    <x-breadcrumb url="{{ route('dashboard') }}" path='Izin Santri'></x-breadcrumb>
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
@@ -39,7 +39,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($roles as $item)
+                                                @foreach ($izinsantri as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->name }}</td>
@@ -157,46 +157,23 @@
                 modalSize="modal-lg">
                 @csrf
                 <div class="mb-3">
-                    <x-input type='text' name='name' id="name" label='Nama Jabatan' placeholder='Nama Jabatan'
-                        value="{{ old('name') }}"></x-input>
+                    <x-select-option id="santri" name="santri" label="Pilih Santri" attribute="requered">
+                        <option value="" selected disabled>Pilih santri</option>
+                        @foreach ($santris as $santri)
+                            <option value="">{{ $santri->user->name }}</option>
+                        @endforeach
+                    </x-select-option>
+                </div>
+                <div class="mb-3">
+                    <x-select-option id="tujuan" name="tujuan" label="Pilih Tujuan" attribute="requered">
+                        <option value="" selected disabled>Pilih tujuan</option>
+                        @foreach ($jenissurat as $surat)
+                            <option value="">{{ $surat->name }}</option>
+                        @endforeach
+                    </x-select-option>
                 </div>
                 <div class="mb-3">
                     <div class="row">
-                        @foreach (config('permission.admin') as $key => $permission)
-                            <div class="col-md-3 my-3">
-                                <h5>{{ str_replace('_', ' ', strtoupper($key)) }}</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="index[]"
-                                        value="{{ $permission[0] }}" id="{{ $permission[0] }}">
-                                    <label class="form-check-label"
-                                        for="{{ $permission[0] }}">{{ $permission[0] }}</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="view[]"
-                                        value="{{ $permission[1] }}" id="{{ $permission[1] }}">
-                                    <label class="form-check-label"
-                                        for="{{ $permission[1] }}">{{ $permission[1] }}</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="store[]"
-                                        value="{{ $permission[2] }}" id="{{ $permission[2] }}">
-                                    <label class="form-check-label"
-                                        for="{{ $permission[2] }}">{{ $permission[2] }}</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="update[]"
-                                        value="{{ $permission[3] }}" id="{{ $permission[3] }}">
-                                    <label class="form-check-label"
-                                        for="{{ $permission[3] }}">{{ $permission[3] }}</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="destroy[]"
-                                        value="{{ $permission[4] }}" id="{{ $permission[4] }}">
-                                    <label class="form-check-label"
-                                        for="{{ $permission[4] }}">{{ $permission[4] }}</label>
-                                </div>
-                            </div>
-                        @endforeach
                     </div>
                 </div>
             </x-modal-form>

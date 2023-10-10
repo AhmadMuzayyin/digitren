@@ -68,17 +68,19 @@
             <!-- surat menyurat -->
             <li class="menu-label">Surat Menyurat</li>
             <li class="{{ request()->routeIs('jenis_surat.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('jenis_surat.index') }}">
+                <a href="#">
+                {{-- <a href="{{ route('jenis_surat.index') }}"> --}}
                     <div class="parent-icon icon-color-7"><i class="bx bx-abacus"></i>
                     </div>
-                    <div class="menu-title">Jenis Surat</div>
+                    <div class="menu-title">Data Surat</div>
                 </a>
             </li>
             <li class="{{ request()->routeIs('surat.*') ? 'mm-active' : '' }}">
                 <a href="#">
+                {{-- <a href="{{route('surat.index')}}"> --}}
                     <div class="parent-icon icon-color-4"><i class="bx bx-file"></i>
                     </div>
-                    <div class="menu-title">Surat</div>
+                    <div class="menu-title">Surat Izin Santri</div>
                 </a>
             </li>
             <!-- surat menyurat -->
@@ -107,13 +109,13 @@
         <!-- utilities -->
         <li class="menu-label">Utilitis</li>
         @role('Administrator')
-            <li class="{{ request()->routeIs('roles.*') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ request()->routeIs('roles.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('roles.index') }}">
                     <div class="parent-icon text-warning"><i class="bx bx-shield"></i>
                     </div>
                     <div class="menu-title">Jabatan</div>
                 </a>
-            </li>
+            </li> --}}
             <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('users.index') }}">
                     <div class="parent-icon text-info"><i class="bx bx-user-circle"></i>
@@ -129,7 +131,8 @@
                 </a>
             </li>
             <li class="{{ request()->routeIs('sinkronisasi.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('sinkronisasi.index') }}">
+                <a href="#">
+                {{-- <a href="{{ route('sinkronisasi.index') }}"> --}}
                     <div class="parent-icon icon-color-9"><i class="bx bx-sync"></i>
                     </div>
                     <div class="menu-title">Sinkronisasi</div>

@@ -122,7 +122,7 @@ class SantriController extends Controller
                 // insert user login santri
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
+                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.com',
                     'password' => bcrypt('password'),
                 ]);
 
