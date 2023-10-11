@@ -102,7 +102,8 @@ class Santri extends Model
             // Saat santri dihapus, kurangkan jumlah_santri di kamar terkait
             $kamar = Kamar::find($santri->kamar_id);
             if ($kamar) {
-                $kamar->decrement('jumlah_santri');
+                // $kamar->decrement('jumlah_santri');
+                $kamar->jumlah_santri - 1;
             }
         });
     }

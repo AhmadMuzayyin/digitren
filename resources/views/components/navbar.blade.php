@@ -13,17 +13,11 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li class="{{ request()->routeIs('dashboard.*') ? 'mm-active' : '' }}">
-            <a href="javascript:;" class="has-arrow">
+            <a href="{{ route('dashboard') }}">
                 <div class="parent-icon icon-color-1"><i class="bx bx-home-alt"></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
             </a>
-            <ul>
-                <li> <a href="{{ route('dashboard') }}"><i class="bx bx-right-arrow-alt"></i>Analytics</a>
-                </li>
-                <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Sales</a>
-                </li>
-            </ul>
         </li>
         @role('Administrator|Pengurus')
             <!-- master data -->
