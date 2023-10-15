@@ -20,8 +20,10 @@
     <script src="{{ url('assets/js/pace.min.js') }}"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap.min.css') }}" />
+    {{-- <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Roboto&display=swap" /> --}}
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Roboto&display=swap" />
+        href="{{ url('assets/fonts/fonts.css') }}" />
     <!-- Icons CSS -->
     <link rel="stylesheet" href="{{ url('assets/css/icons.css') }}" />
     <!-- App CSS -->

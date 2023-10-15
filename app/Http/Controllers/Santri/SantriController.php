@@ -35,10 +35,11 @@ class SantriController extends Controller
             'kelas' => 'required|exists:kelas,id',
             'kamar' => 'required|exists:kamars,id',
             'nama_lengkap' => 'required|string|min:3|max:225',
-            'dusun' => 'required|min:3',
-            'desa' => 'required|min:3',
-            'kecamatan' => 'required|min:3',
-            'kabupaten' => 'required|min:3',
+            'provinsi' => 'required',
+            'desa' => 'required',
+            'kecamatan' => 'required',
+            'kabupaten' => 'required',
+            'dusun' => 'required',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'nik' => 'required|digits:16',
             'kk' => 'required|digits:16',
@@ -71,6 +72,10 @@ class SantriController extends Controller
             $validate['no_induk'] = Helper::make_noinduk($params);
 
             // validate replace with column name
+            $validate['provinsi'] = Helper::prov($request->provinsi);
+            $validate['kabupaten'] = Helper::kab($request->provinsi, $request->kabupaten);
+            $validate['kecamatan'] = Helper::kec($request->kabupaten, $request->kecamatan);
+            $validate['desa'] = Helper::kel($request->kecamatan, $request->desa);
             $validate['kamar_id'] = $validate['kamar'];
             $validate['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));

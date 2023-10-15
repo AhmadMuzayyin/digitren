@@ -86,6 +86,6 @@ class RoleSeeder extends Seeder
         $pengurus->givePermissionTo($pengurusPermission);
         User::find(3)->assignRole('Pengurus');
         $santri->givePermissionTo($santriPermission);
-        User::find(4)->assignRole('Santri');
+        // User::find(4)->assignRole('Santri');
     }
 }

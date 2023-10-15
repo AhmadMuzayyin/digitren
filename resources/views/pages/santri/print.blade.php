@@ -49,7 +49,7 @@
         {{ ucwords($santri->wali_santri[1]->nama) }}</p>
     {{-- alamat --}}
     <p style="position: absolute; margin-top: -15.5rem; margin-left: 45%; font-size: 27px; color: #333333">
-        {{ ucwords($santri->dusun . ', ' . $santri->desa . ' ' . $santri->kecamatan . ' ' . $santri->kabupaten) }}</p>
+        {{ ucwords(strtolower($santri->desa . ', ' . $santri->kecamatan . ', ' . $santri->kabupaten)) }}</p>
 
     <script>
         window.print()

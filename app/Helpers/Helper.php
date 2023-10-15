@@ -35,4 +35,57 @@ class Helper
         }
         return $checked;
     }
+
+    public static function prov($params)
+    {
+        $prov = public_path('wilayah/provinsi.json');
+        $jsonString = file_get_contents($prov);
+        $dataArray = json_decode($jsonString, true);
+        $dataProv = '';
+        foreach ($dataArray as $key => $provData) {
+            if ($params == $provData['id']) {
+                $dataProv = $provData['nama'];
+            }
+        }
+        return $dataProv;
+    }
+    public static function kab($params, $id)
+    {
+        $kab = public_path('wilayah/kabupaten' . '/' . $params . '.json');
+        $jsonString = file_get_contents($kab);
+        $dataArray = json_decode($jsonString, true);
+        $dataKab = '';
+        foreach ($dataArray as $key => $kabData) {
+            if ($id == $kabData['id']) {
+                $dataKab = $kabData['nama'];
+            }
+        }
+        return $dataKab;
+    }
+    public static function kec($params, $id)
+    {
+        $kec = public_path('wilayah/kecamatan' . '/' . $params . '.json');
+        $jsonString = file_get_contents($kec);
+        $dataArray = json_decode($jsonString, true);
+        $dataKec = '';
+        foreach ($dataArray as $key => $kecData) {
+            if ($id == $kecData['id']) {
+                $dataKec = $kecData['nama'];
+            }
+        }
+        return $dataKec;
+    }
+    public static function kel($params, $id)
+    {
+        $kel = public_path('wilayah/kelurahan' . '/' . $params . '.json');
+        $jsonString = file_get_contents($kel);
+        $dataArray = json_decode($jsonString, true);
+        $dataKel = '';
+        foreach ($dataArray as $key => $kelData) {
+            if ($id == $kelData['id']) {
+                $dataKel = $kelData['nama'];
+            }
+        }
+        return $dataKel;
+    }
 }

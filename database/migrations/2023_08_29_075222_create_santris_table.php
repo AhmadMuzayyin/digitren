@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('desa');
             $table->string('kecamatan');
             $table->string('kabupaten');
+            $table->string('provinsi');
             $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
             $table->bigInteger('nik');
             $table->bigInteger('kk');

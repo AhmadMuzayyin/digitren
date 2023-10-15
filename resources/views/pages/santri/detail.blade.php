@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <td>ALamat</td>
-                <td>{{ $item->dusun . ', ' . $item->desa . ' ' . $item->kecamatan . ' ' . $item->kabupaten }}</td>
+                <td>{{ ucwords(strtolower($item->dusun . ', ' . $item->desa . ' ' . $item->kecamatan . ' ' . $item->kabupaten . ' ' . $item->provinsi)) }}</td>
             </tr>
             <tr>
                 <td>Jeni Kelamin</td>
