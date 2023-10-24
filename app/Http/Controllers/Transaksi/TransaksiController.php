@@ -19,18 +19,35 @@ class TransaksiController extends Controller
                 $query->where('no_induk', $noinduk);
             })->first();
             if ($santri) {
-                $data = [
-                    'santri_id' => $santri->santri->id,
-                    'no_induk' => $santri->santri->no_induk,
-                    'name' => $santri->santri->user->name,
-                    'saldo' => number_format($santri->sum('saldo')),
-                    'foto' => $santri->santri->foto,
-                ];
+                if (request()->get('jenis') == 'Penarikan') {
+                    $tr = TransaksiTabungan::where('santri_id', $santri->santri->id)->whereDate('tanggal_transaksi', now()->toDateString())->where('jenis_transaksi', 'Penarikan')->get();
+                    if (! $tr->isEmpty()) {
+                        return response()->json(['message' => "Santri dengan nomor induk <strong> $noinduk </strong> telah melakukan penarikan"], 200);
+                    } else {
+                        $data = [
+                            'santri_id' => $santri->santri->id,
+                            'no_induk' => $santri->santri->no_induk,
+                            'name' => $santri->santri->user->name,
+                            'saldo' => number_format($santri->sum('saldo')),
+                            'foto' => $santri->santri->foto,
+                        ];
 
-                return response()->json(['data' => $data], 200);
+                        return response()->json(['data' => $data], 200);
+                    }
+                } else {
+                    $data = [
+                        'santri_id' => $santri->santri->id,
+                        'no_induk' => $santri->santri->no_induk,
+                        'name' => $santri->santri->user->name,
+                        'saldo' => number_format($santri->sum('saldo')),
+                        'foto' => $santri->santri->foto,
+                    ];
+
+                    return response()->json(['data' => $data], 200);
+                }
             }
 
-            return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>' . $noinduk . '</strong>'], 200);
+            return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>'.$noinduk.'</strong>'], 200);
         }
 
         return view('pages.transaksi.index');
@@ -86,18 +103,19 @@ class TransaksiController extends Controller
                 $santri = Santri::firstWhere('no_induk', $validate['santri_noinduk']);
                 $tabungan = Tabungan::firstWhere('santri_id', $santri->id);
                 if ($tabungan->saldo == 0) {
-                    Toastr::info('Saldo tidak cukup saldo saat ini ' . $tabungan->saldo);
+                    Toastr::info('Saldo tidak cukup saldo saat ini '.$tabungan->saldo);
                 } else {
                     $transaksi = new TransaksiTabungan();
-                    $tr_now = $transaksi->whereDate('created_at', now()->toDateString())->first();
-                    if ($tr_now) {
-                        Toastr::info('Santri dengan nomor induk ' . "$santri->no_induk" . ' telah selesai melakukan transaksi');
+                    $tr_now = $transaksi->whereDate('tanggal_transaksi', now()->toDateString())->where('jenis_transaksi', 'Penarikan')->get();
+                    if (! $tr_now->isEmpty()) {
+                        Toastr::info('Santri dengan nomor induk '."$santri->no_induk".' telah selesai melakukan penarikan');
                     } else {
                         $transaksi = TransaksiTabungan::create([
                             'santri_id' => $santri->id,
                             'tanggal_transaksi' => date('Y-m-d'),
                             'jenis_transaksi' => $validate['jenis_transaksi'],
                             'jumlah_transaksi' => $validate['debit'],
+                            'saldo_saatini' => $tabungan->saldo - $validate['debit'],
                         ]);
 
                         $tabungan->update([

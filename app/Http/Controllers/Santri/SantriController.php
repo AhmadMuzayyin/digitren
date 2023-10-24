@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Santri;
 
 use App\Http\Controllers\Controller;
+use App\Imports\SantriImport;
 use App\Models\Kamar;
 use App\Models\Santri;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
 
 class SantriController extends Controller
@@ -27,6 +29,19 @@ class SantriController extends Controller
     public function print_kts(Santri $santri)
     {
         return view('pages.santri.print', compact('santri'));
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required',
+        ]);
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            Excel::import(new SantriImport, $file);
+        }
+
+        return redirect()->back();
     }
 
     public function store(Request $request)
@@ -161,7 +176,7 @@ class SantriController extends Controller
 
             return redirect()->back();
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            //            dd($th->getMessage());
             Toastr::error('Gagal menambah data');
 
             return redirect()->back();

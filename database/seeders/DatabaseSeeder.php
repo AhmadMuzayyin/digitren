@@ -73,11 +73,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         \App\Models\TahunAkademik::create([
             'tahun_akademik' => date('y'),
-            'semester' => 'Genap'
+            'semester' => 'Genap',
         ]);
         \App\Models\TahunAkademik::create([
             'tahun_akademik' => date('y'),
-            'semester' => 'Ganjil'
+            'semester' => 'Ganjil',
         ]);
     }
 }

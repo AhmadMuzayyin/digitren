@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Santri::class)->constrained()->cascadeOnDelete();
             $table->bigInteger('saldo')->default(0);
-            $table->date('tanggal_setor')->default(date('Y-m-d'));
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

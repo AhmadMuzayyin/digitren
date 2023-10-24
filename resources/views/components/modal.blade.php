@@ -1,7 +1,7 @@
 @props(['title', 'id', 'modalSize'])
 <!-- Modal -->
-<div class="modal fade" id="detailModal-{{ $id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true" style="display: none;">
+<div class="modal fade" id="{{ $id }}" tabindex="-1" aria-labelledby="{{ $id }}"
+     aria-hidden="true" style="display: none;">
     <div class="modal-dialog {{ $modalSize ?? '' }}">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,9 +11,6 @@
             <div>
                 <div class="modal-body">
                     {{ $slot }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
                 </div>
             </div>
         </div>

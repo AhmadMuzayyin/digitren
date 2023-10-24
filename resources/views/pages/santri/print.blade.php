@@ -55,7 +55,7 @@
         window.print()
         setInterval(() => {
             window.close()
-        }, 100);
+        }, 3000);
     </script>
 </body>
 

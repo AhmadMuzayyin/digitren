@@ -15,6 +15,12 @@
                             <div id="invoice">
                                 <div class="toolbar hidden-print">
                                     <div class="text-end">
+                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#importexport">
+                                            <i class="bx bx-file"></i>
+                                            Import/Export
+                                        </button>
+
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">
                                             <i class="bx bx-plus"></i>
@@ -48,7 +54,7 @@
                                                         <td>{{ $item->no_induk }}</td>
                                                         <td>{{ $item->user->name }}</td>
                                                         <td>
-                                                            {{ ucwords(strtolower($item->dusun . ', ' .$item->desa . ', ' . $item->kecamatan . ', ' . $item->kabupaten . ', ' . $item->provinsi)) }}
+                                                            {{ ucwords(strtolower($item->dusun . ', ' . $item->desa . ', ' . $item->kecamatan . ', ' . $item->kabupaten)) }}
                                                         </td>
                                                         <td>{{ date('d F, Y', strtotime($item->tahun_masuk)) }}</td>
                                                         <td>{{ $item->status }}</td>
@@ -167,33 +173,32 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="mb-2">
-                            <x-select-option name='provinsi' id="provinsi" label='Provinsi' attribute="required">
+                            <x-select-option name='provinsi' id="add-provinsi" label='Provinsi' attribute="required">
                             </x-select-option>
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-2">
-                            <x-select-option name='kabupaten' id="kabupaten" label='Kabupaten'
-                                attribute="required">
+                            <x-select-option name='kabupaten' id="add-kabupaten" label='Kabupaten' attribute="required">
                             </x-select-option>
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-2">
-                            <x-select-option name='kecamatan' id="kecamatan" label='Kecamatan'
-                                attribute="required">
+                            <x-select-option name='kecamatan' id="add-kecamatan" label='Kecamatan' attribute="required">
                             </x-select-option>
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-2">
-                            <x-select-option name='desa' id="kelurahan" label='Desa / Kelurahan'
+                            <x-select-option name='desa' id="add-kelurahan" label='Desa / Kelurahan'
                                 attribute="required">
                             </x-select-option>
                         </div>
                     </div>
                     <div class="col">
-                        <x-input type="text" name="dusun" id="dusun" value="{{ old('dusun') }}" label="Dusun" placeholder="Dusun"></x-input>
+                        <x-input type="text" name="dusun" id="add-dusun" value="{{ old('dusun') }}"
+                            label="Dusun" placeholder="Dusun"></x-input>
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -318,6 +323,27 @@
                     </div>
                 </div>
             </x-modal-form>
+            <x-modal title="Import/Export" id="importexport">
+                <div class="row">
+                    <div class="col">
+                        <a href="">Download format import</a>
+                    </div>
+                    <div class="col text-end">
+                        <a href="">Export data santri</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <form action="{{ route('santri.import') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <label for="file">File excel</label>
+                            <input type="file" name="file" id="file" class="form-control">
+                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </x-modal>
         </div>
     </div>
 @endsection
@@ -339,7 +365,7 @@
             var urlKabupaten = "{{ url('wilayah/kabupaten/') }}";
             var urlKecamatan = "{{ url('wilayah/kecamatan/') }}";
             var urlKelurahan = "{{ url('wilayah/kelurahan/') }}";
-            const selectProv = $('#provinsi');
+            const selectProv = $('#add-provinsi');
             $.getJSON(urlProvinsi, function(res) {
                 selectProv.empty();
                 $.each(res, function(i, obj) {
@@ -349,7 +375,7 @@
                     }));
                 });
             });
-            const selectKab = $('#kabupaten');
+            const selectKab = $('#add-kabupaten');
             $(selectProv).change(function() {
                 var val = $(selectProv).val();
                 $.getJSON(urlKabupaten + '/' + val + ".json", function(res) {
@@ -362,7 +388,7 @@
                     });
                 });
             })
-            const selectKec = $('#kecamatan');
+            const selectKec = $('#add-kecamatan');
             $(selectKab).change(function() {
                 var val = $(selectKab).val();
                 $.getJSON(urlKecamatan + '/' + val + ".json", function(res) {
@@ -375,7 +401,7 @@
                     });
                 });
             })
-            const selectkel = $('#kelurahan');
+            const selectkel = $('#add-kelurahan');
             $(selectKec).change(function() {
                 var val = $(selectKec).val();
                 $.getJSON(urlKelurahan + '/' + val + ".json", function(res) {

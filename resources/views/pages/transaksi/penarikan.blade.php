@@ -67,7 +67,7 @@
                                 url: "{{ route('transaksi.index') }}",
                                 method: "GET",
                                 data: {
-                                    no_induk: $(this).val()
+                                    no_induk: $(this).val(), jenis: "Penarikan"
                                 },
                                 success: (res) => {
                                     if (res.data) {

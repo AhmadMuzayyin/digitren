@@ -16,17 +16,17 @@ class TahunAkademik extends Model
     {
         parent::boot();
         self::creating(function ($tahun_akademik) {
-            $activity = class_basename($tahun_akademik) . " $tahun_akademik->tahun_akademik";
-            $tahun_akademik->CreateLog('Creatting ' . $activity);
+            $activity = class_basename($tahun_akademik)." $tahun_akademik->tahun_akademik";
+            $tahun_akademik->CreateLog('Creatting '.$activity);
         });
 
         self::updating(function ($tahun_akademik) {
-            $activity = class_basename($tahun_akademik) . " $tahun_akademik->tahun_akademik";
-            $tahun_akademik->CreateLog('Updating ' . $activity);
+            $activity = class_basename($tahun_akademik)." $tahun_akademik->tahun_akademik";
+            $tahun_akademik->CreateLog('Updating '.$activity);
         });
         self::deleting(function ($tahun_akademik) {
-            $activity = class_basename($tahun_akademik) . " $tahun_akademik->tahun_akademik";
-            $tahun_akademik->CreateLog('Deleting ' . $activity);
+            $activity = class_basename($tahun_akademik)." $tahun_akademik->tahun_akademik";
+            $tahun_akademik->CreateLog('Deleting '.$activity);
         });
     }
 }

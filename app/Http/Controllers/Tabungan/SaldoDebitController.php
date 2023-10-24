@@ -27,25 +27,40 @@ class SaldoDebitController extends Controller
             'keterangan' => 'nullable',
         ]);
         try {
-            $validate['tanggal_setor'] = date('Y-m-d');
             if (Tabungan::firstWhere('santri_id', $validate['santri_id'])) {
                 Toastr::info('Santri sudah memiliki tabungan');
             } else {
                 if (Santri::firstWhere('id', $validate['santri_id'])->status == 'Santri Alumni') {
                     Toastr::info('Santri sudah menjadi alumni');
                 } else {
-                    Tabungan::create($validate);
+                    $tabungan = Tabungan::create($validate);
+                    if ($tabungan->saldo > 0) {
+                        TransaksiTabungan::create([
+                            'santri_id' => $tabungan->santri_id,
+                            'tanggal_transaksi' => date('Y-m-d'),
+                            'jenis_transaksi' => 'Setoran',
+                            'jumlah_transaksi' => $tabungan->saldo,
+                            'saldo_saatini' => $tabungan->saldo,
+                        ]);
+                    }
                     Toastr::success('Berhasil menyimpan data');
                 }
             }
 
             return redirect()->back();
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            //dd($th->getMessage());
             Toastr::error('Gagal menyimpan data');
 
             return redirect()->back();
         }
+    }
+
+    public function show($id)
+    {
+        $data = TransaksiTabungan::where('santri_id', $id)->get();
+
+        return view('pages.saldo_debit.history', compact('data'));
     }
 
     public function destroy(Tabungan $tabungan)

@@ -56,7 +56,7 @@
                         <div class="col border rounded {{ request()->get('jenis_transaksi') != null ?
                             (request()->get('jenis_transaksi') == 'Setoran' ? 'bg-info' : 'bg-danger') : 'bg-info'
                             }} text-white text-center" style="margin-top: -1%">
-                            <h1 class="fw-bold">Rp. <span id="saldo">000000</span></h1>
+                            <h1 class="fw-bold">Saldo : Rp. <span id="saldo">000000</span></h1>
                         </div>
                     </div>
                 </div>

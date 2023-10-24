@@ -65,7 +65,7 @@ class RaportSantriController extends Controller
                     'mata_pelajaran_id' => $mapel_id->id,
                     'tahun_akademik_id' => 1,
                     'nilai' => $request->nilai[$i],
-                    'keterangan' => $request->keterangan[$i]
+                    'keterangan' => $request->keterangan[$i],
                 ]);
             }
             // simpan data rapor semester saat ini
@@ -83,13 +83,16 @@ class RaportSantriController extends Controller
             ]);
 
             Toastr::success('Berhasil menyimpan data');
+
             return redirect()->back();
         } catch (\Throwable $th) {
             //throw $th;
             Toastr::error('Gagal menyimpan data');
+
             return redirect()->back();
         }
     }
+
     public function update(Request $request)
     {
         try {
@@ -103,7 +106,7 @@ class RaportSantriController extends Controller
                     'mata_pelajaran_id' => $mapel_id->id,
                     'tahun_akademik_id' => 1,
                     'nilai' => $request->nilai[$i],
-                    'keterangan' => $request->keterangan[$i]
+                    'keterangan' => $request->keterangan[$i],
                 ]);
             }
             // simpan data rapor semester saat ini
@@ -121,10 +124,12 @@ class RaportSantriController extends Controller
             ]);
 
             Toastr::success('Berhasil memperbarui data');
+
             return redirect()->back();
         } catch (\Throwable $th) {
             //throw $th;
             Toastr::error('Gagal memperbarui data');
+
             return redirect()->back();
         }
     }

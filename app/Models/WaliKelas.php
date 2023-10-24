@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Santri;
 use App\Traits\LogActivity;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class WaliKelas extends Model
 {
     use HasFactory, LogActivity;
+
     protected $guarded = ['id'];
 
     public function santri()
@@ -21,17 +21,17 @@ class WaliKelas extends Model
     {
         parent::boot();
         self::creating(function ($wali_kelas) {
-            $activity = class_basename($wali_kelas) . " $wali_kelas->santri->user->name";
-            $wali_kelas->CreateLog('Creatting ' . $activity);
+            $activity = class_basename($wali_kelas)." $wali_kelas->santri->user->name";
+            $wali_kelas->CreateLog('Creatting '.$activity);
         });
 
         self::updating(function ($wali_kelas) {
-            $activity = class_basename($wali_kelas) . " $wali_kelas->santri->user->name";
-            $wali_kelas->CreateLog('Updating ' . $activity);
+            $activity = class_basename($wali_kelas)." $wali_kelas->santri->user->name";
+            $wali_kelas->CreateLog('Updating '.$activity);
         });
         self::deleting(function ($wali_kelas) {
-            $activity = class_basename($wali_kelas) . " $wali_kelas->santri->user->name";
-            $wali_kelas->CreateLog('Deleting ' . $activity);
+            $activity = class_basename($wali_kelas)." $wali_kelas->santri->user->name";
+            $wali_kelas->CreateLog('Deleting '.$activity);
         });
     }
 }

@@ -62,7 +62,7 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->santri->no_induk }}</td>
                                                         <td>{{ $item->santri->user->name }}</td>
-                                                        <td>{{ $item->saldo }}</td>
+                                                        <td>{{ "Rp. " . number_format($item->saldo) }}</td>
                                                         <td>{{ $item->keterangan }}</td>
                                                         <td>
                                                             <div class="btn-group pull-right">
@@ -71,9 +71,6 @@
                                                                     class="btn btn-sm btn-danger">
                                                                     <span class="bx bx-trash"> </span>
                                                                 </button>
-                                                                <a href="#" class="btn btn-sm btn-primary">
-                                                                    <span class="bx bx-history"> </span>
-                                                                </a>
 
                                                                 <x-delete-modal title='Hapus data' id="{{ $item->id }}"
                                                                     fn="{{ route('saldo_debit.destroy', $item->id) }}"
@@ -81,6 +78,10 @@
                                                                     @csrf
                                                                     @method('DELETE')
                                                                 </x-delete-modal>
+
+                                                                <a href="{{ route('saldo_debit.history', $item->santri_id) }}" class="btn btn-sm btn-primary">
+                                                                    <span class="bx bx-history"> </span>
+                                                                </a>
                                                             </div>
                                                         </td>
                                                     </tr>

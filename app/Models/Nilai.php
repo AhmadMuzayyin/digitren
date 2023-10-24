@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\MataPelajaran;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Nilai extends Model
 {

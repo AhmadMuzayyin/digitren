@@ -51,26 +51,30 @@
 <div class="row mb-2">
     <div class="col">
         <div class="mb-2">
-            <x-input type='text' name='provinsi' id="provinsi" label='Provinsi' placeholder='Provinsi'
-                value="{{ old('dusun') ?? $item->provinsi }}" attribute="required"></x-input>
+            <x-select-option name='provinsi' id="edit-provinsi-{{ $item->id }}" label='Provinsi'
+                attribute="required">
+            </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-input type='text' name='kabupaten' id="kabupaten" label='Kabupaten' placeholder='Kabupaten'
-            value="{{ old('kabupaten') ?? $item->kabupaten }}" attribute="required"></x-input>
+            <x-select-option name='kabupaten' id="edit-kabupaten-{{ $item->id }}" label='Kabupaten'
+                attribute="required">
+            </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-input type='text' name='kecamatan' id="kecamatan" label='Kecamatan' placeholder='Kecamatan'
-                value="{{ old('kecamatan') ?? $item->kecamatan }}" attribute="required"></x-input>
+            <x-select-option name='kecamatan' id="edit-kecamatan-{{ $item->id }}" label='Kecamatan'
+                attribute="required">
+            </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-input type='text' name='desa' id="desa" label='Desa' placeholder='Desa'
-                value="{{ old('desa') ?? $item->desa }}" attribute="required"></x-input>
+            <x-select-option name='desa' id="edit-kelurahan-{{ $item->id }}" label='Desa / Kelurahan'
+                attribute="required">
+            </x-select-option>
         </div>
     </div>
     <div class="col">
@@ -244,3 +248,63 @@
         </div>
     </div>
 </div>
+
+@push('js')
+    <script>
+        $('#editModal-' + "{{ $item->id }}").on('shown.bs.modal', function() {
+            var getProv = "{{ url('wilayah/provinsi.json') }}";
+            var getKab = "{{ url('wilayah/kabupaten/') }}";
+            var getKec = "{{ url('wilayah/kecamatan/') }}";
+            var getKel = "{{ url('wilayah/kelurahan/') }}";
+            var editProv = $("#edit-provinsi-" + "{{ $item->id }}");
+            $.getJSON(getProv, function(res) {
+                editProv.empty();
+                $.each(res, function(i, obj) {
+                    editProv.append($('<option>', {
+                        value: obj.id,
+                        text: obj.nama,
+                    }));
+                });
+            });
+            var editKab = $("#edit-kabupaten-" + "{{ $item->id }}");
+            $(editProv).change(function() {
+                var val = $(editProv).val();
+                $.getJSON(getKab + '/' + val + ".json", function(res) {
+                    editKab.empty();
+                    $.each(res, function(i, obj) {
+                        editKab.append($('<option>', {
+                            value: obj.id,
+                            text: obj.nama
+                        }));
+                    });
+                });
+            })
+            var editKec = $("#edit-kecamatan-" + "{{ $item->id }}");
+            $(editKab).change(function() {
+                var val = $(editKab).val();
+                $.getJSON(getKec + '/' + val + ".json", function(res) {
+                    editKec.empty();
+                    $.each(res, function(i, obj) {
+                        editKec.append($('<option>', {
+                            value: obj.id,
+                            text: obj.nama
+                        }));
+                    });
+                });
+            })
+            var editKel = $("#edit-kelurahan-" + "{{ $item->id }}");
+            $(editKec).change(function() {
+                var val = $(editKec).val();
+                $.getJSON(getKel + '/' + val + ".json", function(res) {
+                    editKel.empty();
+                    $.each(res, function(i, obj) {
+                        editKel.append($('<option>', {
+                            value: obj.id,
+                            text: obj.nama
+                        }));
+                    });
+                });
+            })
+        })
+    </script>
+@endpush

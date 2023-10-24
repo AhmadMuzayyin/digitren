@@ -13,7 +13,7 @@ return [
     'dewan' => [
         'pengasuh' => 'K. H. Hayatul Islam',
         'ketua_umum' => 'K. Zain Fairuz',
-        'pengganti' => 'K. Ali Maimun'
+        'pengganti' => 'K. Ali Maimun',
     ],
 
     /*

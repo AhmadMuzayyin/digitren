@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tanggal_transaksi')->default(date('Y-m-d'));
             $table->enum('jenis_transaksi', ['Setoran', 'Penarikan']);
             $table->bigInteger('jumlah_transaksi')->default(0);
-            $table->text('keterangan')->nullable();
+            $table->bigInteger('saldo_saatini')->default(0);
             $table->timestamps();
         });
     }
