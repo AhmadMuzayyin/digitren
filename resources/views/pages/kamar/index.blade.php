@@ -32,6 +32,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Kode</th>
                                                     <th>Nama</th>
                                                     <th>Blok</th>
                                                     <th>Jumlah Santri</th>
@@ -43,6 +44,7 @@
                                                 @foreach ($kamar as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $item->kode }}</td>
                                                         <td>{{ $item->nama }}</td>
                                                         <td>{{ $item->blok }}</td>
                                                         <td>{{ $item->jumlah_santri }}</td>

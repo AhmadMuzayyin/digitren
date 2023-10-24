@@ -26,6 +26,7 @@ class KamarController extends Controller
         ]);
 
         try {
+            $validate['kode'] = fake()->regexify('[A-Z]{5}[0-4]{5}');
             Kamar::create($validate);
             Toastr::success('Berhasil menambah data');
 
@@ -46,6 +47,7 @@ class KamarController extends Controller
             'maksimal_santri' => 'required|numeric|min:0',
         ]);
         try {
+            $validate['kode'] = fake()->regexify('[A-Z]{5}[0-4]{5}');
             $kamar->update($validate);
             Toastr::success('Berhasil merubah data');
 

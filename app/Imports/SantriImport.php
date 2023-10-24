@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+use App\Models\Kamar;
+use App\Models\Kelas;
 use App\Models\Santri;
 use App\Models\User;
 use App\Models\WaliSantri;
@@ -14,6 +16,8 @@ class SantriImport implements ToModel, WithHeadingRow
     public function model(array $row): void
     {
         // TODO: Implement model() method.
+        $kamar = Kamar::where('kode', $row['kode_kamar'])->first();
+        $kelas = Kelas::where('kode', $row['kode_kelas'])->first();
         $user = User::create([
             'name' => $row['nama'],
             'email' => Str::slug($row['nama']).'@digitren.com',
@@ -21,8 +25,8 @@ class SantriImport implements ToModel, WithHeadingRow
         ]);
         $santri = Santri::create([
             'user_id' => $user->id,
-            'kelas_id' => $row['kelas_id'],
-            'kamar_id' => $row['kamar_id'],
+            'kelas_id' => $kelas->id,
+            'kamar_id' => $kamar->id,
             'no_induk' => $row['no_induk'],
             'dusun' => $row['dusun'],
             'desa' => $row['desa'],
@@ -53,5 +57,10 @@ class SantriImport implements ToModel, WithHeadingRow
             'nama' => $row['nama_ibu'],
             'wali' => false,
         ]);
+        $kamar = Kamar::findOrFail($santri->kamar_id);
+        if ($kamar){
+            $kamar->jumlah_santri = $kamar->jumlah_santri + 1;
+            $kamar->save();
+        }
     }
 }

@@ -32,6 +32,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Kode Kelas</th>
                                                     <th>Tingkat</th>
                                                     <th>Kelas</th>
                                                     <th>Keterangan</th>
@@ -42,6 +43,7 @@
                                                 @foreach ($kelas as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $item->kode }}</td>
                                                         <td>{{ $item->tingkatan }}</td>
                                                         <td>{{ $item->kelas }}</td>
                                                         <td>{{ $item->keterangan }}</td>

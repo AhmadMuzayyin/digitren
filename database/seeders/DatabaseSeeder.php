@@ -31,15 +31,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $kelas = \App\Models\Kelas::create([
+            'kode' => fake()->regexify('[A-Z]{5}[0-4]{5}'),
             'tingkatan' => 'ALFIYAH',
             'kelas' => 'ALFIYAH SATU',
             'keterangan' => 'Asuhan K. Zain Fairuz',
         ]);
         \App\Models\Kamar::create([
+            'kode' => fake()->regexify('[A-Z]{5}[0-4]{5}'),
             'nama' => 'As Syafii',
             'blok' => 'A',
         ]);
         $kamar = \App\Models\Kamar::create([
+            'kode' => fake()->regexify('[A-Z]{5}[0-4]{5}'),
             'nama' => 'Anwarul Qulubi',
             'blok' => 'A',
         ]);

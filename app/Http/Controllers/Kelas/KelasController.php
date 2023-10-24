@@ -25,6 +25,7 @@ class KelasController extends Controller
         ]);
 
         try {
+            $validate['kode'] = fake()->regexify('[A-Z]{5}[0-4]{5}');
             Kelas::create($validate);
             Toastr::success('Berhasil menambah data');
 
@@ -44,6 +45,7 @@ class KelasController extends Controller
             'keterangan' => 'nullable',
         ]);
         try {
+            $validate['kode'] = fake()->regexify('[A-Z]{5}[0-4]{5}');
             $kelas->update($validate);
             Toastr::success('Berhasil merubah data');
 
