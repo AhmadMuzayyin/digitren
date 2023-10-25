@@ -41,5 +41,9 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('santris', $santris);
             $view->with('jenissurat', $jenissurat);
         });
+        view()->composer('pages.mapel.index', function ($view){
+            $kelas = Kelas::all();
+            $view->with('kelas', $kelas);
+        });
     }
 }

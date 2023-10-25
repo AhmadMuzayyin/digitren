@@ -40,7 +40,7 @@ class RaportSantriController extends Controller
             })
             ->first();
 
-        $mapel = MataPelajaran::all();
+        $mapel = MataPelajaran::where('kelas_id', $santri->kelas_id)->get();
 
         $kelas = Kelas::where('id', $santri->kelas_id)->first();
 

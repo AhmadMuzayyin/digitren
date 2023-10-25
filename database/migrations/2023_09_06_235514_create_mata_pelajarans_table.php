@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mata_pelajarans', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Kelas::class)->constrained()->cascadeOnDelete();
             $table->enum('kategori', ['Fan Pokok', 'Non Pokok', 'Tes Kelas Tertentu']);
             $table->string('nama');
             $table->timestamps();

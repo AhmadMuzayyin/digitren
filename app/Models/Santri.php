@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static firstWhere(string $string, mixed $santri_noinduk)
  * @method static create(array $array)
+ * @method static where(string $string, mixed $id)
+ * @property mixed $kelas_id
  */
 class Santri extends Model
 {

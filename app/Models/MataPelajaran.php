@@ -6,12 +6,19 @@ use App\Traits\LogActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, mixed $kelas_id)
+ */
 class MataPelajaran extends Model
 {
     use HasFactory, LogActivity;
 
     protected $guarded = ['id'];
 
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
     public static function boot()
     {
         parent::boot();

@@ -10,7 +10,7 @@ class MapelController extends Controller
 {
     public function index()
     {
-        $mapel = MataPelajaran::all();
+        $mapel = MataPelajaran::with('kelas')->get();
 
         return view('pages.mapel.index', compact('mapel'));
     }
@@ -18,6 +18,7 @@ class MapelController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
+            'kelas_id' => 'required|exists:kelas,id',
             'kategori' => 'required|in:Fan Pokok,Non Pokok,Tes Kelas Tertentu',
             'nama' => 'required|string|min:5',
         ]);

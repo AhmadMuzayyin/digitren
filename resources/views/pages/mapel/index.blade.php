@@ -35,6 +35,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Kelas</th>
                                                     <th>Kategori</th>
                                                     <th>Nama</th>
                                                     <th>Created_at</th>
@@ -46,6 +47,7 @@
                                                 @foreach ($mapel as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $item->kelas->kelas }}</td>
                                                         <td>{{ $item->kategori }}</td>
                                                         <td>{{ $item->nama }}</td>
                                                         <td>{{ $item->created_at->format('d F Y') }}</td>
@@ -65,22 +67,24 @@
                                                                     @csrf
                                                                     @method('PATCH')
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='tingkatan'
-                                                                            id="tingkatan" label='Tingkatan'
-                                                                            placeholder='Nama Tingkatan'
-                                                                            value="{{ $item->tingkatan }}"></x-input>
+                                                                        <x-select-option label="Pilih Kelas" name="kelas_id" id="kelas_id" attribute="required">
+                                                                            <option value="" selected disabled>Pilih kelas</option>
+                                                                            @foreach($kelas as $kls)
+                                                                                <option value="{{ $kls->id }}" {{ $item->kelas_id === $kls->id ? 'selected' : '' }}>{{ $kls->tingkatan . ' - ' . $kls->kelas }}</option>
+                                                                            @endforeach
+                                                                        </x-select-option>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='kelas'
-                                                                            id="kelas" label='Kelas'
-                                                                            placeholder='Nama Kelas'
-                                                                            value="{{ $item->kelas }}"></x-input>
+                                                                        <x-select-option label="Kategori Mapel" name="kategori" id="kategori" attribute="required">
+                                                                            <option value="" selected disabled>Pilih kategori</option>
+                                                                            <option value="Fan Pokok" {{ $item->kategori === 'Fan Pokok' ? 'selected' : '' }}>Fan Pokok</option>
+                                                                            <option value="Non Pokok" {{ $item->kategori === 'Non Pokok' ? 'selected' : '' }}>Non Pokok</option>
+                                                                            <option value="Tes Kelas Tertentu" {{ $item->kategori === 'Tes Kelas Tertentu' ? 'selected' : '' }}>Tes Kelas Tertentu</option>
+                                                                        </x-select-option>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <x-input type='text' name='keterangan'
-                                                                            id="keterangan" label='Keterangan'
-                                                                            placeholder='Keterangan'
-                                                                            value="{{ $item->keterangan }}"></x-input>
+                                                                        <x-input type='text' name='nama' id="nama" label='Nama Mata Pelajaran'
+                                                                                 placeholder='Nama Mata Pelajaran' attribute="required" value="{{ $item->nama }}"></x-input>
                                                                     </div>
                                                                 </x-edit-modal>
 
@@ -113,6 +117,14 @@
             <x-modal-form id='exampleModal' title='Tambah data mata pelajaran' fn="{{ route('mapel.store') }}"
                 method="POST">
                 @csrf
+                <div class="mb-3">
+                    <x-select-option label="Pilih Kelas" name="kelas_id" id="kelas_id" attribute="required">
+                        <option value="" selected disabled>Pilih kelas</option>
+                        @foreach($kelas as $kls)
+                            <option value="{{ $kls->id }}">{{ $kls->tingkatan . ' - ' . $kls->kelas }}</option>
+                        @endforeach
+                    </x-select-option>
+                </div>
                 <div class="mb-3">
                     <x-select-option label="Kategori Mapel" name="kategori" id="kategori" attribute="required">
                         <option value="" selected disabled>Pilih kategori</option>
