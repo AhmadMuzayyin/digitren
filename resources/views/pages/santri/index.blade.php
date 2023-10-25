@@ -326,10 +326,10 @@
             <x-modal title="Import/Export" id="importexport">
                 <div class="row">
                     <div class="col">
-                        <a href="">Download format import</a>
+                        <a href="{{ route('santri.download') }}">Download format import</a>
                     </div>
                     <div class="col text-end">
-                        <a href="">Export data santri</a>
+                        <a href="{{ route('santri.export') }}">Export data santri</a>
                     </div>
                 </div>
                 <hr>

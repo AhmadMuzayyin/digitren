@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Santri;
 
+use App\Exports\SantriExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SantriImport;
 use App\Models\Kamar;
@@ -31,17 +32,34 @@ class SantriController extends Controller
         return view('pages.santri.print', compact('santri'));
     }
 
+    public function download()
+    {
+        $mime = Storage::mimeType('Format import data santri.xlsx');
+        return response()->download(public_path('files/').'Format import data santri.xlsx', 'Format import data santri.xlsx', ['Content-Type' => $mime]);
+        return redirect()->back();
+    }
     public function import(Request $request)
     {
-        $request->validate([
-            'file' => 'required',
-        ]);
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            Excel::import(new SantriImport, $file);
-        }
+        try {
+            $request->validate([
+                'file' => 'required',
+            ]);
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                Excel::import(new SantriImport, $file);
+            }
 
-        return redirect()->back();
+            Toastr::success('Berhasil import data santri');
+            return redirect()->back();
+        }catch (\Throwable $th){
+            Toastr::error('Gagal import data santri');
+            return  redirect()->back();
+        }
+    }
+
+    public function export()
+    {
+        return Excel::download(new SantriExport, 'Export-data-santri.xlsx');
     }
 
     public function store(Request $request)

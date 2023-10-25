@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @method static create(array $array)
+ * @method static find($user_id)
  */
 class User extends Authenticatable
 {

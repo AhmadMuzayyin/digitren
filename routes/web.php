@@ -60,7 +60,9 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(SantriController::class)->as('santri.')->group(function () {
             Route::get('/santri', 'index')->name('index');
             Route::post('/santri', 'store')->name('store');
+            Route::get('/santri/download', 'download')->name('download');
             Route::post('/santri/import', 'import')->name('import');
+            Route::get('/santri/export', 'export')->name('export');
             Route::patch('/santri/update/{santri}', 'update')->name('update');
             Route::delete('/santri/destroy/{santri}', 'destroy')->name('destroy');
             Route::get('print/kts/{santri:no_induk}', 'print_kts')->name('print.kts');

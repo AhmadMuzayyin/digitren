@@ -18,6 +18,7 @@ class SantriImport implements ToModel, WithHeadingRow
         // TODO: Implement model() method.
         $kamar = Kamar::where('kode', $row['kode_kamar'])->first();
         $kelas = Kelas::where('kode', $row['kode_kelas'])->first();
+        $status = isset($row['tanggal_boyong']) ? "Santri Alumni" : "Santri Aktif";
         $user = User::create([
             'name' => $row['nama'],
             'email' => Str::slug($row['nama']).'@digitren.com',
@@ -45,7 +46,7 @@ class SantriImport implements ToModel, WithHeadingRow
             'tahun_masuk_hijriyah' => $row['tahun_masuk_hijriyah'],
             'tanggal_boyong' => $row['tanggal_boyong'],
             'tanggal_boyong_hijriyah' => $row['tanggal_boyong_hijriyah'],
-            'status' => $row['status'],
+            'status' => $status,
         ]);
         WaliSantri::create([
             'santri_id' => $santri->id,
