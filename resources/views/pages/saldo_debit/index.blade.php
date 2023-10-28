@@ -79,9 +79,18 @@
                                                                     @method('DELETE')
                                                                 </x-delete-modal>
 
-                                                                <a href="{{ route('saldo_debit.history', $item->santri_id) }}" class="btn btn-sm btn-primary">
+                                                                {{--History link--}}
+                                                                <button href="{{ route('saldo_debit.history', $item->santri_id) }}" role="button" class="btn btn-sm btn-primary">
                                                                     <span class="bx bx-history"> </span>
-                                                                </a>
+                                                                </button>
+
+                                                                {{--Export button--}}
+                                                                <form action="{{ route('saldo_debit.export', $item->santri_id) }}" method="post">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-sm btn-info rounded-0">
+                                                                        <span class="bx bx-file"> </span>
+                                                                    </button>
+                                                                </form>
                                                             </div>
                                                         </td>
                                                     </tr>

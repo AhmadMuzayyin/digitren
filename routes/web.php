@@ -9,8 +9,8 @@ use App\Http\Controllers\Rapor\RaportSantriController;
 use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Santri\SantriController;
-use App\Http\Controllers\Sinkronisasi\SinkronisasiController;
 use App\Http\Controllers\Surat\JenisSuratController;
+use App\Http\Controllers\Sinkron\SinkronController;
 use App\Http\Controllers\Surat\SuratController;
 use App\Http\Controllers\Tabungan\SaldoDebitController;
 use App\Http\Controllers\Transaksi\TransaksiController;
@@ -94,11 +94,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/surat/update', 'update')->name('update');
             Route::post('/surat', 'store');
         });
-        // sinkronisasi data lokal dengan data di cloud
-        Route::controller(SinkronisasiController::class)->as('sinkronisasi.')->group(function () {
-            Route::get('/sinkronisasi', 'index')->name('index');
-            Route::post('/sinkronisasi', 'store')->name('store');
-            Route::patch('/sinkronisasi/update', 'update')->name('update');
+        Route::controller(SinkronController::class)->as('sync.')->group(function (){
+            Route::get('/sheet/get/data', 'show')->name('show');
         });
     });
 
@@ -130,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('tabungan', 'store')->name('store');
             Route::get('tabungan/history/{id}', 'show')->name('history');
             Route::delete('tabungan/{tabungan}/destroy', 'destroy')->name('destroy');
+            Route::post('tabungan/{id}/export', 'export')->name('export');
         });
         // transaksi tabungan (saldo debit)
         Route::controller(TransaksiController::class)->as('transaksi.')->group(function () {

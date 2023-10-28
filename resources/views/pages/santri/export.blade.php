@@ -5,7 +5,11 @@
             <th>Nama Lengkap</th>
             <th>Tingkat - Kelas</th>
             <th>Kamar</th>
-            <th>Alamat Lengkap</th>
+            <th>Dusun</th>
+            <th>Desa</th>
+            <th>Kecamatan</th>
+            <th>Kabupaten</th>
+            <th>Provinsi</th>
             <th>Jenis Kelamin</th>
             <th>Data Kependudukan</th>
             <th>No Whatsapp</th>
@@ -23,7 +27,11 @@
                 <td>{{ $person->user->name }}</td>
                 <td>{{ $person->kelas->tingkatan . ' - ' . $person->kelas->kelas }}</td>
                 <td>{{ $person->kamar->nama }}</td>
-                <td>{{ "$person->dusun, $person->desa, $person->kecamatan $person->kabupaten $person->provinsi" }}</td>
+                <td>{{ $person->dusun }}</td>
+                <td>{{ $person->desa }}</td>
+                <td>{{ $person->kecamatan }}</td>
+                <td>{{ $person->kabupaten }}</td>
+                <td>{{ $person->provinsi }}</td>
                 <td>{{ $person->jenis_kelamin }}</td>
                 <td>{{ "NIK: $person->nik - KK: $person->kk" }}</td>
                 <td>{{ "https://wa.me/$person->whatsapp" }}</td>

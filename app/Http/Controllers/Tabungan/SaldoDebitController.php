@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Tabungan;
 
+use App\Exports\TabunganExport;
 use App\Http\Controllers\Controller;
 use App\Models\Santri;
 use App\Models\Tabungan;
 use App\Models\TransaksiTabungan;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
 
 class SaldoDebitController extends Controller
@@ -56,6 +58,13 @@ class SaldoDebitController extends Controller
         }
     }
 
+    public function export($id)
+    {
+        $santri = Santri::with('user')->where('id', $id)->first();
+        $filname = $santri->user->name . " - " . $santri->desa;
+        return  Excel::download(new TabunganExport($id), $filname . '_Tabungan.xlsx');
+        return redirect()->back();
+    }
     public function show($id)
     {
         $data = TransaksiTabungan::where('santri_id', $id)->get();

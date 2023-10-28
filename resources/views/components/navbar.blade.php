@@ -133,15 +133,6 @@
                 </a>
             </li>
         @endrole
-        @role('Pengurus')
-            <li class="{{ request()->routeIs('sinkronisasi.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('sinkronisasi.index') }}">
-                    <div class="parent-icon icon-color-9"><i class="bx bx-sync"></i>
-                    </div>
-                    <div class="menu-title">Sinkronisasi</div>
-                </a>
-            </li>
-        @endrole
         <!-- utilities -->
         <!--end navigation-->
 </div>

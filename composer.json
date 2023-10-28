@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^10.0",
         "pharaonic/laravel-hijri": "^1.0",
+        "revolution/laravel-google-sheets": "^6.2",
         "spatie/laravel-flash": "^1.9",
         "spatie/laravel-permission": "^5.11"
     },
