@@ -52,10 +52,10 @@
         {{ ucwords(strtolower($santri->desa . ', ' . $santri->kecamatan . ', ' . $santri->kabupaten)) }}</p>
 
     <script>
-        window.print()
-        setInterval(() => {
-            window.close()
-        }, 3000);
+        // window.print()
+        // setInterval(() => {
+        //     window.close()
+        // }, 3000);
     </script>
 </body>
 

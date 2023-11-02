@@ -19,6 +19,7 @@ class MataPelajaran extends Model
     {
         return $this->belongsTo(Kelas::class);
     }
+
     public static function boot()
     {
         parent::boot();

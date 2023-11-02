@@ -35,9 +35,12 @@ class SantriController extends Controller
     public function download()
     {
         $mime = Storage::mimeType('Format import data santri.xlsx');
+
         return response()->download(public_path('files/').'Format import data santri.xlsx', 'Format import data santri.xlsx', ['Content-Type' => $mime]);
+
         return redirect()->back();
     }
+
     public function import(Request $request)
     {
         try {
@@ -50,10 +53,13 @@ class SantriController extends Controller
             }
 
             Toastr::success('Berhasil import data santri');
+
             return redirect()->back();
-        }catch (\Throwable $th){
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
             Toastr::error('Gagal import data santri');
-            return  redirect()->back();
+
+            return redirect()->back();
         }
     }
 
@@ -128,9 +134,10 @@ class SantriController extends Controller
                 $user->assignRole('Santri');
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);
-                User::find($validate['user_id'])->assignRole('Santri');
                 if (! $santri) {
                     $user->delete();
+                } else {
+                    User::find($validate['user_id'])->assignRole('Santri');
                 }
                 // insert wali santri
                 if ($santri) {
@@ -169,7 +176,11 @@ class SantriController extends Controller
                 $validate['user_id'] = $user->id;
                 $validate['foto'] = $filename;
                 $santri = Santri::create($validate);
-                User::find($validate['user_id'])->assignRole('Santri');
+                if (! $santri) {
+                    $user->delete();
+                } else {
+                    User::find($validate['user_id'])->assignRole('Santri');
+                }
 
                 // insert wali santri
                 WaliSantri::create([
@@ -194,7 +205,7 @@ class SantriController extends Controller
 
             return redirect()->back();
         } catch (\Throwable $th) {
-            //            dd($th->getMessage());
+            dd($th->getMessage());
             Toastr::error('Gagal menambah data');
 
             return redirect()->back();
@@ -207,10 +218,11 @@ class SantriController extends Controller
             'kelas' => 'required|exists:kelas,id',
             'kamar' => 'required|exists:kamars,id',
             'nama_lengkap' => 'required|string|min:3|max:225',
-            'dusun' => 'required|min:3',
-            'desa' => 'required|min:3',
-            'kecamatan' => 'required|min:3',
-            'kabupaten' => 'required|min:3',
+            'provinsi' => 'required',
+            'desa' => 'required',
+            'kecamatan' => 'required',
+            'kabupaten' => 'required',
+            'dusun' => 'required',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'nik' => 'required|digits:16',
             'kk' => 'required|digits:16',
@@ -242,6 +254,12 @@ class SantriController extends Controller
             if ($validate['jenis_kelamin'] !== $santri->jenis_kelamin) {
                 $validate['no_induk'] = Helper::make_noinduk($params);
             }
+
+            // validate replace with column name
+            $validate['provinsi'] = Helper::prov($request->provinsi);
+            $validate['kabupaten'] = Helper::kab($request->provinsi, $request->kabupaten);
+            $validate['kecamatan'] = Helper::kec($request->kabupaten, $request->kecamatan);
+            $validate['desa'] = Helper::kel($request->kecamatan, $request->desa);
 
             // validate replace with column name
             $validate['kamar_id'] = $validate['kamar'];

@@ -9,8 +9,8 @@ use App\Http\Controllers\Rapor\RaportSantriController;
 use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Santri\SantriController;
-use App\Http\Controllers\Surat\JenisSuratController;
 use App\Http\Controllers\Sinkron\SinkronController;
+use App\Http\Controllers\Surat\JenisSuratController;
 use App\Http\Controllers\Surat\SuratController;
 use App\Http\Controllers\Tabungan\SaldoDebitController;
 use App\Http\Controllers\Transaksi\TransaksiController;
@@ -94,7 +94,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/surat/update', 'update')->name('update');
             Route::post('/surat', 'store');
         });
-        Route::controller(SinkronController::class)->as('sync.')->group(function (){
+        Route::controller(SinkronController::class)->as('sync.')->group(function () {
             Route::get('/sheet/get/data', 'show')->name('show');
         });
     });

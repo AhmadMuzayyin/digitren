@@ -61,10 +61,13 @@ class SaldoDebitController extends Controller
     public function export($id)
     {
         $santri = Santri::with('user')->where('id', $id)->first();
-        $filname = $santri->user->name . " - " . $santri->desa;
-        return  Excel::download(new TabunganExport($id), $filname . '_Tabungan.xlsx');
+        $filname = $santri->user->name.' - '.$santri->desa;
+
+        return Excel::download(new TabunganExport($id), $filname.'_Tabungan.xlsx');
+
         return redirect()->back();
     }
+
     public function show($id)
     {
         $data = TransaksiTabungan::where('santri_id', $id)->get();

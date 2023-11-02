@@ -6,7 +6,7 @@ class Helper
 {
     public static function make_noinduk($params)
     {
-        $get_santri_latest = Santri::where('jenis_kelamin', $params['gender'])->whereYear('tahun_masuk', $params['tahun_masuk'])->latest()->first();
+        $get_santri_latest = Santri::where('jenis_kelamin', $params['gender'])->whereYear('tahun_masuk', $params['tahun_masuk'])->orderBy('tahun_masuk', 'desc')->first();
         if ($get_santri_latest) {
             $start_noinduk = substr($get_santri_latest->no_induk, 4);
             $next = str_pad((int) $start_noinduk + 1, strlen($start_noinduk), '0', STR_PAD_LEFT);
@@ -95,5 +95,25 @@ class Helper
         }
 
         return $dataKel;
+    }
+
+    public static function bulan_id($params): string
+    {
+        $bulanIndonesia = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+
+        return $bulanIndonesia[$params];
     }
 }
