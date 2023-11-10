@@ -2,13 +2,15 @@
 
 namespace App\Imports;
 
+use Toastr;
+use App\Models\User;
 use App\Models\Kamar;
 use App\Models\Kelas;
 use App\Models\Santri;
-use App\Models\User;
 use App\Models\WaliSantri;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -18,6 +20,7 @@ class SantriImport implements ToModel, WithHeadingRow
     {
         // TODO: Implement model() method.
         try {
+            DB::beginTransaction();
             $kamar = Kamar::where('kode', $row['kode_kamar'])->first();
             $kelas = Kelas::where('kode', $row['kode_kelas'])->first();
             $status = isset($row['tanggal_boyong']) ? 'Santri Alumni' : 'Santri Aktif';
@@ -45,7 +48,7 @@ class SantriImport implements ToModel, WithHeadingRow
                 $date = Carbon::parse($row['tanggal_boyong']);
                 $tanggal_boyong_hijriyah = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             }
-            // dd($row, $tanggal_boyong_hijriyah, $tahun_masuk_hijriyah, isset($row['tahun_masuk']));
+            // dd($tanggal_boyong_hijriyah, isset($row['tanggal_boyong']));
 
             // save user santri
             $user = User::create([
@@ -94,8 +97,11 @@ class SantriImport implements ToModel, WithHeadingRow
                 $kamar->jumlah_santri = $kamar->jumlah_santri + 1;
                 $kamar->save();
             }
+            DB::commit();
         } catch (\Throwable $th) {
+            DB::rollBack();
             dd($th->getMessage());
+            Toastr::error('Gagal import data santri');
         }
     }
 }

@@ -56,7 +56,7 @@ class SantriController extends Controller
 
             return redirect()->back();
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            // dd($th->getMessage());
             Toastr::error('Gagal import data santri');
 
             return redirect()->back();

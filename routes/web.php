@@ -29,6 +29,7 @@ Route::get('set_theme', function (Illuminate\Http\Request $request) {
         return response()->json(['dark'], 200);
     }
 });
+
 Route::get('/', function () {
     return redirect('login');
 });
