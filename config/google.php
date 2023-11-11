@@ -55,7 +55,7 @@ return [
          * instead of a file path.
          */
         // 'file' => env('GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION', ''),
-        'file' => public_path('files/digitren-0001-469b9239adfb.json'),
+        'file' => public_path('files/sheets/digitren-0001-469b9239adfb.json'),
     ],
 
     /*
