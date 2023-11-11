@@ -63,7 +63,7 @@
             <li class="menu-label">Surat Menyurat</li>
             <li class="{{ request()->routeIs('jenis_surat.*') ? 'mm-active' : '' }}">
                 <a href="#">
-                {{-- <a href="{{ route('jenis_surat.index') }}"> --}}
+                    {{-- <a href="{{ route('jenis_surat.index') }}"> --}}
                     <div class="parent-icon icon-color-7"><i class="bx bx-abacus"></i>
                     </div>
                     <div class="menu-title">Data Surat</div>
@@ -71,7 +71,7 @@
             </li>
             <li class="{{ request()->routeIs('surat.*') ? 'mm-active' : '' }}">
                 <a href="#">
-                {{-- <a href="{{route('surat.index')}}"> --}}
+                    {{-- <a href="{{route('surat.index')}}"> --}}
                     <div class="parent-icon icon-color-4"><i class="bx bx-file"></i>
                     </div>
                     <div class="menu-title">Surat Izin Santri</div>
@@ -125,8 +125,7 @@
                 </a>
             </li>
             <li class="{{ request()->routeIs('sinkronisasi.*') ? 'mm-active' : '' }}">
-                <a href="#">
-                {{-- <a href="{{ route('sinkronisasi.index') }}"> --}}
+                <a href="{{ route('sync.index') }}">
                     <div class="parent-icon icon-color-9"><i class="bx bx-sync"></i>
                     </div>
                     <div class="menu-title">Sinkronisasi</div>

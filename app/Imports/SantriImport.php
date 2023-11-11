@@ -2,17 +2,17 @@
 
 namespace App\Imports;
 
-use Toastr;
-use App\Models\User;
 use App\Models\Kamar;
 use App\Models\Kelas;
 use App\Models\Santri;
+use App\Models\User;
 use App\Models\WaliSantri;
-use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Toastr;
 
 class SantriImport implements ToModel, WithHeadingRow
 {

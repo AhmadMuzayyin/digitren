@@ -48,7 +48,49 @@
     </div>
 </div>
 
-<div class="row mb-2">
+<div class="row mb-2" id="data_alamat">
+    <div class="row">
+        <div class="col text-end mb-2">
+            <button class="btn btn-primary btn-sm" id="btn-edit"><i class="bx bx-pencil fs-5"></i> Edit</button>
+        </div>
+    </div>
+    <div class="col">
+        <div class="mb-2">
+            <x-input type="text" label='Provinsi' id="provinsi" name='provinsi' placeholder='Provinsi'
+                value="{{ old('provinsi') ?? $item->provinsi }}" attribute="disabled"></x-input>
+        </div>
+    </div>
+    <div class="col">
+        <div class="mb-2">
+            <x-input type="text" label='Kabupaten' id="kabupaten" name='kabupaten' placeholder='Kabupaten'
+                value="{{ old('kabupaten') ?? $item->kabupaten }}" attribute="disabled"></x-input>
+        </div>
+    </div>
+    <div class="col">
+        <div class="mb-2">
+            <x-input type="text" label='Kecamatan' id="kecamatan" name='kecamatan' placeholder='Kecamatan'
+                value="{{ old('kecamatan') ?? $item->kecamatan }}" attribute="disabled"></x-input>
+        </div>
+    </div>
+    <div class="col">
+        <div class="mb-2">
+            <x-input type="text" label='Desa / Kelurahan' id="desa" name='desa'
+                placeholder='Desa / Kelurahan' value="{{ old('desa') ?? $item->desa }}" attribute="disabled"></x-input>
+        </div>
+    </div>
+    <div class="col">
+        <div class="mb-2">
+            <x-input type='text' name='dusun' id="dusun" label='Dusun' placeholder='Dusun'
+                value="{{ old('dusun') ?? $item->dusun }}" attribute="disabled"></x-input>
+        </div>
+    </div>
+</div>
+<div class="row mb-2" id="edit_alamat">
+    <div class="row">
+        <div class="col text-end mb-2">
+            <button class="btn btn-danger btn-sm" id="btn-batal"><i class="bx bx-x fs-5"></i> Batal</button>
+        </div>
+    </div>
     <div class="col">
         <div class="mb-2">
             <x-select-option name='provinsi' id="edit-provinsi-{{ $item->id }}" label='Provinsi'
@@ -304,6 +346,25 @@
                         }));
                     });
                 });
+            })
+
+            // edit alamat
+            var edit_alamat = $('#edit_alamat');
+            var btn_edit = $('#btn-edit');
+            var btn_batal = $('#btn-batal');
+            edit_alamat.hide();
+            btn_batal.hide();
+            btn_edit.click(function() {
+                edit_alamat.show();
+                btn_batal.show();
+                $('#data_alamat').hide();
+                btn_edit.hide();
+            })
+            btn_batal.click(function() {
+                edit_alamat.hide();
+                btn_batal.hide();
+                $('#data_alamat').show();
+                btn_edit.show();
             })
         })
     </script>

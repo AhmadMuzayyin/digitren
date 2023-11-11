@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "digitren-0001",
+  "private_key_id": "469b9239adfb4ce297be4cfdb16b0165b60147e3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCySeaZzsWIeZnZ\nINzr1/IiBcPR08ZxJ2drIU1gW1MBnTBGlUuXKYeNkqiHT3Cu3pHdhTYpEm9mvdkq\nYChY/JHjC8+k6P0YH1X7EReJD8RM+CABeNpfN5J/zO6vRBw5YP5CYpdgMSpGohQC\nRtCa1pjmfw00SptRE4R7UQ42cuHges1o9fmovnpF9YdE60vPnSD7zVnUI5xW61nG\nFmiVZbtj0T+fS9nzQe5U2gx/Qr24FUOKjl8UN66EcfIH+nL3TwZTuRgxJGW7G4/H\n3MxFFAt6tuDMlp94wlVwcWZBwGrcT/pAnbDVjuYAUwNH3twoy469mg7YUl+OBPeq\n9HaR/SM1AgMBAAECggEADHz1rJdZqb4OwzE0mEZ3fN+XgEaLs1hVu6DJCTNMZKQM\ngh0p/swXZRi9OkEbvPv1DqWqjgTvDazFndy/ZsBGPbeRk1UIiVyEisH/OogCsXt9\nzmyXKy060z3ZCCjGq1Q6aw752HCJLAplSWWJbhcS/a4vkBabu3mZAYRDcRfp7228\nlWUin4rHVER2M48co+HF6N9gHBB7zV+4JwpT9e5hgoVjgFkIiq2YHqa9OYekKwmn\nUtgWbNaei4HrtNA76eqEfH1c/fSoBYQaRyaQm7C7Sdr/aqClBDOW6ZYEFgNHD5V3\n+IlAvCl8iOVvpquXvZPSTFFJm7JW66qUdhr2woINjwKBgQDoe7ZHUTD/pwOSQIrV\nqau0enGYePX1Rahc8QBbUD9YkNVozKKK3wl0XiUxNbI6X2Htl9csQB27TYVuDd9B\nQQHiwcd3tbzyZ9HIjQcSoPyjixb0Vvub11nDY1TCnmMtT2WgbXrLPN1TwMt9Lv7f\nS+Q8j+eNq6Za33+RZEVNGAgUJwKBgQDEUsn4g+vJ62LN1uGNQ526iyhWu3u7/PYO\nGxNDbwMd0UnbPkM0fnpLDLbtSQOpXq11w3Uu0UE3fp1ep9MockTc6Zczfq+kgKXj\ntnrWfIFrwFFqfJKyYtTkaOiurbBUZRiNEx3rH0aZOcJT7bKK1kqtbxuL6RzbYru1\ntNQy9VpbQwKBgA2ljWqcSnsHS79fCIdIQWsDsP1ZRF7UavChuPqjOESzo8NWF8h9\nFSn+iMJdu4uPo8j1m8zeKqCfCVEPgWZsMXclFtdhFKlKDNdv59VhG9Nhy8QmAvj/\n6CX/A6+06m9zdKy5IHcjqH5NF+TOSGnFI62maNo5FDfLXMqlDyhaW8cLAoGBAImO\nNGODE0+cNNNizxCqorZU0IPMw0qZWFHT2LBz9OwMe0I5ot8CC2/QTc9+TCl84+7S\nb6XJCnf2qA7taf856VQb+0wiZLDPTux5LCJihE/aJXGGLUb+BoqvkvDpU9YeK5CV\nJ25ZsJ6loKorruCmexZ/9f4W7Jgu2rTbKZ822AN/AoGAIVSdMhUTiljGdDkoo1PB\nM0t0P4eKdVvU54pXF2FU8NXgDKVIiL9hU08iPNSQcn6ODRmoHEwzpLbuBWBciU9r\nAqfkDlnNDCDoR7Hy4+aPDh2j/W+hx+AWP+Nx+mS6XK0ocBCOW6wbCmTgH6D8j1Pm\nWaLXrGPfVqriWrCyWem3BR8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-sheets-api@digitren-0001.iam.gserviceaccount.com",
+  "client_id": "102644176618884093532",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-sheets-api%40digitren-0001.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -100,30 +100,30 @@ class DatabaseSeeder extends Seeder
             $kabupaten = json_decode($jsonFile);
 
             $pr = Provinsi::create([
-                'name' => ucwords(strtolower($item->nama))
+                'name' => ucwords(strtolower($item->nama)),
             ]);
-            foreach ($kabupaten as $kb){
+            foreach ($kabupaten as $kb) {
                 $jsonFile = File::get(public_path("wilayah/kecamatan/$kb->id.json"));
                 $kecamatan = json_decode($jsonFile);
 
                 $kbptn = Kabupaten::create([
                     'provinsi_id' => $pr->id,
-                    'name' => ucwords(strtolower($kb->nama))
+                    'name' => ucwords(strtolower($kb->nama)),
                 ]);
 
-                foreach ($kecamatan as $kc){
+                foreach ($kecamatan as $kc) {
                     $jsonFile = File::get(public_path("wilayah/kelurahan/$kc->id.json"));
                     $kelurahan = json_decode($jsonFile);
 
                     $kcm = Kecamatan::create([
                         'kabupaten_id' => $kbptn->id,
-                        'name' => ucwords(strtolower($kc->nama))
+                        'name' => ucwords(strtolower($kc->nama)),
                     ]);
 
-                    foreach ($kelurahan as $kl){
+                    foreach ($kelurahan as $kl) {
                         Kelurahan::create([
                             'kecamatan_id' => $kcm->id,
-                            'name' => ucwords(strtolower($kl->nama))
+                            'name' => ucwords(strtolower($kl->nama)),
                         ]);
                     }
                 }

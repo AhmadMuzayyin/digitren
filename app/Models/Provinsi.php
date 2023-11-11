@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Provinsi extends Model
 {
     use HasFactory;
-    protected $guarded =['id'];
+
+    protected $guarded = ['id'];
 
     public function kabupaten()
     {

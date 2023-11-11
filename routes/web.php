@@ -15,7 +15,6 @@ use App\Http\Controllers\Surat\SuratController;
 use App\Http\Controllers\Tabungan\SaldoDebitController;
 use App\Http\Controllers\Transaksi\TransaksiController;
 use App\Http\Controllers\Users\UsersController;
-use App\Models\Kamar;
 use Illuminate\Support\Facades\Route;
 
 Route::get('set_theme', function (Illuminate\Http\Request $request) {
@@ -96,7 +95,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/surat', 'store');
         });
         Route::controller(SinkronController::class)->as('sync.')->group(function () {
-            Route::get('/sheet/get/data', 'show')->name('show');
+            Route::get('/sinkron', 'index')->name('index');
+            Route::get('/sheet/get/data', 'sync')->name('sync');
         });
     });
 

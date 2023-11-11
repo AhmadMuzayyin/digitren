@@ -7,7 +7,7 @@ return [
 
     // list module
     'modules' => [
-        'kamar', 'kelas', 'santri', 'mata pelajaran', 'rapor santri', 'surat izin', 'tabungan', 'transaksi tabungan', 'roles', 'users', 'riwayat', 'sinkronisasi',
+        'rapor santri', 'surat izin', 'tabungan santri',
     ],
 
     'dewan' => [
