@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(SinkronController::class)->as('sync.')->group(function () {
             Route::get('/sinkron', 'index')->name('index');
             Route::get('/sheet/get/data', 'sync')->name('sync');
+            Route::post('/update/modules', 'update')->name('update');
         });
     });
 

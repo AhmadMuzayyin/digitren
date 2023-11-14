@@ -5,17 +5,6 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
-    // list module
-    'modules' => [
-        'rapor santri', 'surat izin', 'tabungan santri',
-    ],
-
-    'dewan' => [
-        'pengasuh' => 'K. H. Hayatul Islam',
-        'ketua_umum' => 'K. Zain Fairuz',
-        'pengganti' => 'K. Ali Maimun',
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -183,6 +172,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        October\Rain\Config\ServiceProvider::class,
     ])->toArray(),
 
     /*

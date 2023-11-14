@@ -31,16 +31,20 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($data as $key => $item)
+                                                @php
+                                                    $no = 0;
+                                                @endphp
+                                                @foreach ($data as $item)
+                                                    {{-- @dd($item) --}}
                                                     <tr>
-                                                        <td>{{ $key + 1 }}</td>
-                                                        <td>{{ ucwords($item) }}</td>
-                                                        <td>{{ date('d F Y') }}</td>
+                                                        <td>{{ $no + 1 }}</td>
+                                                        <td>{{ ucwords($item[0]) }}</td>
+                                                        <td>{{ $item[1] }}</td>
                                                         <td>
                                                             <div class="btn-group pull-right">
-                                                                <button data-bs-toggle="modal" data-bs-target="#editModal"
-                                                                    class="btn btn-sm btn-danger">
-                                                                    <span class="bx bx-sync"> </span>
+                                                                <button class="btn btn-sm btn-danger"
+                                                                    id="btn-sync-{{ $no }}">
+                                                                    <span class="bx bx-sync" id="icon-sync"> </span>
                                                                 </button>
                                                         </td>
                                                     </tr>
@@ -71,5 +75,51 @@
             });
             table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
+
+        var modules = @json(config('modules.modules'));
+        $(document).ready(function() {
+            var sync_santri = $('#btn-sync-0');
+            var icon_sync = $('#icon-sync');
+            sync_santri.click(function() {
+                icon_sync.addClass('spin-animation')
+                setTimeout(function() {
+                    icon_sync.removeClass("spin-animation");
+                }, 2000);
+            })
+
+            function update() {
+                modules.santri[1] = new Date().toLocaleString();
+                $.ajax({
+                    url: "{{ route('sync.update') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        data: modules.santri
+                    },
+                    success: function(data) {
+                        if (data.success == true) {
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 5000);
+                        }
+                    }
+                })
+            }
+        })
     </script>
+    <style>
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin-animation {
+            animation: spin 1s linear infinite;
+        }
+    </style>
 @endpush
