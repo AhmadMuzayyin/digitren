@@ -79,6 +79,14 @@ composer install
 ## Konfigurasi
 
 ```bash
+# database
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=digitren
+DB_USERNAME=root
+DB_PASSWORD=root
+
 # google sheets authorization (config/google.php)
 'file' => public_path('files/sheets/file.json')
 
