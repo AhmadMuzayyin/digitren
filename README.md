@@ -67,7 +67,7 @@ clone repositori dengan [git](https://git-scm.com/downloads)
 git clone https://github.com/AhmadMuzayyin/digitren
 ```
 
-install dengan [composer](https://getcomposer.org/) untuk menginstall aplikasi.
+install dengan [composer](https://getcomposer.org/)
 
 ```bash
 # pindah ke folder
