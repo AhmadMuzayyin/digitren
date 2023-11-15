@@ -56,7 +56,7 @@ Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel]
 - Read Saldo Tabungan
 
 # Fitur Lain
-- Backup Data Santri ke google sheets
+- Backup Data Santri ke [google sheets](https://youtu.be/y-sIJ30Z5CU?si=wX9O9RROgO-iZGZX)
 - Kartu Santri dengan barcode
 
 ## Instalasi
