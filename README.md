@@ -57,7 +57,7 @@ Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel]
 
 # Fitur Lain
 - Backup Data Santri ke [google sheets](https://youtu.be/y-sIJ30Z5CU?si=wX9O9RROgO-iZGZX)
-- Kartu Santri dengan barcode
+- Kartu Santri dengan [barcode](/public/img/KTS.pdf)
 
 ## Instalasi
 
