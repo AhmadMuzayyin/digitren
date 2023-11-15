@@ -22,10 +22,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PRINT KTS - {{ strtoupper($santri->user->name) }}</title>
+
+    <style>
+        @media print {
+            @page {
+                size: 240px 295px;
+                margin: 0;
+                /* Menghilangkan margin default untuk kertas cetak */
+            }
+
+            body {
+                width: 240px;
+                height: 295px;
+            }
+        }
+
+        .bg {
+            position: relative;
+            z-index: 0;
+        }
+
+        .foto-santri {
+            position: absolute;
+            margin-left: 4%;
+            margin-top: -37.5%;
+            z-index: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <img src="{{ url('img/kts-depan.png') }}" alt="">
+    <img src="{{ url('img/kts-depan.png') }}" alt="" class="bg">
 
     {{-- no induk dan nama --}}
     <p style="position: absolute; margin-top: -30rem; margin-left: 20%; font-size: 27px; color: #333333">
@@ -51,11 +78,13 @@
     <p style="position: absolute; margin-top: -15.5rem; margin-left: 45%; font-size: 27px; color: #333333">
         {{ ucwords(strtolower($santri->desa . ', ' . $santri->kecamatan . ', ' . $santri->kabupaten)) }}</p>
 
+    {{-- foto santri --}}
+    <img src="{{ url('/storage/uploads/santri/' . $santri->foto) }}" alt="{{ $santri->foto }}" class="foto-santri">
     <script>
-        // window.print()
-        // setInterval(() => {
-        //     window.close()
-        // }, 3000);
+        window.print()
+        setInterval(() => {
+            window.close()
+        }, 3000);
     </script>
 </body>
 

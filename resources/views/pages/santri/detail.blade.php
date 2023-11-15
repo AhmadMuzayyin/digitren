@@ -22,7 +22,8 @@
             </tr>
             <tr>
                 <td>ALamat</td>
-                <td>{{ ucwords(strtolower($item->dusun . ', ' . $item->desa . ' ' . $item->kecamatan . ' ' . $item->kabupaten . ' ' . $item->provinsi)) }}</td>
+                <td>{{ ucwords(strtolower($item->dusun . ', ' . $item->desa . ' ' . $item->kecamatan . ' ' . $item->kabupaten . ' ' . $item->provinsi)) }}
+                </td>
             </tr>
             <tr>
                 <td>Jeni Kelamin</td>
@@ -44,8 +45,8 @@
             </tr>
             <tr>
                 @if ($item->foto !== 'santri.png')
-                    <img src="{{ url('storage/uploads/santri') . '/' . $item->foto }}" alt="santri"
-                        class="img-fluid rounded-circle" width="100px">
+                    <img src="{{ url('storage/uploads/santri') . '/' . $item->foto }}" alt="santri" class="img-fluid"
+                        width="100px">
                 @else
                     <img src="{{ url('img') . '/' . $item->foto }}" alt="santri" class="img-fluid rounded-circle"
                         width="100px">

@@ -71,10 +71,10 @@ class SinkronController extends Controller
         }
 
         // santri alumni
-        $alumni = Sheets::spreadsheet($sheet_id)->sheet('Santri Aktif')->get()->toArray();
+        $alumni = Sheets::spreadsheet($sheet_id)->sheet('Santri Alumni')->get()->toArray();
         if (count($alumni) > 0) {
             if (count($alumni) == 1) {
-                $santri_alumni = Santri::select('no_induk', 'name', 'provinsi', 'kabupaten', 'kecamatan', 'desa', 'dusun', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'bulan_lahir', 'tahun_lahir', 'nik', 'kk', 'kamars.nama', 'kamars.blok', 'kelas.tingkatan', 'kelas.kelas', 'tahun_masuk', 'tahun_masuk_hijriyah')
+                $santri_alumni = Santri::select('no_induk', 'name', 'provinsi', 'kabupaten', 'kecamatan', 'desa', 'dusun', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'bulan_lahir', 'tahun_lahir', 'nik', 'kk', 'kamars.nama', 'kamars.blok', 'kelas.tingkatan', 'kelas.kelas', 'tahun_masuk', 'tahun_masuk_hijriyah', 'tanggal_boyong', 'tanggal_boyong_hijriyah')
                     ->join('users', 'santris.user_id', '=', 'users.id')
                     ->join('kelas', 'santris.kelas_id', '=', 'kelas.id')
                     ->join('kamars', 'santris.kamar_id', '=', 'kamars.id')
@@ -89,7 +89,7 @@ class SinkronController extends Controller
                 Sheets::spreadsheet('1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ')->sheet('Santri Alumni')->append($santri_alumni_valid);
             } else {
                 // validating data from database local with data from google sheets
-                $santri_alumni = Santri::select('no_induk', 'name', 'provinsi', 'kabupaten', 'kecamatan', 'desa', 'dusun', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'bulan_lahir', 'tahun_lahir', 'nik', 'kk', 'kamars.nama', 'kamars.blok', 'kelas.tingkatan', 'kelas.kelas', 'tahun_masuk', 'tahun_masuk_hijriyah')
+                $santri_alumni = Santri::select('no_induk', 'name', 'provinsi', 'kabupaten', 'kecamatan', 'desa', 'dusun', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'bulan_lahir', 'tahun_lahir', 'nik', 'kk', 'kamars.nama', 'kamars.blok', 'kelas.tingkatan', 'kelas.kelas', 'tahun_masuk', 'tahun_masuk_hijriyah', 'tanggal_boyong', 'tanggal_boyong_hijriyah')
                     ->join('users', 'santris.user_id', '=', 'users.id')
                     ->join('kelas', 'santris.kelas_id', '=', 'kelas.id')
                     ->join('kamars', 'santris.kamar_id', '=', 'kamars.id')
@@ -121,6 +121,8 @@ class SinkronController extends Controller
                 Sheets::spreadsheet('1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ')->sheet('Santri Alumni')->append($santri_alumni);
             }
         }
+
+        return response()->json(['success' => true], 200);
     }
     public function update(Request $request)
     {

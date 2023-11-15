@@ -48,6 +48,7 @@
     </div>
 </div>
 
+<input type="hidden" name="edit_alamat" id="input_status_edit" value="0">
 <div class="row mb-2" id="data_alamat">
     <div class="row">
         <div class="col text-end mb-2">
@@ -57,31 +58,31 @@
     <div class="col">
         <div class="mb-2">
             <x-input type="text" label='Provinsi' id="provinsi" name='provinsi' placeholder='Provinsi'
-                value="{{ old('provinsi') ?? $item->provinsi }}" attribute="disabled"></x-input>
+                value="{{ old('provinsi') ?? $item->provinsi }}" attribute="readonly"></x-input>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
             <x-input type="text" label='Kabupaten' id="kabupaten" name='kabupaten' placeholder='Kabupaten'
-                value="{{ old('kabupaten') ?? $item->kabupaten }}" attribute="disabled"></x-input>
+                value="{{ old('kabupaten') ?? $item->kabupaten }}" attribute="readonly"></x-input>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
             <x-input type="text" label='Kecamatan' id="kecamatan" name='kecamatan' placeholder='Kecamatan'
-                value="{{ old('kecamatan') ?? $item->kecamatan }}" attribute="disabled"></x-input>
+                value="{{ old('kecamatan') ?? $item->kecamatan }}" attribute="readonly"></x-input>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
             <x-input type="text" label='Desa / Kelurahan' id="desa" name='desa'
-                placeholder='Desa / Kelurahan' value="{{ old('desa') ?? $item->desa }}" attribute="disabled"></x-input>
+                placeholder='Desa / Kelurahan' value="{{ old('desa') ?? $item->desa }}" attribute="readonly"></x-input>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
             <x-input type='text' name='dusun' id="dusun" label='Dusun' placeholder='Dusun'
-                value="{{ old('dusun') ?? $item->dusun }}" attribute="disabled"></x-input>
+                value="{{ old('dusun') ?? $item->dusun }}" attribute="readonly"></x-input>
         </div>
     </div>
 </div>
@@ -93,36 +94,32 @@
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='provinsi' id="edit-provinsi-{{ $item->id }}" label='Provinsi'
-                attribute="required">
+            <x-select-option name='provinsi' id="edit-provinsi-{{ $item->id }}" label='Provinsi'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='kabupaten' id="edit-kabupaten-{{ $item->id }}" label='Kabupaten'
-                attribute="required">
+            <x-select-option name='kabupaten' id="edit-kabupaten-{{ $item->id }}" label='Kabupaten'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='kecamatan' id="edit-kecamatan-{{ $item->id }}" label='Kecamatan'
-                attribute="required">
+            <x-select-option name='kecamatan' id="edit-kecamatan-{{ $item->id }}" label='Kecamatan'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='desa' id="edit-kelurahan-{{ $item->id }}" label='Desa / Kelurahan'
-                attribute="required">
+            <x-select-option name='desa' id="edit-kelurahan-{{ $item->id }}" label='Desa / Kelurahan'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
             <x-input type='text' name='dusun' id="dusun" label='Dusun' placeholder='Dusun'
-                value="{{ old('dusun') ?? $item->dusun }}" attribute="required"></x-input>
+                value="{{ old('dusun') ?? $item->dusun }}"></x-input>
         </div>
     </div>
 </div>
@@ -352,6 +349,7 @@
             var edit_alamat = $('#edit_alamat');
             var btn_edit = $('#btn-edit');
             var btn_batal = $('#btn-batal');
+            var input = $('#input_status_edit');
             edit_alamat.hide();
             btn_batal.hide();
             btn_edit.click(function() {
@@ -359,12 +357,14 @@
                 btn_batal.show();
                 $('#data_alamat').hide();
                 btn_edit.hide();
+                input.val(1);
             })
             btn_batal.click(function() {
                 edit_alamat.hide();
                 btn_batal.hide();
                 $('#data_alamat').show();
                 btn_edit.show();
+                input.val(0);
             })
         })
     </script>

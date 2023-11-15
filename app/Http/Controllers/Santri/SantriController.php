@@ -36,7 +36,7 @@ class SantriController extends Controller
     {
         $mime = Storage::mimeType('Format import data santri.xlsx');
 
-        return response()->download(public_path('files/').'Format import data santri.xlsx', 'Format import data santri.xlsx', ['Content-Type' => $mime]);
+        return response()->download(public_path('files/') . 'Format import data santri.xlsx', 'Format import data santri.xlsx', ['Content-Type' => $mime]);
 
         return redirect()->back();
     }
@@ -119,7 +119,7 @@ class SantriController extends Controller
             $validate['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
-            $validate['whatsapp'] = '62'.$request->whatsapp;
+            $validate['whatsapp'] = '62' . $request->whatsapp;
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
 
@@ -127,14 +127,14 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.com',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.com',
                     'password' => bcrypt('password'),
                     'role_id' => 4,
                 ]);
                 $user->assignRole('Santri');
                 $validate['user_id'] = $user->id;
                 $santri = Santri::create($validate);
-                if (! $santri) {
+                if (!$santri) {
                     $user->delete();
                 } else {
                     User::find($validate['user_id'])->assignRole('Santri');
@@ -156,19 +156,19 @@ class SantriController extends Controller
                 $path = storage_path('app/public/uploads/santri/');
                 $filename = $foto->hashName();
 
-                if (! file_exists($path)) {
+                if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
 
                 Image::make($foto->getRealPath())->resize(400, 400, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($path.$filename);
+                })->save($path . $filename);
 
                 // insert user login santri
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.com',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.com',
                     'password' => bcrypt('password'),
                 ]);
 
@@ -176,7 +176,7 @@ class SantriController extends Controller
                 $validate['user_id'] = $user->id;
                 $validate['foto'] = $filename;
                 $santri = Santri::create($validate);
-                if (! $santri) {
+                if (!$santri) {
                     $user->delete();
                 } else {
                     User::find($validate['user_id'])->assignRole('Santri');
@@ -256,10 +256,17 @@ class SantriController extends Controller
             }
 
             // validate replace with column name
-            $validate['provinsi'] = Helper::prov($request->provinsi);
-            $validate['kabupaten'] = Helper::kab($request->provinsi, $request->kabupaten);
-            $validate['kecamatan'] = Helper::kec($request->kabupaten, $request->kecamatan);
-            $validate['desa'] = Helper::kel($request->kecamatan, $request->desa);
+            if ($request->edit_alamat == true) {
+                $validate['provinsi'] = Helper::prov($request->provinsi);
+                $validate['kabupaten'] = Helper::kab($request->provinsi, $request->kabupaten);
+                $validate['kecamatan'] = Helper::kec($request->kabupaten, $request->kecamatan);
+                $validate['desa'] = Helper::kel($request->kecamatan, $request->desa);
+            } else {
+                $validate['provinsi'] = $request->provinsi;
+                $validate['kabupaten'] = $request->kabupaten;
+                $validate['kecamatan'] =  $request->kecamatan;
+                $validate['desa'] = $request->desa;
+            }
 
             // validate replace with column name
             $validate['kamar_id'] = $validate['kamar'];
@@ -273,11 +280,11 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::where('id', $santri->user_id)->update([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
                 $santri->update($validate);
-                if (! $santri) {
+                if (!$santri) {
                     $user->delete();
                 }
                 // update wali santri
@@ -311,19 +318,19 @@ class SantriController extends Controller
                 $path = storage_path('app/public/uploads/santri/');
                 $filename = $foto->hashName();
 
-                if (! file_exists($path)) {
+                if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
 
                 Image::make($foto->getRealPath())->resize(400, 400, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($path.$filename);
+                })->save($path . $filename);
 
                 // update user login santri
                 $user = User::where('id', $santri->user_id)->update([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_'.Str::slug($request->nama_lengkap).'@digitren.net',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
                     'password' => bcrypt('password'),
                 ]);
 

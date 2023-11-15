@@ -82,9 +82,18 @@
             var icon_sync = $('#icon-sync');
             sync_santri.click(function() {
                 icon_sync.addClass('spin-animation')
-                setTimeout(function() {
-                    icon_sync.removeClass("spin-animation");
-                }, 2000);
+                $.ajax({
+                    url: "{{ route('sync.sync') }}",
+                    type: "GET",
+                    success: function(data) {
+                        if (data.success == true) {
+                            update();
+                        }
+                    }
+                })
+                // setTimeout(function() {
+                //     icon_sync.removeClass("spin-animation");
+                // }, 2000);
             })
 
             function update() {
