@@ -9,6 +9,7 @@
 <a href="https://github.com/AhmadMuzayyin/digitren/stargazers" target="_blank"><img src="https://img.shields.io/github/stars/AhmadMuzayyin/digitren" alt="Stars" /></a>
 <a href="https://github.com/AhmadMuzayyin/digitren/network/members" target="_blank"><img src="https://img.shields.io/github/forks/AhmadMuzayyin/digitren" alt="Forks" /></a>
 </p>
+
 Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel](https://laravel.com) dengan versi [php](https://www.php.net/) 8.1
 ## Role
 - Admin
