@@ -16,6 +16,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
+                                <a href="https://docs.google.com/spreadsheets/d/1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ/edit?usp=sharing" target="_blank" role="button" class="btn btn-primary btn-sm mb-2">Data Santri</a>
                             </div>
                             <div class="row mb-2">
                                 <div class="col">
