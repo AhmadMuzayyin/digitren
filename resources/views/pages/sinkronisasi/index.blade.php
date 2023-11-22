@@ -36,7 +36,6 @@
                                                     $no = 0;
                                                 @endphp
                                                 @foreach ($data as $item)
-                                                    {{-- @dd($item) --}}
                                                     <tr>
                                                         <td>{{ $no + 1 }}</td>
                                                         <td>{{ ucwords($item[0]) }}</td>

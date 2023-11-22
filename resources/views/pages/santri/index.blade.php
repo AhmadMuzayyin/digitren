@@ -9,7 +9,7 @@
             <!--page-content-wrapper-->
             <div class="page-content-wrapper">
                 <div class="page-content">
-                    <x-breadcrumb url="{{ route('dashboard') }}" attribute="required" path='Tingkatan'></x-breadcrumb>
+                    <x-breadcrumb url="{{ route('dashboard') }}" attribute="required" path='Santri'></x-breadcrumb>
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
@@ -323,13 +323,24 @@
                     </div>
                 </div>
             </x-modal-form>
-            <x-modal title="Import/Export" id="importexport">
+            <x-modal title="Import/Export" id="importexport" modalSize="modal-lg">
                 <div class="row">
                     <div class="col">
                         <a href="{{ route('santri.download') }}">Download format import</a>
                     </div>
                     <div class="col text-end">
                         <a href="{{ route('santri.export') }}">Export data santri</a>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col">
+                        <ul>
+                            <li>Jika status santri adalah alumni kode_kamar dan kode_kelas di kosongkan</li>
+                            <li>Penulisan tanggal harus sesuai format yang ada (05 tidak boleh ditulis 5).</li>
+                            <li>Penulisan bulan harus sesuai format yang ada (05 tidak boleh ditulis 5).</li>
+                            <li>Penulisan tahun harus sesuai format yang ada.</li>
+                            <li>Penulisan nomor telepon/whatsapp harus dimulai dari 62 (62851xxxxx).</li>
+                        </ul>
                     </div>
                 </div>
                 <hr>

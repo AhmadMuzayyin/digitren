@@ -216,12 +216,12 @@
 <div class="row mb-2">
     <div class="col">
         <x-input type='text' label='Nama Ayah' id="nama_ayah" name='nama_ayah' placeholder='Nama Ayah'
-            value="{{ old('nama_ayah') ?? (!$item->wali_santri->isEmpty() ? $item->wali_santri[0]->nama : '') }}"
+            value="{{ old('nama_ayah') ?? ($item->wali_santri ? $item->wali_santri->nama_ayah : '') }}"
             attribute="required"></x-input>
     </div>
     <div class="col">
         <x-input type='text' label='Nama Ibu' id="nama_ibu" name='nama_ibu' placeholder='Nama Ibu'
-            value="{{ old('nama_ibu') ?? (!$item->wali_santri->isEmpty() ? $item->wali_santri[1]->nama : '') }}"
+            value="{{ old('nama_ibu') ?? ($item->wali_santri ? $item->wali_santri->nama_ibu : '') }}"
             attribute="required"></x-input>
     </div>
 </div>

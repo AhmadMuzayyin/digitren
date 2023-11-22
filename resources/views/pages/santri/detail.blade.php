@@ -56,21 +56,23 @@
                 <td>Data Kependudukan</td>
                 <td>{{ 'NIK : ' . $item->nik . ' - KK : ' . $item->kk }}</td>
             </tr>
-            <tr>
-                <td>Kelas</td>
-                <td>{{ $item->kelas->tingkatan . ' - ' . $item->kelas->kelas }}</td>
-            </tr>
-            <tr>
-                <td>Kamar</td>
-                <td>{{ $item->kamar->nama . ' BLOK ' . $item->kamar->blok }}</td>
-            </tr>
+            @if($item->status == 'Santri Aktif')
+                <tr>
+                    <td>Kelas</td>
+                    <td>{{ $item->kelas->tingkatan . ' - ' . $item->kelas->kelas }}</td>
+                </tr>
+                <tr>
+                    <td>Kamar</td>
+                    <td>{{ $item->kamar->nama . ' BLOK ' . $item->kamar->blok }}</td>
+                </tr>
+            @endif
             <tr>
                 <td>Nama Ayah</td>
-                <td>{{ !$item->wali_santri->isEmpty() ? $item->wali_santri[0]->nama : '' }}</td>
+                <td>{{ $item->wali_santri->nama_ayah }}</td>
             </tr>
             <tr>
                 <td>Nama Ibu</td>
-                <td>{{ !$item->wali_santri->isEmpty() ? $item->wali_santri[1]->nama : '' }}</td>
+                <td>{{ $item->wali_santri->nama_ibu }}</td>
             </tr>
         </tbody>
     </table>

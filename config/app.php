@@ -5,6 +5,8 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'domain' => '@digitren.com',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

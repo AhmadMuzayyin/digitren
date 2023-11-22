@@ -77,6 +77,12 @@ class RoleSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+        $alumni = Role::create([
+            'name' => config('permission.roles')[4],
+            'guard_name' => 'web',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
         $role->givePermissionTo($superAdminPermission);
         User::find(1)->assignRole('Administrator');
 

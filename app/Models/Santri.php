@@ -26,7 +26,7 @@ class Santri extends Model
 
     public function wali_santri()
     {
-        return $this->hasMany(WaliSantri::class);
+        return $this->belongsTo(WaliSantri::class);
     }
 
     public function kelas()

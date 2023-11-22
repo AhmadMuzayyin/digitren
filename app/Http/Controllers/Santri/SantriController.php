@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Santri;
 use App\Exports\SantriExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SantriImport;
+use App\Models\Alumni;
 use App\Models\Kamar;
 use App\Models\Santri;
 use App\Models\User;
@@ -127,30 +128,24 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.com',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
                     'password' => bcrypt('password'),
                     'role_id' => 4,
                 ]);
+                // insert wali santri
+                $wali = WaliSantri::create([
+                    'nama_ayah' => $validate['nama_ayah'],
+                    'nama_ibu' => $validate['nama_ibu'],
+                ]);
                 $user->assignRole('Santri');
                 $validate['user_id'] = $user->id;
+                $validate['wali_santri_id'] = $wali->id;
                 $santri = Santri::create($validate);
                 if (!$santri) {
                     $user->delete();
+                    $wali->delete();
                 } else {
                     User::find($validate['user_id'])->assignRole('Santri');
-                }
-                // insert wali santri
-                if ($santri) {
-                    WaliSantri::create([
-                        'santri_id' => $santri->id,
-                        'nama' => $validate['nama_ayah'],
-                        'wali' => true,
-                    ]);
-                    WaliSantri::create([
-                        'santri_id' => $santri->id,
-                        'nama' => $validate['nama_ibu'],
-                        'wali' => false,
-                    ]);
                 }
             } else {
                 $path = storage_path('app/public/uploads/santri/');
@@ -168,38 +163,35 @@ class SantriController extends Controller
                 // insert user login santri
                 $user = User::create([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.com',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
                     'password' => bcrypt('password'),
+                ]);
+                // insert wali santri
+                $wali = WaliSantri::create([
+                    'nama_ayah' => $validate['nama_ayah'],
+                    'nama_ibu' => $validate['nama_ibu'],
                 ]);
 
                 // insert santri
                 $validate['user_id'] = $user->id;
                 $validate['foto'] = $filename;
+                $validate['wali_santri_id'] = $wali->id;
                 $santri = Santri::create($validate);
                 if (!$santri) {
                     $user->delete();
+                    $wali->delete();
                 } else {
                     User::find($validate['user_id'])->assignRole('Santri');
                 }
-
-                // insert wali santri
-                WaliSantri::create([
-                    'santri_id' => $santri->id,
-                    'nama' => $validate['nama_ayah'],
-                    'wali' => true,
-                ]);
-                WaliSantri::create([
-                    'santri_id' => $santri->id,
-                    'nama' => $validate['nama_ibu'],
-                    'wali' => false,
-                ]);
             }
 
             // update kamar
-            $kamar = Kamar::where('id', $validate['kamar_id'])->first();
-            $kamar->update([
-                'jumlah_santri' => $kamar->jumlah_santri + 1,
-            ]);
+            if (!$request->tanggal_boyong){
+                $kamar = Kamar::where('id', $validate['kamar_id'])->first();
+                $kamar->update([
+                    'jumlah_santri' => $kamar->jumlah_santri + 1,
+                ]);
+            }
 
             Toastr::success('Berhasil menambah data');
 
@@ -280,7 +272,7 @@ class SantriController extends Controller
             if (isset($foto) == false) {
                 $user = User::where('id', $santri->user_id)->update([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
                     'password' => bcrypt('password'),
                 ]);
                 $santri->update($validate);
@@ -289,28 +281,11 @@ class SantriController extends Controller
                 }
                 // update wali santri
                 if ($santri) {
-                    $wali = WaliSantri::where('santri_id', $santri->id);
-                    if ($wali->get()) {
+                    $wali = WaliSantri::where('id', $santri->wali_santri_id)->get();
+                    if ($wali) {
                         WaliSantri::create([
-                            'santri_id' => $santri->id,
-                            'nama' => $validate['nama_ayah'],
-                            'wali' => true,
-                        ]);
-                        WaliSantri::create([
-                            'santri_id' => $santri->id,
-                            'nama' => $validate['nama_ibu'],
-                            'wali' => false,
-                        ]);
-                    } else {
-                        $wali->where('wali', true)->update([
-                            'santri_id' => $santri->id,
-                            'nama' => $validate['nama_ayah'],
-                            'wali' => true,
-                        ]);
-                        $wali->where('wali', false)->update([
-                            'santri_id' => $santri->id,
-                            'nama' => $validate['nama_ibu'],
-                            'wali' => false,
+                            'nama_ayah' => $validate['nama_ayah'],
+                            'nama_ibu' => $validate['nama_ibu'],
                         ]);
                     }
                 }
@@ -330,7 +305,7 @@ class SantriController extends Controller
                 // update user login santri
                 $user = User::where('id', $santri->user_id)->update([
                     'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . '@digitren.net',
+                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
                     'password' => bcrypt('password'),
                 ]);
 
@@ -339,15 +314,9 @@ class SantriController extends Controller
                 $santri->update($validate);
 
                 // update wali santri
-                WaliSantri::where('santri_id', $santri->id)->where('wali', true)->update([
-                    'santri_id' => $santri->id,
-                    'nama' => $validate['nama_ayah'],
-                    'wali' => true,
-                ]);
-                WaliSantri::where('santri_id', $santri->id)->where('wali', false)->update([
-                    'santri_id' => $santri->id,
-                    'nama' => $validate['nama_ibu'],
-                    'wali' => false,
+                WaliSantri::where('id', $santri->wali_santri_id)->update([
+                    'nama_ayah' => $validate['nama_ayah'],
+                    'nama_ibu' => $validate['nama_ibu'],
                 ]);
             }
             Toastr::success('Berhasil merubah data');
@@ -364,7 +333,7 @@ class SantriController extends Controller
     public function destroy(Santri $santri)
     {
         try {
-            $kamar = Kamar::where('id', $santri->kelas_id)->first();
+            $kamar = Kamar::where('id', $santri->kamar_id)->first();
             $kamar->update([
                 'jumlah_santri' => $kamar->jumlah_santri - 1,
             ]);

@@ -21,8 +21,6 @@ class SantriImport implements ToModel, WithHeadingRow
         // TODO: Implement model() method.
         try {
             DB::beginTransaction();
-            $kamar = Kamar::where('kode', $row['kode_kamar'])->first();
-            $kelas = Kelas::where('kode', $row['kode_kelas'])->first();
             $status = isset($row['tanggal_boyong']) ? 'Santri Alumni' : 'Santri Aktif';
             $no_induk = null;
             $tahun_masuk_hijriyah = null;
@@ -53,15 +51,34 @@ class SantriImport implements ToModel, WithHeadingRow
             // save user santri
             $user = User::create([
                 'name' => $row['nama'],
-                'email' => Str::slug($row['nama']).'@digitren.com',
+                'email' => Str::slug($row['nama']). config('app.domain'),
                 'password' => bcrypt('password'),
             ]);
-            $user->assignRole('Santri');
-            // dd($user);
+
+            // save wali santri
+            $wali = WaliSantri::create([
+                'nama_ayah' => $row['nama_ayah'],
+                'nama_ibu' => $row['nama_ibu'],
+            ]);
+            if (isset($row['tanggal_boyong'])){
+                $user->assignRole('Alumni');
+            }else{
+                $user->assignRole('Santri');
+            }
+            
+            $kamar_id = null;
+            $kelas_id = null;
+            if (isset($row['kode_kamar']) == true && isset($row['kode_kelas']) == true) {
+                $kamar = Kamar::where('kode', $row['kode_kamar'])->first();
+                $kelas = Kelas::where('kode', $row['kode_kelas'])->first();
+                $kamar_id = $kamar->id;
+                $kelas_id = $kelas->id;
+            }
             $santri = Santri::create([
                 'user_id' => $user->id,
-                'kelas_id' => $kelas->id,
-                'kamar_id' => $kamar->id,
+                'kelas_id' => $kelas_id,
+                'kamar_id' => $kamar_id,
+                'wali_santri_id' => $wali->id,
                 'no_induk' => $no_induk,
                 'dusun' => $row['dusun'],
                 'desa' => $row['desa'],
@@ -82,20 +99,16 @@ class SantriImport implements ToModel, WithHeadingRow
                 'tanggal_boyong_hijriyah' => $tanggal_boyong_hijriyah,
                 'status' => $status,
             ]);
-            WaliSantri::create([
-                'santri_id' => $santri->id,
-                'nama' => $row['nama_ayah'],
-                'wali' => true,
-            ]);
-            WaliSantri::create([
-                'santri_id' => $santri->id,
-                'nama' => $row['nama_ibu'],
-                'wali' => false,
-            ]);
-            $kamar = Kamar::findOrFail($santri->kamar_id);
-            if ($kamar) {
-                $kamar->jumlah_santri = $kamar->jumlah_santri + 1;
-                $kamar->save();
+            if (!$santri){
+                $user->delete();
+                $wali->delete();
+            }
+            if (!isset($row['tanggal_boyong'])){
+                //$kamar = Kamar::findOrFail($santri->kamar_id);
+                if ($kamar) {
+                    $kamar->jumlah_santri = $kamar->jumlah_santri + 1;
+                    $kamar->save();
+                }
             }
             DB::commit();
         } catch (\Throwable $th) {
