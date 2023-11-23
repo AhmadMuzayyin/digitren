@@ -7,21 +7,21 @@ class Helper
     public static function make_noinduk($params)
     {
         $get_santri_latest = Santri::where('jenis_kelamin', $params['gender'])->whereYear('tahun_masuk', $params['tahun_masuk'])->orderBy('no_induk', 'desc')->get(['no_induk']);
-        if (!$get_santri_latest->isEmpty()) {
+        if (! $get_santri_latest->isEmpty()) {
             $start_noinduk = substr($get_santri_latest[0]->no_induk, 4);
             $next = str_pad((int) $start_noinduk + 1, strlen($start_noinduk), '0', STR_PAD_LEFT);
-            $noinduk = $params['tahun_masuk_hijriyah'] . $next;
+            $noinduk = $params['tahun_masuk_hijriyah'].$next;
 
             return $noinduk;
         }
         if ($params['gender'] == 'Laki-Laki') {
             $start_noinduk = '0001';
-            $noinduk = $params['tahun_masuk_hijriyah'] . $start_noinduk;
+            $noinduk = $params['tahun_masuk_hijriyah'].$start_noinduk;
 
             return $noinduk;
         } else {
             $start_noinduk = '1001';
-            $noinduk = $params['tahun_masuk_hijriyah'] . $start_noinduk;
+            $noinduk = $params['tahun_masuk_hijriyah'].$start_noinduk;
 
             return $noinduk;
         }
@@ -54,7 +54,7 @@ class Helper
 
     public static function kab($params, $id)
     {
-        $kab = public_path('wilayah/kabupaten' . '/' . $params . '.json');
+        $kab = public_path('wilayah/kabupaten'.'/'.$params.'.json');
         $jsonString = file_get_contents($kab);
         $dataArray = json_decode($jsonString, true);
         $dataKab = '';
@@ -69,7 +69,7 @@ class Helper
 
     public static function kec($params, $id)
     {
-        $kec = public_path('wilayah/kecamatan' . '/' . $params . '.json');
+        $kec = public_path('wilayah/kecamatan'.'/'.$params.'.json');
         $jsonString = file_get_contents($kec);
         $dataArray = json_decode($jsonString, true);
         $dataKec = '';
@@ -84,7 +84,7 @@ class Helper
 
     public static function kel($params, $id)
     {
-        $kel = public_path('wilayah/kelurahan' . '/' . $params . '.json');
+        $kel = public_path('wilayah/kelurahan'.'/'.$params.'.json');
         $jsonString = file_get_contents($kel);
         $dataArray = json_decode($jsonString, true);
         $dataKel = '';

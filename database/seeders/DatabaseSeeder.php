@@ -91,45 +91,45 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RoleSeeder::class);
 
-//        $jsonFile = File::get(public_path('wilayah/provinsi.json'));
-//        $data = json_decode($jsonFile);
+        //        $jsonFile = File::get(public_path('wilayah/provinsi.json'));
+        //        $data = json_decode($jsonFile);
 
         // Iterasi data JSON dan simpan ke database
-//        foreach ($data as $item) {
-//            $jsonFile = File::get(public_path("wilayah/kabupaten/$item->id.json"));
-//            $kabupaten = json_decode($jsonFile);
-//
-//            $pr = Provinsi::create([
-//                'name' => ucwords(strtolower($item->nama)),
-//            ]);
-//            foreach ($kabupaten as $kb) {
-//                $jsonFile = File::get(public_path("wilayah/kecamatan/$kb->id.json"));
-//                $kecamatan = json_decode($jsonFile);
-//
-//                $kbptn = Kabupaten::create([
-//                    'provinsi_id' => $pr->id,
-//                    'name' => ucwords(strtolower($kb->nama)),
-//                ]);
-//
-//                foreach ($kecamatan as $kc) {
-//                    $jsonFile = File::get(public_path("wilayah/kelurahan/$kc->id.json"));
-//                    $kelurahan = json_decode($jsonFile);
-//
-//                    $kcm = Kecamatan::create([
-//                        'kabupaten_id' => $kbptn->id,
-//                        'name' => ucwords(strtolower($kc->nama)),
-//                    ]);
-//
-//                    foreach ($kelurahan as $kl) {
-//                        Kelurahan::create([
-//                            'kecamatan_id' => $kcm->id,
-//                            'name' => ucwords(strtolower($kl->nama)),
-//                        ]);
-//                    }
-//                }
-//
-//            }
-//
-//        }
+        //        foreach ($data as $item) {
+        //            $jsonFile = File::get(public_path("wilayah/kabupaten/$item->id.json"));
+        //            $kabupaten = json_decode($jsonFile);
+        //
+        //            $pr = Provinsi::create([
+        //                'name' => ucwords(strtolower($item->nama)),
+        //            ]);
+        //            foreach ($kabupaten as $kb) {
+        //                $jsonFile = File::get(public_path("wilayah/kecamatan/$kb->id.json"));
+        //                $kecamatan = json_decode($jsonFile);
+        //
+        //                $kbptn = Kabupaten::create([
+        //                    'provinsi_id' => $pr->id,
+        //                    'name' => ucwords(strtolower($kb->nama)),
+        //                ]);
+        //
+        //                foreach ($kecamatan as $kc) {
+        //                    $jsonFile = File::get(public_path("wilayah/kelurahan/$kc->id.json"));
+        //                    $kelurahan = json_decode($jsonFile);
+        //
+        //                    $kcm = Kecamatan::create([
+        //                        'kabupaten_id' => $kbptn->id,
+        //                        'name' => ucwords(strtolower($kc->nama)),
+        //                    ]);
+        //
+        //                    foreach ($kelurahan as $kl) {
+        //                        Kelurahan::create([
+        //                            'kecamatan_id' => $kcm->id,
+        //                            'name' => ucwords(strtolower($kl->nama)),
+        //                        ]);
+        //                    }
+        //                }
+        //
+        //            }
+        //
+        //        }
     }
 }

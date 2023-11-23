@@ -70,6 +70,7 @@ class TransaksiController extends Controller
                     'tanggal_transaksi' => date('Y-m-d'),
                     'jenis_transaksi' => $validate['jenis_transaksi'],
                     'jumlah_transaksi' => $validate['debit'],
+                    'saldo_saatini' => $validate['debit'],
                 ]);
 
                 $tabungan = Tabungan::firstWhere('santri_id', $santri->id);

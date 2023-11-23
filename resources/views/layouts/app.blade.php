@@ -8,7 +8,7 @@
     <title>@yield('title', config('app.name'))</title>
 
     <!--favicon-->
-    <link rel="icon" href="{{ url('assets/images/favicon-32x32.png') }}" type="image/png" />
+    <link rel="icon" href="{{ url('assets/images/favicon.jpg') }}" type="image/png" />
     <!-- Vector CSS -->
     <link href="{{ url('assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <!--plugins-->

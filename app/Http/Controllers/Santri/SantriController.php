@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Santri;
 use App\Exports\SantriExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SantriImport;
-use App\Models\Alumni;
 use App\Models\Kamar;
 use App\Models\Santri;
 use App\Models\User;
@@ -64,9 +63,16 @@ class SantriController extends Controller
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new SantriExport, 'Export-data-santri.xlsx');
+        $santri = array();
+        if ($request->status[0] == 'Semua Santri') {
+            $santri = Santri::with('user', 'wali_santri', 'kamar', 'kelas')->get()->pluck('status');
+        } else {
+            $santri = Santri::with('user', 'wali_santri', 'kamar', 'kelas')->where('status', $request->status)->get()->pluck('status');
+        }
+        dd($request->status[0], $santri);
+        return Excel::download(new SantriExport($santri), 'Export-data-santri.xlsx');
     }
 
     public function store(Request $request)
@@ -186,7 +192,7 @@ class SantriController extends Controller
             }
 
             // update kamar
-            if (!$request->tanggal_boyong){
+            if (!$request->tanggal_boyong) {
                 $kamar = Kamar::where('id', $validate['kamar_id'])->first();
                 $kamar->update([
                     'jumlah_santri' => $kamar->jumlah_santri + 1,
@@ -256,7 +262,7 @@ class SantriController extends Controller
             } else {
                 $validate['provinsi'] = $request->provinsi;
                 $validate['kabupaten'] = $request->kabupaten;
-                $validate['kecamatan'] =  $request->kecamatan;
+                $validate['kecamatan'] = $request->kecamatan;
                 $validate['desa'] = $request->desa;
             }
 

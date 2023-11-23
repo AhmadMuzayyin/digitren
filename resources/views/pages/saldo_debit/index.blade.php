@@ -25,7 +25,8 @@
                                         fn="{{ route('saldo_debit.store') }}" method="POST">
                                         @csrf
                                         <x-select-option label="Pilih santri" name="santri_id" id="santri">
-                                            <option value="">Pilih Santri</option>
+                                            <option value="" selected disabled>Pilih Santri</option>
+                                            <option value="semua">Semua Santri Aktif</option>
                                             @foreach ($santri as $str)
                                                 <option value="{{ $str->id }}">{{ $str->user->name }}</option>
                                             @endforeach

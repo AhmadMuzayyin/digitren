@@ -24,11 +24,46 @@ class SaldoDebitController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'santri_id' => 'required|exists:santris,id',
+            'santri_id' => 'required',
             'saldo' => 'required|numeric',
             'keterangan' => 'nullable',
         ]);
         try {
+            if ($request->santri_id == 'semua') {
+                $santri_tabungan = Tabungan::get()->pluck('santri_id')->toArray();
+                if (count($santri_tabungan) > 0) {
+                    Toastr::info('Tidak dapat menambah semua santri');
+
+                    return redirect()->back();
+                } else {
+                    $santri = Santri::where('status', 'Santri Aktif')->get();
+                    if (count($santri) > 0) {
+                        foreach ($santri as $key => $value) {
+                            $tabungan = Tabungan::create([
+                                'santri_id' => $value->id,
+                                'saldo' => 0,
+                                'keterangan' => null,
+                            ]);
+                            if ($tabungan->saldo > 0) {
+                                TransaksiTabungan::create([
+                                    'santri_id' => $tabungan->santri_id,
+                                    'tanggal_transaksi' => date('Y-m-d'),
+                                    'jenis_transaksi' => 'Setoran',
+                                    'jumlah_transaksi' => $tabungan->saldo,
+                                    'saldo_saatini' => $tabungan->saldo,
+                                ]);
+                            }
+                        }
+                        Toastr::success('Berhasil menambahkan semua santri');
+
+                        return redirect()->back();
+                    } else {
+                        Toastr::info('Tidak ada santri yang dapat ditambahkan');
+
+                        return redirect()->back();
+                    }
+                }
+            }
             if (Tabungan::firstWhere('santri_id', $validate['santri_id'])) {
                 Toastr::info('Santri sudah memiliki tabungan');
             } else {
@@ -63,7 +98,9 @@ class SaldoDebitController extends Controller
         $santri = Santri::with('user')->where('id', $id)->first();
         $filname = $santri->user->name.' - '.$santri->desa;
 
-        return Excel::download(new TabunganExport($id), $filname.'_Tabungan.xlsx');
+        $tabungan = TransaksiTabungan::with('santri')->where('santri_id', $id)->get();
+
+        return Excel::download(new TabunganExport($tabungan), $filname.'_Tabungan.xlsx');
 
         return redirect()->back();
     }

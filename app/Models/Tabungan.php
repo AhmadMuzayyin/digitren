@@ -6,9 +6,6 @@ use App\Traits\LogActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @method static firstWhere(string $string, $id)
- */
 class Tabungan extends Model
 {
     use HasFactory, LogActivity;

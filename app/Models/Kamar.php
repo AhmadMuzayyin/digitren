@@ -6,10 +6,6 @@ use App\Traits\LogActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @method static where(string $string, mixed $kode_kamar)
- * @method static findOrFail($kamar_id)
- */
 class Kamar extends Model
 {
     use HasFactory, LogActivity;

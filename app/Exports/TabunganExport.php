@@ -2,24 +2,53 @@
 
 namespace App\Exports;
 
-use App\Models\TransaksiTabungan;
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class TabunganExport implements FromView
+class TabunganExport implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping
 {
-    private $id;
+    protected $tabungan;
 
-    public function __construct($id)
+    public function __construct($tabungan)
     {
-        $this->id = $id;
+        $this->tabungan = $tabungan;
     }
 
-    public function view(): View
+    public function collection()
     {
-        // TODO: Implement view() method.
-        $tabungan = TransaksiTabungan::with('santri')->where('santri_id', $this->id)->get();
+        return $this->tabungan;
+    }
 
-        return view('pages.saldo_debit.export', compact('tabungan'));
+    public function headings(): array
+    {
+        return [
+            'Setoran',
+            'Penarikan',
+            'Saldo Saat Ini',
+            'Tanggal Transaksi',
+        ];
+    }
+
+    public function map($row): array
+    {
+        return [
+            $row->jenis_transaksi === 'Setoran' ? $row->jumlah_transaksi : '',
+            $row->jenis_transaksi === 'Penarikan' ? $row->jumlah_transaksi : '',
+            $row->saldo_saatini,
+            date('d F Y', strtotime($row->tanggal_transaksi)),
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'A' => NumberFormat::FORMAT_CURRENCY_IDR_INTEGER,
+            'B' => NumberFormat::FORMAT_CURRENCY_IDR_INTEGER,
+            'C' => NumberFormat::FORMAT_CURRENCY_IDR_INTEGER,
+        ];
     }
 }

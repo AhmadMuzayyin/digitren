@@ -6,7 +6,7 @@ return [
         'Keuangan',
         'Pengurus',
         'Santri',
-        'Alumni'
+        'Alumni',
     ],
     'admin' => [
         'kamar' => ['kamar index', 'kamar view', 'kamar store', 'kamar update', 'kamar destroy'],

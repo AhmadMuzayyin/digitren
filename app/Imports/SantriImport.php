@@ -51,7 +51,7 @@ class SantriImport implements ToModel, WithHeadingRow
             // save user santri
             $user = User::create([
                 'name' => $row['nama'],
-                'email' => Str::slug($row['nama']). config('app.domain'),
+                'email' => Str::slug($row['nama']).config('app.domain'),
                 'password' => bcrypt('password'),
             ]);
 
@@ -60,12 +60,12 @@ class SantriImport implements ToModel, WithHeadingRow
                 'nama_ayah' => $row['nama_ayah'],
                 'nama_ibu' => $row['nama_ibu'],
             ]);
-            if (isset($row['tanggal_boyong'])){
+            if (isset($row['tanggal_boyong'])) {
                 $user->assignRole('Alumni');
-            }else{
+            } else {
                 $user->assignRole('Santri');
             }
-            
+
             $kamar_id = null;
             $kelas_id = null;
             if (isset($row['kode_kamar']) == true && isset($row['kode_kelas']) == true) {
@@ -99,11 +99,11 @@ class SantriImport implements ToModel, WithHeadingRow
                 'tanggal_boyong_hijriyah' => $tanggal_boyong_hijriyah,
                 'status' => $status,
             ]);
-            if (!$santri){
+            if (! $santri) {
                 $user->delete();
                 $wali->delete();
             }
-            if (!isset($row['tanggal_boyong'])){
+            if (! isset($row['tanggal_boyong'])) {
                 //$kamar = Kamar::findOrFail($santri->kamar_id);
                 if ($kamar) {
                     $kamar->jumlah_santri = $kamar->jumlah_santri + 1;

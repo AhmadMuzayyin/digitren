@@ -6,11 +6,6 @@ use App\Traits\LogActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @method whereDate(string $string, string $toDateString)
- * @method static create(array $array)
- * @method static where(string $string, mixed $id)
- */
 class TransaksiTabungan extends Model
 {
     use HasFactory, LogActivity;

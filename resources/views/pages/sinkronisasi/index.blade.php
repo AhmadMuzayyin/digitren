@@ -16,7 +16,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div id="invoice">
-                                <a href="https://docs.google.com/spreadsheets/d/1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ/edit?usp=sharing" target="_blank" role="button" class="btn btn-primary btn-sm mb-2">Data Santri</a>
+                                <a href="https://docs.google.com/spreadsheets/d/1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ/edit?usp=sharing"
+                                    target="_blank" role="button" class="btn btn-primary btn-sm mb-2">Data Santri</a>
                             </div>
                             <div class="row mb-2">
                                 <div class="col">
@@ -87,7 +88,20 @@
                     type: "GET",
                     success: function(data) {
                         if (data.success == true) {
-                            update();
+                            setTimeout(() => {
+                                update();
+                            }, 3000);
+                        }
+                        if (data.success == false) {
+                            Lobibox.notify("error", {
+                                pauseDelayOnHover: true,
+                                icon: 'bx bx-info-circle',
+                                continueDelayOnInactiveTab: false,
+                                position: 'top right',
+                                size: 'mini',
+                                msg: data.message
+                            });
+                            icon_sync.removeClass("spin-animation");
                         }
                     }
                 })
@@ -107,9 +121,7 @@
                     },
                     success: function(data) {
                         if (data.success == true) {
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 5000);
+                            window.location.reload();
                         }
                     }
                 })

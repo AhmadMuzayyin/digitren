@@ -16,7 +16,7 @@
                                 <div class="toolbar hidden-print">
                                     <div class="text-end">
                                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#importexport">
+                                            data-bs-target="#importexport">
                                             <i class="bx bx-file"></i>
                                             Import/Export
                                         </button>
@@ -329,7 +329,8 @@
                         <a href="{{ route('santri.download') }}">Download format import</a>
                     </div>
                     <div class="col text-end">
-                        <a href="{{ route('santri.export') }}">Export data santri</a>
+                        <a role="button" data-bs-toggle="modal" data-bs-target="#statusModal"
+                            style="color: #673ab7">Export data santri</a>
                     </div>
                 </div>
                 <div class="row my-2">
@@ -354,6 +355,18 @@
                         </form>
                     </div>
                 </div>
+            </x-modal>
+            <x-modal title="Export Santri" id="statusModal">
+                <form action="{{ route('santri.export') }}" method="post">
+                    @csrf
+                    <div class="row">
+                        <div class="col d-flex justify-content-between">
+                            <input type="submit" value="Santri Aktif" name="status[]" class="btn btn-primary">
+                            <input type="submit" value="Santri Alumni" name="status[]" class="btn btn-info">
+                            <input type="submit" value="Semua Santri" name="status[]" class="btn btn-success">
+                        </div>
+                    </div>
+                </form>
             </x-modal>
         </div>
     </div>

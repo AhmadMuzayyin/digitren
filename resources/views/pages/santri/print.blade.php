@@ -71,9 +71,9 @@
     <p style="position: absolute; margin-top: -25rem; margin-left: 45%; font-size: 27px; color: #333333">
         {{ ucwords($santri->tempat_lahir . ', ' . $ttl) }}</p>
     <p style="position: absolute; margin-top: -20.2rem; margin-left: 45%; font-size: 27px; color: #333333">
-        {{ ucwords($santri->wali_santri[0]->nama) }}</p>
+        {{ ucwords($santri->wali_santri->nama_ayah) }}</p>
     <p style="position: absolute; margin-top: -17.7rem; margin-left: 45%; font-size: 27px; color: #333333">
-        {{ ucwords($santri->wali_santri[1]->nama) }}</p>
+        {{ ucwords($santri->wali_santri->nama_ibu) }}</p>
     {{-- alamat --}}
     <p style="position: absolute; margin-top: -15.5rem; margin-left: 45%; font-size: 27px; color: #333333">
         {{ ucwords(strtolower($santri->desa . ', ' . $santri->kecamatan . ', ' . $santri->kabupaten)) }}</p>
