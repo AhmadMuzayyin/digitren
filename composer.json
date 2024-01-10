@@ -39,7 +39,9 @@
         },
         "files": [
             "app/Helpers/ToastrHelper.php",
-            "app/Helpers/Helper.php"
+            "app/Helpers/Helper.php",
+            "app/Helpers/Ping.php",
+            "app/Helpers/Sinkron.php"
         ]
     },
     "autoload-dev": {

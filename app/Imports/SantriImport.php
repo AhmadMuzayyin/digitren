@@ -21,7 +21,6 @@ class SantriImport implements ToModel, WithHeadingRow
         // TODO: Implement model() method.
         try {
             DB::beginTransaction();
-            $status = isset($row['tanggal_boyong']) ? 'Santri Alumni' : 'Santri Aktif';
             $no_induk = null;
             $tahun_masuk_hijriyah = null;
             if (isset($row['tahun_masuk'])) {
@@ -40,31 +39,23 @@ class SantriImport implements ToModel, WithHeadingRow
                 $tahun_masuk_hijriyah = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             }
 
-            // get tahun hijriyah
-            $tanggal_boyong_hijriyah = null;
-            if (isset($row['tanggal_boyong'])) {
-                $date = Carbon::parse($row['tanggal_boyong']);
-                $tanggal_boyong_hijriyah = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
-            }
-            // dd($tanggal_boyong_hijriyah, isset($row['tanggal_boyong']));
-
             // save user santri
             $user = User::create([
                 'name' => $row['nama'],
-                'email' => Str::slug($row['nama']).config('app.domain'),
+                'email' => Str::slug($row['nama']) . config('app.domain'),
                 'password' => bcrypt('password'),
-            ]);
-
-            // save wali santri
-            $wali = WaliSantri::create([
-                'nama_ayah' => $row['nama_ayah'],
-                'nama_ibu' => $row['nama_ibu'],
             ]);
             if (isset($row['tanggal_boyong'])) {
                 $user->assignRole('Alumni');
             } else {
                 $user->assignRole('Santri');
             }
+
+            // save wali santri
+            $wali = WaliSantri::create([
+                'nama_ayah' => $row['nama_ayah'],
+                'nama_ibu' => $row['nama_ibu'],
+            ]);
 
             $kamar_id = null;
             $kelas_id = null;
@@ -73,6 +64,10 @@ class SantriImport implements ToModel, WithHeadingRow
                 $kelas = Kelas::where('kode', $row['kode_kelas'])->first();
                 $kamar_id = $kamar->id;
                 $kelas_id = $kelas->id;
+
+                $kamar->update([
+                    'jumlah_santri' => $kamar->jumlah_santri + 1,
+                ]);
             }
             $santri = Santri::create([
                 'user_id' => $user->id,
@@ -95,25 +90,14 @@ class SantriImport implements ToModel, WithHeadingRow
                 'tempat_lahir' => $row['tempat_lahir'],
                 'tahun_masuk' => $row['tahun_masuk'],
                 'tahun_masuk_hijriyah' => $tahun_masuk_hijriyah,
-                'tanggal_boyong' => $row['tanggal_boyong'],
-                'tanggal_boyong_hijriyah' => $tanggal_boyong_hijriyah,
-                'status' => $status,
             ]);
-            if (! $santri) {
+            if (!$santri) {
                 $user->delete();
                 $wali->delete();
-            }
-            if (! isset($row['tanggal_boyong'])) {
-                //$kamar = Kamar::findOrFail($santri->kamar_id);
-                if ($kamar) {
-                    $kamar->jumlah_santri = $kamar->jumlah_santri + 1;
-                    $kamar->save();
-                }
             }
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
             Toastr::error('Gagal import data santri');
         }
     }

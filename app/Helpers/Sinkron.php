@@ -1,24 +1,67 @@
 <?php
 
-namespace App\Http\Controllers\Sinkron;
-
-use App\Http\Controllers\Controller;
 use App\Models\Santri;
-use Illuminate\Http\Request;
-use Ping;
-// use Illuminate\Support\Facades\Config;
 use Revolution\Google\Sheets\Facades\Sheets;
 
-class SinkronController extends Controller
+class Sinkron
 {
-    public function index()
+    public static function alumni()
     {
-        $data = config('modules.modules');
+        $condition = Ping::to();
+        if ($condition == true) {
+            $sheet_id = env('SPREDSHEET_ID');
+            $alumni = Sheets::spreadsheet($sheet_id)->sheet('Santri Alumni')->get()->toArray();
+            if (count($alumni) > 0) {
+                if (count($alumni) == 1) {
+                    $santri_alumni = Santri::select('no_induk', 'name', 'provinsi', 'kabupaten', 'kecamatan', 'desa', 'dusun', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'bulan_lahir', 'tahun_lahir', 'nik', 'kk', 'tahun_masuk', 'tahun_masuk_hijriyah', 'tanggal_boyong', 'tanggal_boyong_hijriyah')
+                        ->join('users', 'santris.user_id', '=', 'users.id')
+                        ->where('status', 'Santri Alumni')
+                        ->get()->toArray();
 
-        return view('pages.sinkronisasi.index', compact('data'));
+                    $santri_alumni_valid = [];
+                    foreach ($santri_alumni as $val) {
+                        $santri_alumni_valid[] = array_values($val);
+                    }
+
+                    Sheets::spreadsheet('1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ')->sheet('Santri Alumni')->append($santri_alumni_valid);
+                } else {
+                    // validating data from database local with data from google sheets
+                    $santri_alumni = Santri::select('no_induk', 'name', 'provinsi', 'kabupaten', 'kecamatan', 'desa', 'dusun', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'bulan_lahir', 'tahun_lahir', 'nik', 'kk', 'tahun_masuk', 'tahun_masuk_hijriyah', 'tanggal_boyong', 'tanggal_boyong_hijriyah')
+                        ->join('users', 'santris.user_id', '=', 'users.id')
+                        ->where('status', 'Santri Alumni')
+                        ->get()->toArray();
+
+                    $santri_alumni_sheet = Sheets::spreadsheet($sheet_id)->sheet('Santri Alumni')->get()->toArray();
+
+                    $santri_alumni_valid = [];
+                    foreach ($santri_alumni as $val) {
+                        $santri_alumni_valid[] = array_values($val);
+                    }
+
+                    // Mengonversi variable kedua menjadi daftar ID yang akan dihapus
+                    $idsToDelete = array_map(function ($row) {
+                        return $row[0];
+                    }, array_slice($santri_alumni_sheet, 1));
+
+                    // Menghapus baris dari variable pertama yang ada di variable kedua
+                    foreach ($santri_alumni_valid as $key => $row) {
+                        if (in_array($row[0], $idsToDelete)) {
+                            unset($santri_alumni_valid[$key]);
+                        }
+                    }
+
+                    // Reset kembali indeks array
+                    $santri_alumni = array_values($santri_alumni_valid);
+
+                    Sheets::spreadsheet($sheet_id)->sheet('Santri Alumni')->append($santri_alumni);
+                }
+            }
+        } else {
+            return response()->json(['success' => false, 'message' => 'Tidak ada koneksi internet'], 200);
+        }
     }
 
-    public function sync()
+    public static function santri()
     {
         $condition = Ping::to();
         if ($condition == true) {
@@ -75,24 +118,13 @@ class SinkronController extends Controller
                         Sheets::spreadsheet('1noIIdm9r6B6fDPY2zXE23yNq19qf2E0jY3cEQb1M0aQ')->sheet('Santri Aktif')->append($santri_aktif);
                     }
                 }
-                
+
                 return response()->json(['success' => true], 200);
             } else {
                 return response()->json(['success' => false, 'message' => 'Silahkan isi ID Spreadsheet terlebih dahulu'], 200);
             }
-        }
-
-        return response()->json(['success' => false, 'message' => 'Tidak ada koneksi internet'], 200);
-    }
-
-    public function update(Request $request)
-    {
-        try {
-            \Config::write('modules.modules.santri', $request->data);
-
-            return response()->json(['success' => true, 'message' => 'Berhasil mengubah data']);
-        } catch (\Throwable $th) {
-            //throw $th;
+        } else {
+            return response()->json(['success' => false, 'message' => 'Tidak ada koneksi internet'], 200);
         }
     }
 }

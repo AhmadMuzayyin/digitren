@@ -3,7 +3,7 @@
 return [
     // list module
     'modules' => [
-        'santri' => ['data santri', '11/24/2023, 1:03:11 AM'],
+        'santri' => ['data santri', '1/6/2024, 7:20:50 PM'],
         'rapor' => ['rapor santri', ''],
         'surat' => ['surat izin', ''],
         'tabungan' => ['tabungan santri', ''],

@@ -18,8 +18,8 @@ return new class extends Migration
         Schema::create('santris', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Kelas::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Kamar::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Kelas::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Kamar::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(WaliSantri::class)->constrained()->cascadeOnDelete();
             $table->string('no_induk', 8)->unique();
             $table->string('dusun');

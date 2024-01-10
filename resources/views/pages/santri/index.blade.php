@@ -336,11 +336,11 @@
                 <div class="row my-2">
                     <div class="col">
                         <ul>
-                            <li>Jika status santri adalah alumni kode_kamar dan kode_kelas di kosongkan</li>
                             <li>Penulisan tanggal harus sesuai format yang ada (05 tidak boleh ditulis 5).</li>
                             <li>Penulisan bulan harus sesuai format yang ada (05 tidak boleh ditulis 5).</li>
                             <li>Penulisan tahun harus sesuai format yang ada.</li>
                             <li>Penulisan nomor telepon/whatsapp harus dimulai dari 62 (62851xxxxx).</li>
+                            <li>Semua kolom harus di isi dan harus sesuai format yang telah ditentukan.</li>
                         </ul>
                     </div>
                 </div>
