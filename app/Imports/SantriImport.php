@@ -42,7 +42,7 @@ class SantriImport implements ToModel, WithHeadingRow
             // save user santri
             $user = User::create([
                 'name' => $row['nama'],
-                'email' => Str::slug($row['nama']) . config('app.domain'),
+                'email' => Str::slug($row['nama']).config('app.domain'),
                 'password' => bcrypt('password'),
             ]);
             if (isset($row['tanggal_boyong'])) {
@@ -91,7 +91,7 @@ class SantriImport implements ToModel, WithHeadingRow
                 'tahun_masuk' => $row['tahun_masuk'],
                 'tahun_masuk_hijriyah' => $tahun_masuk_hijriyah,
             ]);
-            if (!$santri) {
+            if (! $santri) {
                 $user->delete();
                 $wali->delete();
             }

@@ -41,6 +41,7 @@
                                                     <th>No Induk</th>
                                                     <th>Nama</th>
                                                     <th>Alamat</th>
+                                                    <th>Jenis Kelamin</th>
                                                     <th>Tahun Masuk</th>
                                                     <th>Status</th>
                                                     <th>Foto</th>
@@ -53,8 +54,9 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->no_induk }}</td>
                                                         <td>{{ $item->user->name }}</td>
+                                                        <td>{{ $item->jenis_kelamin }}</td>
                                                         <td>
-                                                            {{ ucwords(strtolower($item->dusun . ', ' . $item->desa . ', ' . $item->kecamatan . ', ' . $item->kabupaten)) }}
+                                                            {{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
                                                         </td>
                                                         <td>{{ date('d F, Y', strtotime($item->tahun_masuk)) }}</td>
                                                         <td>{{ $item->status }}</td>
@@ -173,31 +175,37 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="mb-2">
-                            <x-select-option name='provinsi' id="add-provinsi" label='Provinsi' attribute="required">
+                            <x-select-option name='provinsi_id' id="provinsi_id" label='Provinsi' attribute="required">
+                                <option value="" selected disabled>Pilih Provinsi</option>
                             </x-select-option>
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-2">
-                            <x-select-option name='kabupaten' id="add-kabupaten" label='Kabupaten' attribute="required">
-                            </x-select-option>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="mb-2">
-                            <x-select-option name='kecamatan' id="add-kecamatan" label='Kecamatan' attribute="required">
-                            </x-select-option>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="mb-2">
-                            <x-select-option name='desa' id="add-kelurahan" label='Desa / Kelurahan'
+                            <x-select-option name='kabupaten_id' id="kabupaten_id" label='Kabupaten'
                                 attribute="required">
+                                <option value="" selected disabled>Pilih Kabupaten</option>
                             </x-select-option>
                         </div>
                     </div>
                     <div class="col">
-                        <x-input type="text" name="dusun" id="add-dusun" value="{{ old('dusun') }}"
+                        <div class="mb-2">
+                            <x-select-option name='kecamatan_id' id="kecamatan_id" label='Kecamatan'
+                                attribute="required">
+                                <option value="" selected disabled>Pilih Kecamatan</option>
+                            </x-select-option>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <x-select-option name='kelurahan_id' id="kelurahan_id" label='Desa / Kelurahan'
+                                attribute="required">
+                                <option value="" selected disabled>Pilih Kelurahan</option>
+                            </x-select-option>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <x-input type="text" name="dusun" id="dusun" value="{{ old('dusun') }}"
                             label="Dusun" placeholder="Dusun"></x-input>
                     </div>
                 </div>
@@ -209,64 +217,35 @@
                                 attribute="required"></x-input>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-6">
                         <div class="mb-2">
-                            <x-select-option name='tanggal_lahir' id="tanggal_lahir" label='Tanggal lahir'>
-                                @for ($i = 1; $i <= 31; $i++)
-                                    <option value="{{ $i }}" attribute="required"
-                                        {{ old('tanggal_lahir') != null ? (old('tanggal_lahir') == $i ? 'selected' : '') : '' }}>
-                                        {{ $i }}</option>
-                                @endfor
-                            </x-select-option>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="mb-2">
-                            <x-select-option name='bulan_lahir' id="bulan_lahir" label='Bulan lahir'>
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{ $i }}" attribute="required"
-                                        {{ old('bulan_lahir') != null ? (old('bulan_lahir') == $i ? 'selected' : '') : '' }}>
-                                        {{ $i }}</option>
-                                @endfor
-                            </x-select-option>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="mb-2">
-                            <x-select-option name='tahun_lahir' id="tahun_lahir" label='Tahun lahir'>
-                                @php
-                                    $date = 1905;
-                                    $now = date('Y');
-                                @endphp
-                                @for ($date = 1905; $date <= $now; $date++)
-                                    <option value="{{ $date }}" attribute="required"
-                                        {{ old('tahun_lahir') != null ? (old('tahun_lahir') == $date ? 'selected' : '') : '' }}>
-                                        {{ $date }}</option>
-                                @endfor
-                            </x-select-option>
+                            <x-input type='date' name='tanggal_lahir' id="tanggal_lahir" label='Tanggal Lahir'
+                                placeholder='Tanggal Lahir' value="{{ old('tanggal_lahir') }}"
+                                attribute="required"></x-input>
                         </div>
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col">
+                    <div class="col-xs-12 col-lg col-md">
                         <div class="mb-2">
                             <x-input type='number' name='nik' id="nik" label='NIK' placeholder='NIK'
                                 value="{{ old('nik') }}" attribute="required"></x-input>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-xs-12 col-lg col-md">
                         <div class="mb-2">
                             <x-input type='number' name='kk' id="kk" label='KK' placeholder='KK'
                                 value="{{ old('kk') }}" attribute="required"></x-input>
                         </div>
                     </div>
+                </div>
+                <div class="row mb-2">
                     <div class="col">
-                        <div class="mb-2">
-                            <x-input type='number' name='whatsapp' id="whatsapp" label='Nomor Whatsapp Aktif'
-                                placeholder='Nomor Whatsapp Aktif' value="{{ old('whatsapp') }}"
-                                attribute="required"></x-input>
-                            <small class="text-muted" style="font-style: italic">mulai dari angka 8xxxxxx
-                                (85155353793)</small>
+                        <label for="whatsapp">Nomor Whatsapp Aktif</label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">+62</span>
+                            <input type="text" class="form-control" name="whatsapp" id="whatsapp"
+                                value="{{ old('whatsapp') }}" required placeholder='Nomor Whatsapp Aktif'>
                         </div>
                     </div>
                 </div>
@@ -330,7 +309,8 @@
                     </div>
                     <div class="col text-end">
                         <a role="button" data-bs-toggle="modal" data-bs-target="#statusModal"
-                            style="color: #673ab7">Export data santri</a>
+                            style="color: #673ab7">Export
+                            data santri</a>
                     </div>
                 </div>
                 <div class="row my-2">
@@ -385,57 +365,76 @@
             table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
         $('#exampleModal').on('shown.bs.modal', function() {
-            var urlProvinsi = "{{ url('wilayah/provinsi.json') }}";
-            var urlKabupaten = "{{ url('wilayah/kabupaten/') }}";
-            var urlKecamatan = "{{ url('wilayah/kecamatan/') }}";
-            var urlKelurahan = "{{ url('wilayah/kelurahan/') }}";
-            const selectProv = $('#add-provinsi');
-            $.getJSON(urlProvinsi, function(res) {
-                selectProv.empty();
-                $.each(res, function(i, obj) {
-                    selectProv.append($('<option>', {
-                        value: obj.id,
-                        text: obj.nama
-                    }));
-                });
+            var provinsiData = {!! json_encode($provinsi) !!};
+            $('#provinsi_id').empty();
+            $('#provinsi_id').append('<option value="" selected disabled>Pilih Provinsi</option>');
+            $.each(provinsiData, function(key, value) {
+                $('#provinsi_id').append('<option value="' + value.id + '">' + value.name + '</option>');
             });
-            const selectKab = $('#add-kabupaten');
-            $(selectProv).change(function() {
-                var val = $(selectProv).val();
-                $.getJSON(urlKabupaten + '/' + val + ".json", function(res) {
-                    selectKab.empty();
-                    $.each(res, function(i, obj) {
-                        selectKab.append($('<option>', {
-                            value: obj.id,
-                            text: obj.nama
-                        }));
-                    });
+            $("#provinsi_id").change(function() {
+                var selectedProvinsi = $(this).val();
+                $.ajax({
+                    url: "{{ route('alamat.kabupaten') }}",
+                    method: 'GET',
+                    data: {
+                        provinsi_id: selectedProvinsi
+                    },
+                    success: function(data) {
+                        $('#kabupaten_id').empty();
+                        $.each(data, function(key, value) {
+                            $('#kabupaten_id').append(
+                                '<option value = "' + value.id + '" > ' + value
+                                .name +
+                                '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
                 });
             })
-            const selectKec = $('#add-kecamatan');
-            $(selectKab).change(function() {
-                var val = $(selectKab).val();
-                $.getJSON(urlKecamatan + '/' + val + ".json", function(res) {
-                    selectKec.empty();
-                    $.each(res, function(i, obj) {
-                        selectKec.append($('<option>', {
-                            value: obj.id,
-                            text: obj.nama
-                        }));
-                    });
+            $("#kabupaten_id").change(function() {
+                var kabupaten_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('alamat.kecamatan') }}",
+                    method: 'GET',
+                    data: {
+                        kabupaten_id: kabupaten_id
+                    },
+                    success: function(data) {
+                        $('#kecamatan_id').empty();
+                        $.each(data, function(key, value) {
+                            $('#kecamatan_id').append(
+                                '<option value = "' + value.id + '" > ' + value
+                                .name +
+                                '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
                 });
             })
-            const selectkel = $('#add-kelurahan');
-            $(selectKec).change(function() {
-                var val = $(selectKec).val();
-                $.getJSON(urlKelurahan + '/' + val + ".json", function(res) {
-                    selectkel.empty();
-                    $.each(res, function(i, obj) {
-                        selectkel.append($('<option>', {
-                            value: obj.id,
-                            text: obj.nama
-                        }));
-                    });
+            $("#kecamatan_id").change(function() {
+                var kecamatan_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('alamat.kelurahan') }}",
+                    method: 'GET',
+                    data: {
+                        kecamatan_id: kecamatan_id
+                    },
+                    success: function(data) {
+                        $('#kelurahan_id').empty();
+                        $.each(data, function(key, value) {
+                            $('#kelurahan_id').append(
+                                '<option value = "' + value.id + '" > ' + value
+                                .name +
+                                '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
                 });
             })
         })

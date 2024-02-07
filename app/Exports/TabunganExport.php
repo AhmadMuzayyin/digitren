@@ -26,9 +26,9 @@ class TabunganExport implements FromCollection, ShouldAutoSize, WithColumnFormat
     public function headings(): array
     {
         return [
-            'Setoran',
-            'Penarikan',
-            'Saldo Saat Ini',
+            'Debit',
+            'Kredit',
+            'Saldo',
             'Tanggal Transaksi',
         ];
     }
@@ -46,9 +46,9 @@ class TabunganExport implements FromCollection, ShouldAutoSize, WithColumnFormat
     public function columnFormats(): array
     {
         return [
-            'A' => NumberFormat::FORMAT_CURRENCY_IDR_INTEGER,
-            'B' => NumberFormat::FORMAT_CURRENCY_IDR_INTEGER,
-            'C' => NumberFormat::FORMAT_CURRENCY_IDR_INTEGER,
+            'A' => NumberFormat::FORMAT_CURRENCY_USD_INTEGER,
+            'B' => NumberFormat::FORMAT_CURRENCY_USD_INTEGER,
+            'C' => NumberFormat::FORMAT_CURRENCY_USD_INTEGER,
         ];
     }
 }

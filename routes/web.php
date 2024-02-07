@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Kamar\KamarController;
 use App\Http\Controllers\Kelas\KelasController;
 use App\Http\Controllers\MapelController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\Rapor\RaportSantriController;
 use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Role\RoleController;
@@ -38,7 +40,11 @@ Route::post('auth', [AuthController::class, 'auth'])->name('login.auth')->middle
 Route::middleware(['auth'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('dashboard', DashboardController::class)->name('dashboard');
-
+    Route::controller(ProfilController::class)->as('profil.')->group(function () {
+        Route::get('/profil/{user}', 'show')->name('show');
+        Route::post('/profil/account/{user}', 'account')->name('account');
+        Route::post('/profil/biodata/{user}', 'biodata')->name('biodata');
+    });
     Route::group(['middleware' => ['role:Administrator|Pengurus']], function () {
         // kamar
         Route::controller(KamarController::class)->as('kamar.')->group(function () {
@@ -66,33 +72,6 @@ Route::middleware(['auth'])->group(function () {
             Route::patch('/santri/update/{santri}', 'update')->name('update');
             Route::delete('/santri/destroy/{santri}', 'destroy')->name('destroy');
             Route::get('print/kts/{santri:no_induk}', 'print_kts')->name('print.kts');
-        });
-        // mapel
-        Route::controller(MapelController::class)->as('mapel.')->group(function () {
-            Route::get('/mapel', 'index')->name('index');
-            Route::post('/mapel/store', 'store')->name('store');
-            Route::patch('/mapel/{mapel}/update', 'update')->name('update');
-            Route::delete('/mapel/{mapel}/destroy', 'destroy')->name('destroy');
-        });
-        // rapor santri
-        Route::controller(RaportSantriController::class)->as('rapor.')->group(function () {
-            Route::get('/rapor', 'index')->name('index');
-            Route::get('/rapor/santri/{kelas}', 'santri')->name('santri');
-            Route::get('/rapor/nilai/{santri}', 'nilai')->name('nilai');
-            Route::post('/rapor/nilai/store', 'store')->name('store');
-            Route::post('/rapor/nilai/update', 'update')->name('update');
-        });
-        // surat menyurat
-        Route::controller(JenisSuratController::class)->as('jenis_surat.')->group(function () {
-            Route::get('/jenis_surat', 'index')->name('index');
-            Route::post('/jenis_surat', 'store')->name('store');
-            Route::patch('/jenis_surat/{jenis_surat}/update', 'update')->name('update');
-            Route::delete('/jenis_surat/{jenis_surat}/destroy', 'destroy')->name('destroy');
-        });
-        Route::controller(SuratController::class)->as('surat.')->group(function () {
-            Route::get('/surat', 'index')->name('index');
-            Route::get('/surat/update', 'update')->name('update');
-            Route::post('/surat', 'store');
         });
         Route::controller(SinkronController::class)->as('sync.')->group(function () {
             Route::get('/sinkron', 'index')->name('index');
@@ -137,5 +116,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/transaksi', 'store')->name('store');
             Route::patch('/transaksi/update', 'update')->name('update');
         });
+    });
+    Route::controller(AlamatController::class)->as('alamat.')->group(function () {
+        Route::get('/kabupaten', 'kabupaten')->name('kabupaten');
+        Route::get('/kecamatan', 'kecamatan')->name('kecamatan');
+        Route::get('/kelurahan', 'kelurahan')->name('kelurahan');
     });
 });

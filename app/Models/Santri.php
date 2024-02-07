@@ -16,48 +16,45 @@ class Santri extends Model
     {
         return $this->belongsTo(User::class);
     }
-
     public function wali_santri()
     {
         return $this->belongsTo(WaliSantri::class);
     }
-
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
     }
-
     public function kamar()
     {
         return $this->belongsTo(Kamar::class);
     }
-
     public function tabungan()
     {
         return $this->hasMany(Tabungan::class);
     }
-
     public function transaksi_tabungan()
     {
         return $this->hasMany(TransaksiTabungan::class);
     }
-
-    public function rapor_santri()
+    public function setWhatsAppAttribute($value)
     {
-        return $this->hasMany(RaporSantri::class);
+        $phoneNumber = preg_replace('/[^0-9]/', '', $value);
+        if (substr($phoneNumber, 0, 1) === '0') {
+            $this->attributes['whatsapp'] = '62' . substr($phoneNumber, 1);
+        } else {
+            $this->attributes['whatsapp'] = $phoneNumber;
+        }
     }
-
-    public function nilai()
+    public function alamat_santri()
     {
-        return $this->hasMany(Nilai::class);
+        return $this->hasOne(AlamatSantri::class);
     }
-
     public static function boot()
     {
         parent::boot();
         self::creating(function ($santri) {
             // buat log
-            $activity = class_basename($santri).' '.$santri->user->name;
+            $activity = class_basename($santri) . ' ' . $santri->user->name;
             $santri->CreateLog("Creating $activity");
             // Saat pembuatan santri baru, tambahkan jumlah_santri
             if ($santri->kamar_id) {
@@ -70,7 +67,7 @@ class Santri extends Model
 
         self::updating(function ($santri) {
             // buat log
-            $activity = class_basename($santri).' '.$santri->user->name;
+            $activity = class_basename($santri) . ' ' . $santri->user->name;
             $santri->CreateLog("Updating $activity");
             // Saat pembaruan kamar_id, kurangkan dari kamar lama dan tambahkan ke kamar baru
             if ($santri->isDirty('kamar_id')) {
@@ -90,7 +87,7 @@ class Santri extends Model
 
         self::deleting(function ($santri) {
             // buat log
-            $activity = class_basename($santri).' '.$santri->user->name;
+            $activity = class_basename($santri) . ' ' . $santri->user->name;
             $santri->CreateLog("Deleting $activity");
             // Saat santri dihapus, kurangkan jumlah_santri di kamar terkait
             $kamar = Kamar::find($santri->kamar_id);

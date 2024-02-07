@@ -17,23 +17,16 @@ return new class extends Migration
     {
         Schema::create('santris', function (Blueprint $table) {
             $table->id();
+            $table->string('no_induk', 8)->unique();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Kelas::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Kamar::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(WaliSantri::class)->constrained()->cascadeOnDelete();
-            $table->string('no_induk', 8)->unique();
-            $table->string('dusun');
-            $table->string('desa');
-            $table->string('kecamatan');
-            $table->string('kabupaten');
-            $table->string('provinsi');
             $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
-            $table->bigInteger('nik');
-            $table->bigInteger('kk');
+            $table->string('nik')->default('00000000000000000');
+            $table->string('kk')->default('00000000000000000');
             $table->bigInteger('whatsapp');
-            $table->integer('tanggal_lahir');
-            $table->integer('bulan_lahir');
-            $table->integer('tahun_lahir');
+            $table->date('tanggal_lahir');
             $table->string('tempat_lahir');
             $table->date('tahun_masuk')->nullable();
             $table->string('tahun_masuk_hijriyah')->nullable();

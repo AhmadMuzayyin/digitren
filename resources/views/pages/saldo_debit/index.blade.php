@@ -63,7 +63,7 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->santri->no_induk }}</td>
                                                         <td>{{ $item->santri->user->name }}</td>
-                                                        <td>{{ "Rp. " . number_format($item->saldo) }}</td>
+                                                        <td>{{ 'Rp. ' . number_format($item->saldo) }}</td>
                                                         <td>{{ $item->keterangan }}</td>
                                                         <td>
                                                             <div class="btn-group pull-right">
@@ -80,15 +80,19 @@
                                                                     @method('DELETE')
                                                                 </x-delete-modal>
 
-                                                                {{--History link--}}
-                                                                <button href="{{ route('saldo_debit.history', $item->santri_id) }}" role="button" class="btn btn-sm btn-primary">
+                                                                {{-- History link --}}
+                                                                <a href="{{ route('saldo_debit.history', $item->santri_id) }}"
+                                                                    role="button" class="btn btn-sm btn-primary">
                                                                     <span class="bx bx-history"> </span>
-                                                                </button>
+                                                                </a>
 
-                                                                {{--Export button--}}
-                                                                <form action="{{ route('saldo_debit.export', $item->santri_id) }}" method="post">
+                                                                {{-- Export button --}}
+                                                                <form
+                                                                    action="{{ route('saldo_debit.export', $item->santri_id) }}"
+                                                                    method="post">
                                                                     @csrf
-                                                                    <button type="submit" class="btn btn-sm btn-info rounded-0">
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-info rounded-0">
                                                                         <span class="bx bx-file"> </span>
                                                                     </button>
                                                                 </form>

@@ -25,7 +25,7 @@
                     </div>
                     <div class="input-group mt-4">
                         <span class="input-group-text" id="basic-addon1">Rp</span>
-                        <input type="text" class="form-control" placeholder="Nominal" name="debit" id="debit"
+                        <input type="text" class="form-control" placeholder="Nominal" name="kredit" id="kredit"
                             required>
                     </div>
                     <div class="row mt-5">
@@ -51,7 +51,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#debit').on('input', function() {
+            $('#kredit').on('input', function() {
                 // Hanya membiarkan angka (0-9) dan tombol khusus lainnya seperti Enter dan Backspace
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
@@ -67,7 +67,8 @@
                                 url: "{{ route('transaksi.index') }}",
                                 method: "GET",
                                 data: {
-                                    no_induk: $(this).val(), jenis: "Penarikan"
+                                    no_induk: $(this).val(),
+                                    jenis: "Penarikan"
                                 },
                                 success: (res) => {
                                     if (res.data) {
@@ -85,7 +86,7 @@
                                                 .foto)
                                         }
                                         $('#santri_id').val(data.id)
-                                        $('#debit').focus()
+                                        $('#kredit').focus()
                                         $('#saldo').text(data.saldo)
                                         $('#spinner').hide()
                                     } else {
@@ -94,6 +95,7 @@
                                         $('#santri_nama').val("")
                                         $('#foto_santri').hide()
                                         $('#saldo').text("000000")
+                                        $('#no_induk').val('')
                                         Lobibox.notify('error', {
                                             pauseDelayOnHover: true,
                                             icon: 'bx bx-error',

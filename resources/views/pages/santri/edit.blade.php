@@ -48,78 +48,35 @@
     </div>
 </div>
 
-<input type="hidden" name="edit_alamat" id="input_status_edit" value="0">
-<div class="row mb-2" id="data_alamat">
-    <div class="row">
-        <div class="col text-end mb-2">
-            <button class="btn btn-primary btn-sm" id="btn-edit"><i class="bx bx-pencil fs-5"></i> Edit</button>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-2">
-            <x-input type="text" label='Provinsi' id="provinsi" name='provinsi' placeholder='Provinsi'
-                value="{{ old('provinsi') ?? $item->provinsi }}" attribute="readonly"></x-input>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-2">
-            <x-input type="text" label='Kabupaten' id="kabupaten" name='kabupaten' placeholder='Kabupaten'
-                value="{{ old('kabupaten') ?? $item->kabupaten }}" attribute="readonly"></x-input>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-2">
-            <x-input type="text" label='Kecamatan' id="kecamatan" name='kecamatan' placeholder='Kecamatan'
-                value="{{ old('kecamatan') ?? $item->kecamatan }}" attribute="readonly"></x-input>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-2">
-            <x-input type="text" label='Desa / Kelurahan' id="desa" name='desa'
-                placeholder='Desa / Kelurahan' value="{{ old('desa') ?? $item->desa }}" attribute="readonly"></x-input>
-        </div>
-    </div>
-    <div class="col">
-        <div class="mb-2">
-            <x-input type='text' name='dusun' id="dusun" label='Dusun' placeholder='Dusun'
-                value="{{ old('dusun') ?? $item->dusun }}" attribute="readonly"></x-input>
-        </div>
-    </div>
-</div>
 <div class="row mb-2" id="edit_alamat">
-    <div class="row">
-        <div class="col text-end mb-2">
-            <button class="btn btn-danger btn-sm" id="btn-batal"><i class="bx bx-x fs-5"></i> Batal</button>
-        </div>
-    </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='provinsi' id="edit-provinsi-{{ $item->id }}" label='Provinsi'>
+            <x-select-option name='provinsi_id' id="provinsi_id-{{ $item->id }}" label='Provinsi'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='kabupaten' id="edit-kabupaten-{{ $item->id }}" label='Kabupaten'>
+            <x-select-option name='kabupaten_id' id="kabupaten_id-{{ $item->id }}" label='Kabupaten'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='kecamatan' id="edit-kecamatan-{{ $item->id }}" label='Kecamatan'>
+            <x-select-option name='kecamatan_id' id="kecamatan_id-{{ $item->id }}" label='Kecamatan'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
-            <x-select-option name='desa' id="edit-kelurahan-{{ $item->id }}" label='Desa / Kelurahan'>
+            <x-select-option name='kelurahan_id' id="kelurahan_id-{{ $item->id }}" label='Desa / Kelurahan'>
             </x-select-option>
         </div>
     </div>
     <div class="col">
         <div class="mb-2">
             <x-input type='text' name='dusun' id="dusun" label='Dusun' placeholder='Dusun'
-                value="{{ old('dusun') ?? $item->dusun }}"></x-input>
+                value="{{ old('dusun') ?? $item->alamat_santri->dusun }}"></x-input>
         </div>
     </div>
 </div>
@@ -132,60 +89,10 @@
                 attribute="required"></x-input>
         </div>
     </div>
-    <div class="col-2">
-        <div class="mb-2">
-            <x-select-option name='tanggal_lahir' id="tanggal_lahir" label='Tanggal lahir'>
-                @for ($i = 1; $i <= 31; $i++)
-                    <option value="{{ $i }}" attribute="required"
-                        {{ old('tanggal_lahir') != null
-                            ? (old('tanggal_lahir') == $i
-                                ? 'selected'
-                                : '')
-                            : ($item->tanggal_lahir == $i
-                                ? 'selected'
-                                : '') }}>
-                        {{ $i }}</option>
-                @endfor
-            </x-select-option>
-        </div>
-    </div>
-    <div class="col-2">
-        <div class="mb-2">
-            <x-select-option name='bulan_lahir' id="bulan_lahir" label='Bulan lahir'>
-                @for ($i = 1; $i <= 12; $i++)
-                    <option value="{{ $i }}" attribute="required"
-                        {{ old('bulan_lahir') != null
-                            ? (old('bulan_lahir') == $i
-                                ? 'selected'
-                                : '')
-                            : ($item->bulan_lahir == $i
-                                ? 'selected'
-                                : '') }}>
-                        {{ $i }}</option>
-                @endfor
-            </x-select-option>
-        </div>
-    </div>
-    <div class="col-2">
-        <div class="mb-2">
-            <x-select-option name='tahun_lahir' id="tahun_lahir" label='Tahun lahir'>
-                @php
-                    $date = 1905;
-                    $now = date('Y');
-                @endphp
-                @for ($date = 1905; $date <= $now; $date++)
-                    <option value="{{ $date }}" attribute="required"
-                        {{ old('tahun_lahir') != null
-                            ? (old('tahun_lahir') == $date
-                                ? 'selected'
-                                : '')
-                            : ($item->tahun_lahir == $date
-                                ? 'selected'
-                                : '') }}>
-                        {{ $date }}</option>
-                @endfor
-            </x-select-option>
-        </div>
+    <div class="col-6">
+        <x-input type='date' name='tanggal_lahir' id="tanggal_lahir" label='tanggal Lahir'
+            placeholder='Tanggal Lahir' value="{{ old('tanggal_lahir') ?? $item->tanggal_lahir }}"
+            attribute="required"></x-input>
     </div>
 </div>
 
@@ -291,80 +198,160 @@
 @push('js')
     <script>
         $('#editModal-' + "{{ $item->id }}").on('shown.bs.modal', function() {
-            var getProv = "{{ url('wilayah/provinsi.json') }}";
-            var getKab = "{{ url('wilayah/kabupaten/') }}";
-            var getKec = "{{ url('wilayah/kecamatan/') }}";
-            var getKel = "{{ url('wilayah/kelurahan/') }}";
-            var editProv = $("#edit-provinsi-" + "{{ $item->id }}");
-            $.getJSON(getProv, function(res) {
-                editProv.empty();
-                $.each(res, function(i, obj) {
-                    editProv.append($('<option>', {
-                        value: obj.id,
-                        text: obj.nama,
-                    }));
-                });
+            var provinsiData = {!! json_encode($provinsi) !!};
+            $("#provinsi_id-{{ $item->id }}").empty();
+            $("#provinsi_id-{{ $item->id }}").append(
+                '<option value="" selected disabled>Pilih Provinsi</option>');
+            var prov = "{{ $item->alamat_santri->provinsi->id }}";
+            $.each(provinsiData, function(key, value) {
+                var option = $('<option value="' + value.id + '">' + value
+                    .name + '</option>');
+                if (value.id == prov) {
+                    option.attr('selected', 'selected');
+                }
+                $("#provinsi_id-{{ $item->id }}").append(option);
             });
-            var editKab = $("#edit-kabupaten-" + "{{ $item->id }}");
-            $(editProv).change(function() {
-                var val = $(editProv).val();
-                $.getJSON(getKab + '/' + val + ".json", function(res) {
-                    editKab.empty();
-                    $.each(res, function(i, obj) {
-                        editKab.append($('<option>', {
-                            value: obj.id,
-                            text: obj.nama
-                        }));
+            var kab = "{{ $item->alamat_santri->kabupaten->id }}";
+            $.ajax({
+                url: "{{ route('alamat.kabupaten') }}",
+                method: 'GET',
+                data: {
+                    provinsi_id: prov
+                },
+                success: function(data) {
+                    $("#kabupaten_id-{{ $item->id }}").empty();
+                    $.each(data, function(key, value) {
+                        var option = $('<option value="' + value.id + '">' + value
+                            .name + '</option>');
+                        if (value.id == kab) {
+                            option.attr('selected', 'selected');
+                        }
+                        $("#kabupaten_id-{{ $item->id }}").append(option);
                     });
-                });
-            })
-            var editKec = $("#edit-kecamatan-" + "{{ $item->id }}");
-            $(editKab).change(function() {
-                var val = $(editKab).val();
-                $.getJSON(getKec + '/' + val + ".json", function(res) {
-                    editKec.empty();
-                    $.each(res, function(i, obj) {
-                        editKec.append($('<option>', {
-                            value: obj.id,
-                            text: obj.nama
-                        }));
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+            var kec = "{{ $item->alamat_santri->kecamatan->id }}";
+            $.ajax({
+                url: "{{ route('alamat.kecamatan') }}",
+                method: 'GET',
+                data: {
+                    kabupaten_id: kab
+                },
+                success: function(data) {
+                    $("#kecamatan_id-{{ $item->id }}").empty();
+                    $.each(data, function(key, value) {
+                        var option = $('<option value="' + value.id + '">' + value
+                            .name + '</option>');
+                        if (value.id == kec) {
+                            option.attr('selected', 'selected');
+                        }
+                        $("#kecamatan_id-{{ $item->id }}").append(option);
                     });
-                });
-            })
-            var editKel = $("#edit-kelurahan-" + "{{ $item->id }}");
-            $(editKec).change(function() {
-                var val = $(editKec).val();
-                $.getJSON(getKel + '/' + val + ".json", function(res) {
-                    editKel.empty();
-                    $.each(res, function(i, obj) {
-                        editKel.append($('<option>', {
-                            value: obj.id,
-                            text: obj.nama
-                        }));
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+            var kel = "{{ $item->alamat_santri->kelurahan->id }}";
+            $.ajax({
+                url: "{{ route('alamat.kelurahan') }}",
+                method: 'GET',
+                data: {
+                    kecamatan_id: kec
+                },
+                success: function(data) {
+                    $("#kelurahan_id-{{ $item->id }}").empty();
+                    $.each(data, function(key, value) {
+                        var option = $('<option value="' + value.id + '">' + value
+                            .name + '</option>');
+                        if (value.id == kel) {
+                            option.attr('selected', 'selected');
+                        }
+                        $("#kelurahan_id-{{ $item->id }}").append(option);
                     });
-                });
-            })
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
 
-            // edit alamat
-            var edit_alamat = $('#edit_alamat');
-            var btn_edit = $('#btn-edit');
-            var btn_batal = $('#btn-batal');
-            var input = $('#input_status_edit');
-            edit_alamat.hide();
-            btn_batal.hide();
-            btn_edit.click(function() {
-                edit_alamat.show();
-                btn_batal.show();
-                $('#data_alamat').hide();
-                btn_edit.hide();
-                input.val(1);
+            $("#provinsi_id-{{ $item->id }}").change(function() {
+                var selectedProvinsi = $(this).val();
+                var selectedKabupaten = "{{ $item->alamat_santri->kabupaten->id }}";
+                $.ajax({
+                    url: "{{ route('alamat.kabupaten') }}",
+                    method: 'GET',
+                    data: {
+                        provinsi_id: selectedProvinsi
+                    },
+                    success: function(data) {
+                        $("#kabupaten_id-{{ $item->id }}").empty();
+                        $.each(data, function(key, value) {
+                            var option = $('<option value="' + value.id + '">' + value
+                                .name + '</option>');
+                            if (value.id == selectedKabupaten) {
+                                option.attr('selected', 'selected');
+                            }
+                            $("#kabupaten_id-{{ $item->id }}").append(option);
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
             })
-            btn_batal.click(function() {
-                edit_alamat.hide();
-                btn_batal.hide();
-                $('#data_alamat').show();
-                btn_edit.show();
-                input.val(0);
+            $("#kabupaten_id-{{ $item->id }}").change(function() {
+                var kabupaten_id = $(this).val();
+                var selectedKecamatan = "{{ $item->alamat_santri->kabupaten->id }}";
+                $.ajax({
+                    url: "{{ route('alamat.kecamatan') }}",
+                    method: 'GET',
+                    data: {
+                        kabupaten_id: kabupaten_id
+                    },
+                    success: function(data) {
+                        $("#kecamatan_id-{{ $item->id }}").empty();
+                        $.each(data, function(key, value) {
+                            var option = $('<option value="' + value.id + '">' + value
+                                .name + '</option>');
+                            if (value.id == selectedKecamatan) {
+                                option.attr('selected', 'selected');
+                            }
+                            $("#kecamatan_id-{{ $item->id }}").append(option);
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
+            })
+            $("#kecamatan_id-{{ $item->id }}").change(function() {
+                var kecamatan_id = $(this).val();
+                var selectedKelurahan = "{{ $item->alamat_santri->kelurahan->id }}";
+                $.ajax({
+                    url: "{{ route('alamat.kelurahan') }}",
+                    method: 'GET',
+                    data: {
+                        kecamatan_id: kecamatan_id
+                    },
+                    success: function(data) {
+                        $("#kelurahan_id-{{ $item->id }}").empty();
+                        $.each(data, function(key, value) {
+                            var option = $('<option value="' + value.id + '">' + value
+                                .name + '</option>');
+                            if (value.id == selectedKelurahan) {
+                                option.attr('selected', 'selected');
+                            }
+                            $("#kelurahan_id-{{ $item->id }}").append(option);
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
             })
         })
     </script>

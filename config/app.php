@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
-    'domain' => '@digitren.com',
+    'domain' => env('APP_DOMAIN', '@digitren.com'),
 
     /*
     |--------------------------------------------------------------------------

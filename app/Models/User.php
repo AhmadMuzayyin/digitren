@@ -42,4 +42,9 @@ class User extends Authenticatable
             $user->CreateLog('Deleting '.$activity);
         });
     }
+
+    public function santri()
+    {
+        return $this->hasOne(Santri::class);
+    }
 }

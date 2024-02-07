@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $putra = $santri->where('jenis_kelamin', 'Laki-Laki')->where('status', 'Santri Aktif')->count();
         $santri_aktif = $santri->where('status', 'Santri Aktif')->count();
         $santri_alumni = $santri->where('status', 'Santri Alumni')->count();
-        $pengurus = User::role('pengurus')->count();
+        $pengurus = User::role('Pengurus')->count();
         $total_santri = Santri::count();
 
         return view('pages.dashboard', compact('putri', 'putra', 'santri_aktif', 'santri_alumni', 'pengurus', 'total_santri'));

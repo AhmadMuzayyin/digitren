@@ -11,18 +11,12 @@
             </tr>
             <tr>
                 <td>Tempat/Tanggal Lahir</td>
-                <td>{{ $item->tempat_lahir .
-                    ', ' .
-                    date('d', strtotime($item->tanggal_lahir)) .
-                    ' ' .
-                    date('F', strtotime($item->bulan_lahir)) .
-                    ' ' .
-                    $item->tahun_lahir }}
+                <td>{{ $item->tempat_lahir . ', ' . date('d F Y', strtotime($item->tanggal_lahir)) }}
                 </td>
             </tr>
             <tr>
                 <td>ALamat</td>
-                <td>{{ ucwords(strtolower($item->dusun . ', ' . $item->desa . ' ' . $item->kecamatan . ' ' . $item->kabupaten . ' ' . $item->provinsi)) }}
+                <td>{{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
                 </td>
             </tr>
             <tr>
@@ -56,7 +50,7 @@
                 <td>Data Kependudukan</td>
                 <td>{{ 'NIK : ' . $item->nik . ' - KK : ' . $item->kk }}</td>
             </tr>
-            @if($item->status == 'Santri Aktif')
+            @if ($item->status == 'Santri Aktif')
                 <tr>
                     <td>Kelas</td>
                     <td>{{ $item->kelas->tingkatan . ' - ' . $item->kelas->kelas }}</td>

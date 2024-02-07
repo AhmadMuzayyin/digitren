@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Kelas::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Santri::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(TahunAkademik::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

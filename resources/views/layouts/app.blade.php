@@ -22,8 +22,7 @@
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap.min.css') }}" />
     {{-- <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Roboto&display=swap" /> --}}
-    <link rel="stylesheet"
-        href="{{ url('assets/fonts/fonts.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/fonts/fonts.css') }}" />
     <!-- Icons CSS -->
     <link rel="stylesheet" href="{{ url('assets/css/icons.css') }}" />
     <!-- App CSS -->
@@ -71,7 +70,7 @@
         <script src="{{ url('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
         <script src="{{ url('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
         @if (request()->routeIs('dashboard'))
-            <script src="{{ url('assets/js/index.js') }}"></script>
+            {{-- <script src="{{ url('assets/js/index.js') }}"></script> --}}
             <script type="module">
                 new PerfectScrollbar('.dashboard-social-list');
                 new PerfectScrollbar('.dashboard-top-countries');

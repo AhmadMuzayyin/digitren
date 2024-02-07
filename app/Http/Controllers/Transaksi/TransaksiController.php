@@ -65,15 +65,14 @@ class TransaksiController extends Controller
                 Toastr::info('Minimal setoran Rp. 50.000');
             } else {
                 $santri = Santri::firstWhere('no_induk', $validate['santri_noinduk']);
+                $tabungan = Tabungan::firstWhere('santri_id', $santri->id);
                 $transaksi = TransaksiTabungan::create([
                     'santri_id' => $santri->id,
                     'tanggal_transaksi' => date('Y-m-d'),
                     'jenis_transaksi' => $validate['jenis_transaksi'],
                     'jumlah_transaksi' => $validate['debit'],
-                    'saldo_saatini' => $validate['debit'],
+                    'saldo_saatini' => $tabungan->saldo + $validate['debit'],
                 ]);
-
-                $tabungan = Tabungan::firstWhere('santri_id', $santri->id);
                 $tabungan->update([
                     'saldo' => $tabungan->saldo + $transaksi->jumlah_transaksi,
                     'tanggal_setor' => date('Y-m-d'),
@@ -94,11 +93,11 @@ class TransaksiController extends Controller
     {
         $validate = $request->validate([
             'santri_noinduk' => 'required|numeric|digits:8|exists:santris,no_induk',
-            'debit' => 'required|numeric',
+            'kredit' => 'required|numeric',
             'jenis_transaksi' => 'required',
         ]);
         try {
-            if ($validate['debit'] < 10000) {
+            if ($validate['kredit'] < 10000) {
                 Toastr::info('Minimal penarikan 10.000 atau diatasnya');
             } else {
                 $santri = Santri::firstWhere('no_induk', $validate['santri_noinduk']);
@@ -115,8 +114,8 @@ class TransaksiController extends Controller
                             'santri_id' => $santri->id,
                             'tanggal_transaksi' => date('Y-m-d'),
                             'jenis_transaksi' => $validate['jenis_transaksi'],
-                            'jumlah_transaksi' => $validate['debit'],
-                            'saldo_saatini' => $tabungan->saldo - $validate['debit'],
+                            'jumlah_transaksi' => $validate['kredit'],
+                            'saldo_saatini' => $tabungan->saldo - $validate['kredit'],
                         ]);
 
                         $tabungan->update([

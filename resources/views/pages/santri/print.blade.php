@@ -26,9 +26,9 @@
     <style>
         @media print {
             @page {
-                size: 240px 295px;
                 margin: 0;
-                /* Menghilangkan margin default untuk kertas cetak */
+                size: landscape
+                    /* Menghilangkan margin default untuk kertas cetak */
             }
 
             body {
@@ -44,9 +44,10 @@
 
         .foto-santri {
             position: absolute;
-            margin-left: 4%;
-            margin-top: -37.5%;
+            margin-left: 3.5%;
+            margin-top: -30.3%;
             z-index: 0;
+            width: 17.3%;
         }
     </style>
 </head>
@@ -55,28 +56,33 @@
     <img src="{{ url('img/kts-depan.png') }}" alt="" class="bg">
 
     {{-- no induk dan nama --}}
-    <p style="position: absolute; margin-top: -30rem; margin-left: 20%; font-size: 27px; color: #333333">
-        {{ ucwords($santri->no_induk) }}
-        <span style="margin-left: 29rem; margin-top: -10%">
-            <img src="{{ 'data:image/png;base64,' . DNS1D::getBarcodePNG($santri->no_induk, 'C128') }}" alt="">
-        </span>
+    <p>
+    <div class="row"style="position: absolute; margin-top: -30rem; margin-left: 15%; font-size: 27px; color: #333333">
+        <div class="col" style="margin-top: -1%">
+            {{ ucwords($santri->no_induk) }}
+        </div>
+        <div class="col" style="margin-left: 35.3rem; margin-top: -2rem">
+            <span>
+                <img src="{{ 'data:image/png;base64,' . DNS1D::getBarcodePNG($santri->no_induk, 'I25', 3, 60, [1, 1, 1]) }}"
+                    alt="">
+            </span>
+        </div>
+    </div>
     </p>
-    <p style="position: absolute; margin-top: -27.3rem; margin-left: 20%; font-size: 27px; color: #333333">
+    <p style="position: absolute; margin-top: -28.5rem; margin-left: 15%; font-size: 27px; color: #333333">
         {{ ucwords($santri->user->name) }}</p>
 
     {{-- biodata --}}
-    @php
-        $ttl = $santri->tanggal_lahir . ' ' . $bulan[$santri->bulan_lahir] . ' ' . $santri->tahun_lahir;
-    @endphp
-    <p style="position: absolute; margin-top: -25rem; margin-left: 45%; font-size: 27px; color: #333333">
-        {{ ucwords($santri->tempat_lahir . ', ' . $ttl) }}</p>
-    <p style="position: absolute; margin-top: -20.2rem; margin-left: 45%; font-size: 27px; color: #333333">
+    <p style="position: absolute; margin-top: -26rem; margin-left: 34%; font-size: 27px; color: #333333">
+        {{ ucwords($santri->tempat_lahir . ', ' . date('d-m-Y', strtotime($santri->tanggal_lahir))) }}</p>
+    <p style="position: absolute; margin-top: -21.2rem; margin-left: 34%; font-size: 27px; color: #333333">
         {{ ucwords($santri->wali_santri->nama_ayah) }}</p>
-    <p style="position: absolute; margin-top: -17.7rem; margin-left: 45%; font-size: 27px; color: #333333">
+    <p style="position: absolute; margin-top: -18.7rem; margin-left: 34%; font-size: 27px; color: #333333">
         {{ ucwords($santri->wali_santri->nama_ibu) }}</p>
     {{-- alamat --}}
-    <p style="position: absolute; margin-top: -15.5rem; margin-left: 45%; font-size: 27px; color: #333333">
-        {{ ucwords(strtolower($santri->desa . ', ' . $santri->kecamatan . ', ' . $santri->kabupaten)) }}</p>
+    <p style="position: absolute; margin-top: -16.5rem; margin-left: 34%; font-size: 27px; color: #333333">
+        {{ ucwords(strtolower($santri->alamat_santri->kelurahan->name . ', ' . $santri->alamat_santri->kecamatan->name . ', ' . $santri->alamat_santri->kabupaten->name)) }}
+    </p>
 
     {{-- foto santri --}}
     <img src="{{ url('/storage/uploads/santri/' . $santri->foto) }}" alt="{{ $santri->foto }}" class="foto-santri">
@@ -84,7 +90,7 @@
         window.print()
         setInterval(() => {
             window.close()
-        }, 3000);
+        }, 1000);
     </script>
 </body>
 

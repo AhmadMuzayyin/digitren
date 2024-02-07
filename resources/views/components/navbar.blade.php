@@ -43,7 +43,7 @@
                     <div class="menu-title">Santri</div>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('mapel.*') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ request()->routeIs('mapel.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('mapel.index') }}">
                     <div class="parent-icon icon-color-11"><i class="bx bx-book"></i>
                     </div>
@@ -56,27 +56,25 @@
                     </div>
                     <div class="menu-title">Rapor Santri</div>
                 </a>
-            </li>
+            </li> --}}
             <!-- master data -->
 
             <!-- surat menyurat -->
-            <li class="menu-label">Surat Menyurat</li>
+            {{-- <li class="menu-label">Surat Menyurat</li>
             <li class="{{ request()->routeIs('jenis_surat.*') ? 'mm-active' : '' }}">
-                <a href="#">
-                    {{-- <a href="{{ route('jenis_surat.index') }}"> --}}
+                <a href="{{ route('jenis_surat.index') }}">
                     <div class="parent-icon icon-color-7"><i class="bx bx-abacus"></i>
                     </div>
                     <div class="menu-title">Data Surat</div>
                 </a>
             </li>
             <li class="{{ request()->routeIs('surat.*') ? 'mm-active' : '' }}">
-                <a href="#">
-                    {{-- <a href="{{route('surat.index')}}"> --}}
+                <a href="{{ route('surat.index') }}">
                     <div class="parent-icon icon-color-4"><i class="bx bx-file"></i>
                     </div>
                     <div class="menu-title">Surat Izin Santri</div>
                 </a>
-            </li>
+            </li> --}}
             <!-- surat menyurat -->
         @endrole
 
@@ -101,8 +99,8 @@
         @endrole
 
         <!-- utilities -->
-        <li class="menu-label">Utilitis</li>
         @role('Administrator')
+            <li class="menu-label">Utilitis</li>
             {{-- <li class="{{ request()->routeIs('roles.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('roles.index') }}">
                     <div class="parent-icon text-warning"><i class="bx bx-shield"></i>
