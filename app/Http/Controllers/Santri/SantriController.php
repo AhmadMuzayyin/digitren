@@ -57,38 +57,7 @@ class SantriController extends Controller
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
             $foto = $request->file('foto');
-            if (isset($foto) == false) {
-                $user = User::create([
-                    'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
-                    'password' => bcrypt('password'),
-                    'role_id' => 4,
-                ]);
-                // insert wali santri
-                $wali = WaliSantri::create([
-                    'nama_ayah' => $validate['nama_ayah'],
-                    'nama_ibu' => $validate['nama_ibu'],
-                ]);
-                $user->assignRole('Santri');
-                $validate['user_id'] = $user->id;
-                $validate['wali_santri_id'] = $wali->id;
-                $santri = Santri::create($validate);
-                $alamat = AlamatSantri::create([
-                    'santri_id' => $santri->id,
-                    'provinsi_id' => $validate['provinsi_id'],
-                    'kabupaten_id' => $validate['kabupaten_id'],
-                    'kecamatan_id' => $validate['kecamatan_id'],
-                    'kelurahan_id' => $validate['kelurahan_id'],
-                    'dusun' => $validate['dusun'],
-                ]);
-                if (!$santri) {
-                    $user->delete();
-                    $wali->delete();
-                    $alamat->delete();
-                } else {
-                    User::find($validate['user_id'])->assignRole('Santri');
-                }
-            } else {
+            if (isset($foto) == true) {
                 $path = storage_path('app/public/uploads/santri/');
                 $filename = $foto->hashName();
 
@@ -100,32 +69,40 @@ class SantriController extends Controller
                     $constraint->upsize();
                     $constraint->aspectRatio();
                 })->save($path . $filename);
-
-                // insert user login santri
-                $user = User::create([
-                    'name' => $request->nama_lengkap,
-                    'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
-                    'password' => bcrypt('password'),
-                ]);
-                // insert wali santri
-                $wali = WaliSantri::create([
-                    'nama_ayah' => $validate['nama_ayah'],
-                    'nama_ibu' => $validate['nama_ibu'],
-                ]);
-
-                // insert santri
-                $validate['user_id'] = $user->id;
                 $validate['foto'] = $filename;
-                $validate['wali_santri_id'] = $wali->id;
-                $santri = Santri::create($validate);
-                if (!$santri) {
-                    $user->delete();
-                    $wali->delete();
-                } else {
-                    User::find($validate['user_id'])->assignRole('Santri');
-                }
+            } else {
+                $validate['foto'] = 'santri.png';
             }
-
+            $user = User::create([
+                'name' => $request->nama_lengkap,
+                'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
+                'password' => bcrypt('password'),
+                'role_id' => 4,
+            ]);
+            // insert wali santri
+            $wali = WaliSantri::create([
+                'nama_ayah' => $validate['nama_ayah'],
+                'nama_ibu' => $validate['nama_ibu'],
+            ]);
+            $user->assignRole('Santri');
+            $validate['user_id'] = $user->id;
+            $validate['wali_santri_id'] = $wali->id;
+            $santri = Santri::create($validate);
+            $alamat = AlamatSantri::create([
+                'santri_id' => $santri->id,
+                'provinsi_id' => $validate['provinsi_id'],
+                'kabupaten_id' => $validate['kabupaten_id'],
+                'kecamatan_id' => $validate['kecamatan_id'],
+                'kelurahan_id' => $validate['kelurahan_id'],
+                'dusun' => $validate['dusun'],
+            ]);
+            if (!$santri) {
+                $user->delete();
+                $wali->delete();
+                $alamat->delete();
+            } else {
+                User::find($validate['user_id'])->assignRole('Santri');
+            }
             // update kamar
             if (!$request->tanggal_boyong) {
                 $kamar = Kamar::where('id', $validate['kamar_id'])->first();
