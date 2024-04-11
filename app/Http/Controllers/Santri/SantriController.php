@@ -36,11 +36,9 @@ class SantriController extends Controller
             // get tahun hijriyah
             $date = Carbon::parse($request->tahun_masuk);
             $replace_delimiter = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
-
             // explode ambil tahun untuk no induk
             $get_thn = explode('-', $replace_delimiter);
             $tahun_masuk = end($get_thn);
-
             // make no by tahun
             $params = [
                 'tahun_masuk_hijriyah' => $tahun_masuk,
@@ -48,6 +46,8 @@ class SantriController extends Controller
                 'gender' => $request->jenis_kelamin,
             ];
             $validate['no_induk'] = Helper::make_noinduk($params);
+
+            dd('ok');
             // validate replace with column name
             $validate['kamar_id'] = $validate['kamar'];
             $validate['kelas_id'] = $validate['kelas'];
@@ -144,6 +144,7 @@ class SantriController extends Controller
             $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
+            $validate['tanggal_boyong'] = $request->tanggal_boyong;
 
             $foto = $request->file('foto');
             if (isset($foto) == true) {

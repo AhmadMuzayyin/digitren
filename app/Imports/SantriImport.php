@@ -2,8 +2,13 @@
 
 namespace App\Imports;
 
+use App\Models\AlamatSantri;
+use App\Models\Kabupaten;
 use App\Models\Kamar;
+use App\Models\Kecamatan;
 use App\Models\Kelas;
+use App\Models\Kelurahan;
+use App\Models\Provinsi;
 use App\Models\Santri;
 use App\Models\User;
 use App\Models\WaliSantri;
@@ -38,11 +43,10 @@ class SantriImport implements ToModel, WithHeadingRow
                 $no_induk = \Helper::make_noinduk($params);
                 $tahun_masuk_hijriyah = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             }
-
             // save user santri
             $user = User::create([
                 'name' => $row['nama'],
-                'email' => Str::slug($row['nama']).config('app.domain'),
+                'email' => Str::slug($row['nama']) . config('app.domain'),
                 'password' => bcrypt('password'),
             ]);
             if (isset($row['tanggal_boyong'])) {
@@ -50,13 +54,11 @@ class SantriImport implements ToModel, WithHeadingRow
             } else {
                 $user->assignRole('Santri');
             }
-
             // save wali santri
             $wali = WaliSantri::create([
                 'nama_ayah' => $row['nama_ayah'],
                 'nama_ibu' => $row['nama_ibu'],
             ]);
-
             $kamar_id = null;
             $kelas_id = null;
             if (isset($row['kode_kamar']) == true && isset($row['kode_kelas']) == true) {
@@ -75,11 +77,6 @@ class SantriImport implements ToModel, WithHeadingRow
                 'kamar_id' => $kamar_id,
                 'wali_santri_id' => $wali->id,
                 'no_induk' => $no_induk,
-                'dusun' => $row['dusun'],
-                'desa' => $row['desa'],
-                'kecamatan' => $row['kecamatan'],
-                'kabupaten' => $row['kabupaten'],
-                'provinsi' => $row['provinsi'],
                 'jenis_kelamin' => $row['jenis_kelamin'],
                 'nik' => $row['nik'],
                 'kk' => $row['kk'],
@@ -91,12 +88,25 @@ class SantriImport implements ToModel, WithHeadingRow
                 'tahun_masuk' => $row['tahun_masuk'],
                 'tahun_masuk_hijriyah' => $tahun_masuk_hijriyah,
             ]);
-            if (! $santri) {
+            if (!$santri) {
                 $user->delete();
                 $wali->delete();
             }
+            $provinsi = Provinsi::select('id')->where('name', 'like', '%' . $row['provinsi'] . '%')->first();
+            $kabupaten = Kabupaten::select('id')->where('name', 'like', '%' . $row['kabupaten'] . '%')->first();
+            $kecamatan = Kecamatan::select('id')->where('name', 'like', '%' . $row['kecamatan'] . '%')->first();
+            $kelurahan = Kelurahan::select('id')->where('name', 'like', '%' . $row['desa'] . '%')->first();
+            AlamatSantri::create([
+                'santri_id' => $santri->id,
+                'provinsi_id' => $provinsi->id,
+                'kabupaten_id' => $kabupaten->id,
+                'kecamatan_id' => $kecamatan->id,
+                'kelurahan_id' => $kelurahan->id,
+                'dusun' => $row['dusun'],
+            ]);
             DB::commit();
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             DB::rollBack();
             Toastr::error('Gagal import data santri');
         }
