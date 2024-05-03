@@ -15,6 +15,11 @@
                             <div id="invoice">
                                 <div class="toolbar hidden-print">
                                     <div class="text-end">
+                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#importexport">
+                                            <i class="bx bx-file"></i>
+                                            Export
+                                        </button>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">
                                             <i class="bx bx-plus"></i>
@@ -135,6 +140,39 @@
             </x-modal-form>
         </div>
     </div>
+    <x-modal title="Import/Export" id="importexport" modalSize="modal-lg">
+        <div class="row">
+            <div class="col">
+                <a href="{{ route('santri.download') }}">Download format import</a>
+            </div>
+            <div class="col text-end">
+                <a href="{{ route('kamar.download') }}" role="button" style="color: #673ab7">Export
+                    data santri</a>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col">
+                <ul>
+                    <li>Penulisan tanggal harus sesuai format yang ada (05 tidak boleh ditulis 5).</li>
+                    <li>Penulisan bulan harus sesuai format yang ada (05 tidak boleh ditulis 5).</li>
+                    <li>Penulisan tahun harus sesuai format yang ada.</li>
+                    <li>Penulisan nomor telepon/whatsapp harus dimulai dari 62 (62851xxxxx).</li>
+                    <li>Semua kolom harus di isi dan harus sesuai format yang telah ditentukan.</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <form action="{{ route('santri.import') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file">File excel</label>
+                    <input type="file" name="file" id="file" class="form-control">
+                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                </form>
+            </div>
+        </div>
+    </x-modal>
 @endsection
 
 @push('js')

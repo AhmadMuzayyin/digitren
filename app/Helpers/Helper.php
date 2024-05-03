@@ -6,8 +6,9 @@ class Helper
 {
     public static function make_noinduk($params)
     {
-        $get_santri_latest = Santri::where('jenis_kelamin', $params['gender'])->whereYear('tahun_masuk', $params['tahun_masuk'])->orderBy('no_induk', 'desc')->get(['no_induk']);
-        dd($get_santri_latest, $params);
+        $last_tahun_masuk = substr($params['tahun_masuk'], 0, 4);
+        $get_santri_latest = Santri::where('jenis_kelamin', $params['gender'])->whereYear('tahun_masuk', $last_tahun_masuk)->orderBy('no_induk', 'desc')->get(['no_induk']);
+        // dd($get_santri_latest, $params, $last_tahun_masuk);
         if (!$get_santri_latest->isEmpty()) {
             $start_noinduk = substr($get_santri_latest[0]->no_induk, 4);
             $next = str_pad((int) $start_noinduk + 1, strlen($start_noinduk), '0', STR_PAD_LEFT);

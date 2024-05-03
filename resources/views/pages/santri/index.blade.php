@@ -54,10 +54,10 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->no_induk }}</td>
                                                         <td>{{ $item->user->name }}</td>
-                                                        <td>{{ $item->jenis_kelamin }}</td>
                                                         <td>
                                                             {{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
                                                         </td>
+                                                        <td>{{ $item->jenis_kelamin }}</td>
                                                         <td>{{ date('d F, Y', strtotime($item->tahun_masuk)) }}</td>
                                                         <td>{{ $item->status }}</td>
                                                         <td>
@@ -90,19 +90,11 @@
                                                                 </x-detail-modal>
 
                                                                 <div class="btn-group pull-right">
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#editModal-{{ $item->id }}"
+                                                                    <a role="button"
+                                                                        href="{{ route('santri.edit', $item->id) }}"
                                                                         class="btn btn-sm btn-primary">
                                                                         <span class="bx bx-edit"> </span>
-                                                                    </button>
-                                                                    <x-edit-modal title="Edit data santri"
-                                                                        id="{{ $item->id }}"
-                                                                        fn="{{ route('santri.update', $item->id) }}"
-                                                                        method="POST" modalSize='modal-lg'>
-                                                                        @csrf
-                                                                        @method('PATCH')
-                                                                        @include('pages.santri.edit')
-                                                                    </x-edit-modal>
+                                                                    </a>
 
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#deleteModal-{{ $item->id }}"

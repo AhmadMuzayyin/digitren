@@ -49,10 +49,11 @@ Route::middleware(['auth'])->group(function () {
         // kamar
         Route::controller(KamarController::class)->as('kamar.')->group(function () {
             Route::get('/kamar', 'index')->name('index');
-            Route::get('/kamar/{id}', 'show')->name('show');
+            // Route::get('/kamar/{id}', 'show')->name('show');
             Route::post('/kamar', 'store')->name('store');
             Route::patch('/kamar/update/{kamar}', 'update')->name('update');
             Route::delete('/kamar/destroy/{kamar}', 'destroy')->name('destroy');
+            Route::get('/kamar/download', 'download')->name('download');
         });
         // kelas
         Route::controller(KelasController::class)->as('kelas.')->group(function () {
@@ -69,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/santri/download', 'download')->name('download');
             Route::post('/santri/import', 'import')->name('import');
             Route::post('/santri/export', 'export')->name('export');
+            Route::get('/santri/{santri}/edit', 'edit')->name('edit');
             Route::patch('/santri/update/{santri}', 'update')->name('update');
             Route::delete('/santri/destroy/{santri}', 'destroy')->name('destroy');
             Route::get('print/kts/{santri:no_induk}', 'print_kts')->name('print.kts');

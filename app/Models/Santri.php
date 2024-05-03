@@ -76,7 +76,6 @@ class Santri extends Model
                 if ($oldKamar) {
                     $oldKamar->decrement('jumlah_santri');
                 }
-
                 // Tambahkan ke kamar baru
                 $newKamar = Kamar::find($santri->kamar_id);
                 if ($newKamar) {

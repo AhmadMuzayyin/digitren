@@ -47,7 +47,7 @@ class SantriController extends Controller
             ];
             $validate['no_induk'] = Helper::make_noinduk($params);
 
-            dd('ok');
+            // dd('ok');
             // validate replace with column name
             $validate['kamar_id'] = $validate['kamar'];
             $validate['kelas_id'] = $validate['kelas'];
@@ -121,7 +121,12 @@ class SantriController extends Controller
             return redirect()->back();
         }
     }
-
+    public function edit(Santri $santri)
+    {
+        return view('pages.santri.edit', [
+            'item' => $santri->load('user', 'wali_santri', 'kamar', 'kelas', 'alamat_santri'),
+        ]);
+    }
     public function update(SantriRequest $request, Santri $santri)
     {
         $validate = $request->validated();
@@ -208,7 +213,7 @@ class SantriController extends Controller
             $santri->user()->delete();
             Toastr::success('Berhasil menghapus data');
 
-            return redirect()->back();
+            return to_route('santri.index');
         } catch (\Throwable $th) {
             Toastr::error('Gagal menghapus data');
 

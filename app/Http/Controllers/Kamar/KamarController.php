@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Kamar;
 
+use App\Exports\KamarExport;
 use App\Http\Controllers\Controller;
 use App\Models\Kamar;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
 
 class KamarController extends Controller
@@ -75,5 +77,10 @@ class KamarController extends Controller
 
             return redirect()->back();
         }
+    }
+    public function download()
+    {
+        $kamar = Kamar::get(['kode', 'nama', 'blok', 'jumlah_santri', 'maksimal_santri']);
+        return Excel::download(new KamarExport($kamar), 'kamar.xlsx');
     }
 }
