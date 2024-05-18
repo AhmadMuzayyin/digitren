@@ -90,18 +90,6 @@ class SantriImport implements ToModel, WithHeadingRow
                 $user->delete();
                 $wali->delete();
             }
-            $provinsi = Provinsi::select('id')->where('name', 'like', '%' . $row['provinsi'] . '%')->first();
-            $kabupaten = Kabupaten::select('id')->where('name', 'like', '%' . $row['kabupaten'] . '%')->first();
-            $kecamatan = Kecamatan::select('id')->where('name', 'like', '%' . $row['kecamatan'] . '%')->first();
-            $kelurahan = Kelurahan::select('id')->where('name', 'like', '%' . $row['desa'] . '%')->first();
-            AlamatSantri::create([
-                'santri_id' => $santri->id,
-                'provinsi_id' => $provinsi->id,
-                'kabupaten_id' => $kabupaten->id,
-                'kecamatan_id' => $kecamatan->id,
-                'kelurahan_id' => $kelurahan->id,
-                'dusun' => $row['dusun'],
-            ]);
             DB::commit();
         } catch (\Throwable $th) {
             dd($th->getMessage());

@@ -55,7 +55,11 @@
                                                         <td>{{ $item->no_induk }}</td>
                                                         <td>{{ $item->user->name }}</td>
                                                         <td>
-                                                            {{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
+                                                            @if ($item->alamat_santri != null)
+                                                                {{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
+                                                            @else
+                                                                <span>Alamat Belum Ada</span>
+                                                            @endif
                                                         </td>
                                                         <td>{{ $item->jenis_kelamin }}</td>
                                                         <td>{{ date('d F, Y', strtotime($item->tahun_masuk)) }}</td>

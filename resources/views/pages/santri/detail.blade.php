@@ -16,7 +16,10 @@
             </tr>
             <tr>
                 <td>ALamat</td>
-                <td>{{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
+                <td>
+                    @if ($item->alamat_santri)
+                        {{ ucwords(strtolower($item->alamat_santri->dusun . ', ' . $item->alamat_santri->kelurahan->name . ', ' . $item->alamat_santri->kecamatan->name . ', ' . $item->alamat_santri->kabupaten->name)) }}
+                    @endif
                 </td>
             </tr>
             <tr>
