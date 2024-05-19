@@ -8,6 +8,8 @@ use App\Http\Requests\SantriRequest;
 use App\Imports\SantriImport;
 use App\Models\AlamatSantri;
 use App\Models\Kamar;
+use App\Models\KamarSantri;
+use App\Models\KelasSantri;
 use App\Models\Santri;
 use App\Models\User;
 use App\Models\WaliSantri;
@@ -19,16 +21,49 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
+use Yajra\DataTables\Facades\DataTables;
 
 class SantriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $santri = Santri::with('user', 'wali_santri', 'kamar', 'kelas')->get();
-
-        return view('pages.santri.index', compact('santri'));
+        $santri = Santri::with([
+            'user:id,name,email',
+            'wali_santri',
+        ])->select('id', 'no_induk', 'jenis_kelamin', 'tanggal_lahir', 'user_id', 'foto', 'status', 'tahun_masuk');
+        // dd($santri->paginate(1));
+        if (request()->ajax()) {
+            return DataTables::of($santri)
+                ->addIndexColumn()
+                ->addColumn('wali_santri', function ($santri) {
+                    return $santri->wali_santri;
+                })
+                ->addColumn('action', 'pages.santri.include.action')
+                ->filter(function ($query) use ($request) {
+                    if ($request->has('search') && $request->search['value'] != '') {
+                        $search = $request->search['value'];
+                        $query->where(function ($q) use ($search) {
+                            $q->where('no_induk', 'like', "%{$search}%")
+                                ->orWhere('jenis_kelamin', 'like', "%{$search}%")
+                                ->orWhere('status', 'like', "%{$search}%")
+                                ->orWhereHas('user', function ($q) use ($search) {
+                                    $q->where('name', 'like', "%{$search}%")
+                                        ->orWhere('email', 'like', "%{$search}%");
+                                });
+                        });
+                    }
+                })
+                ->toJson();
+        }
+        return view('pages.santri.index');
     }
-
+    public function show(Santri $santri)
+    {
+        $santri->load('user', 'wali_santri', 'kamar_santri',  'kelas_santri', 'alamat_santri', 'alamat_santri.provinsi', 'alamat_santri.kabupaten', 'alamat_santri.kecamatan', 'alamat_santri.kelurahan');
+        return view('pages.santri.detail', [
+            'item' => $santri,
+        ]);
+    }
     public function store(SantriRequest $request)
     {
         $validate = $request->validated();
@@ -46,8 +81,6 @@ class SantriController extends Controller
                 'gender' => $request->jenis_kelamin,
             ];
             $validate['no_induk'] = Helper::make_noinduk($params);
-
-            // dd('ok');
             // validate replace with column name
             $validate['kamar_id'] = $validate['kamar'];
             $validate['kelas_id'] = $validate['kelas'];
@@ -110,9 +143,7 @@ class SantriController extends Controller
                     'jumlah_santri' => $kamar->jumlah_santri + 1,
                 ]);
             }
-
             Toastr::success('Berhasil menambah data');
-
             return redirect()->back();
         } catch (\Throwable $th) {
             dd($th->getMessage());
@@ -124,7 +155,7 @@ class SantriController extends Controller
     public function edit(Santri $santri)
     {
         return view('pages.santri.edit', [
-            'item' => $santri->load('user', 'wali_santri', 'kamar', 'kelas', 'alamat_santri'),
+            'item' => $santri->load('user', 'wali_santri', 'kamar_santri', 'kelas_santri', 'alamat_santri'),
         ]);
     }
     public function update(SantriRequest $request, Santri $santri)
@@ -143,8 +174,8 @@ class SantriController extends Controller
             if ($validate['jenis_kelamin'] !== $santri->jenis_kelamin) {
                 $validate['no_induk'] = Helper::make_noinduk($params);
             }
-            $validate['kamar_id'] = $validate['kamar'];
-            $validate['kelas_id'] = $validate['kelas'];
+            $kamar_santri['kamar_id'] = $validate['kamar'];
+            $kelas_santri['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
             $tgl = Carbon::parse($request->tanggal_boyong);
@@ -171,21 +202,61 @@ class SantriController extends Controller
                 'email' => 'santri_' . Str::slug($request->nama_lengkap) . config('app.domain'),
                 'password' => bcrypt('password'),
             ]);
-            AlamatSantri::where('santri_id', $santri->id)->update([
-                'santri_id' => $santri->id,
-                'provinsi_id' => $validate['provinsi_id'],
-                'kabupaten_id' => $validate['kabupaten_id'],
-                'kecamatan_id' => $validate['kecamatan_id'],
-                'kelurahan_id' => $validate['kelurahan_id'],
-                'dusun' => $validate['dusun'],
-            ]);
+            if ($santri->alamat_santri) {
+                AlamatSantri::where('santri_id', $santri->id)->update([
+                    'provinsi_id' => $validate['provinsi_id'],
+                    'kabupaten_id' => $validate['kabupaten_id'],
+                    'kecamatan_id' => $validate['kecamatan_id'],
+                    'kelurahan_id' => $validate['kelurahan_id'],
+                    'dusun' => $validate['dusun'],
+                ]);
+            } else {
+                AlamatSantri::create([
+                    'santri_id' => $santri->id,
+                    'provinsi_id' => $validate['provinsi_id'],
+                    'kabupaten_id' => $validate['kabupaten_id'],
+                    'kecamatan_id' => $validate['kecamatan_id'],
+                    'kelurahan_id' => $validate['kelurahan_id'],
+                    'dusun' => $validate['dusun'],
+                ]);
+            }
+            $kamar = KamarSantri::where('santri_id', $santri->id)->first();
+            $kelas = KelasSantri::where('santri_id', $santri->id)->first();
+            if ($kamar) {
+                $kamar->update([
+                    'kamar_id' => $kamar_santri['kamar_id']
+                ]);
+            } else {
+                KamarSantri::create([
+                    'santri_id' => $santri->id,
+                    'kamar_id' => $kamar_santri['kamar_id']
+                ]);
+            }
+            if ($kelas) {
+                $kelas->update([
+                    'kelas_id' => $kelas_santri['kelas_id']
+                ]);
+            } else {
+                KelasSantri::create([
+                    'santri_id' => $santri->id,
+                    'kelas_id' => $kelas_santri['kelas_id']
+                ]);
+            }
+            $wali = WaliSantri::where('santri_id', $santri->id)->first();
+            if ($wali) {
+                $wali->update([
+                    'nama_ayah' => $validate['nama_ayah'],
+                    'nama_ibu' => $validate['nama_ibu'],
+                ]);
+            } else {
+                WaliSantri::create([
+                    'santri_id' => $santri->id,
+                    'nama_ayah' => $validate['nama_ayah'],
+                    'nama_ibu' => $validate['nama_ibu'],
+                ]);
+            }
             $santri->update($validate);
-            WaliSantri::where('id', $santri->wali_santri_id)->update([
-                'nama_ayah' => $validate['nama_ayah'],
-                'nama_ibu' => $validate['nama_ibu'],
-            ]);
             Toastr::success('Berhasil merubah data');
-
             return redirect()->back();
         } catch (\Illuminate\Database\QueryException $th) {
             dd($th->getMessage());
@@ -194,7 +265,6 @@ class SantriController extends Controller
             return redirect()->back()->withInput();
         }
     }
-
     public function destroy(Santri $santri)
     {
         try {
@@ -211,6 +281,7 @@ class SantriController extends Controller
             $santri->tabungan()->delete();
             $santri->transaksi_tabungan()->delete();
             $santri->user()->delete();
+            $santri->wali_santri()->delete();
             Toastr::success('Berhasil menghapus data');
 
             return to_route('santri.index');
@@ -220,13 +291,10 @@ class SantriController extends Controller
             return redirect()->back();
         }
     }
-
-
     public function print_kts(Santri $santri)
     {
         return view('pages.santri.print', compact('santri'));
     }
-
     public function download()
     {
         $mime = Storage::mimeType('Format import data santri.xlsx');
@@ -235,7 +303,6 @@ class SantriController extends Controller
 
         return redirect()->back();
     }
-
     public function import(Request $request)
     {
         try {
@@ -246,18 +313,14 @@ class SantriController extends Controller
                 $file = $request->file('file');
                 Excel::import(new SantriImport, $file);
             }
-
             Toastr::success('Berhasil import data santri');
-
             return redirect()->back();
         } catch (\Throwable $th) {
             // dd($th->getMessage());
             Toastr::error('Gagal import data santri');
-
             return redirect()->back();
         }
     }
-
     public function export(Request $request)
     {
         $santri = [];

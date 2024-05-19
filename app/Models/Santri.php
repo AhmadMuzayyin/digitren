@@ -18,15 +18,15 @@ class Santri extends Model
     }
     public function wali_santri()
     {
-        return $this->belongsTo(WaliSantri::class);
+        return $this->hasOne(WaliSantri::class);
     }
-    public function kelas()
+    public function kelas_santri()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->hasOne(KelasSantri::class);
     }
-    public function kamar()
+    public function kamar_santri()
     {
-        return $this->belongsTo(Kamar::class);
+        return $this->hasOne(KamarSantri::class);
     }
     public function tabungan()
     {

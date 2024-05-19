@@ -39,65 +39,6 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach ($kelas as $item)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->kode }}</td>
-                                                        <td>{{ $item->tingkatan }}</td>
-                                                        <td>{{ $item->kelas }}</td>
-                                                        <td>{{ $item->keterangan }}</td>
-                                                        <td>
-                                                            <div class="btn-group pull-right">
-                                                                <button data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal-{{ $item->id }}"
-                                                                    class="btn btn-sm btn-primary">
-                                                                    <span class="bx bx-edit"> </span>
-                                                                </button>
-
-                                                                <x-edit-modal title="Edit data kelas"
-                                                                    id="{{ $item->id }}"
-                                                                    fn="{{ route('kelas.update', $item->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('PATCH')
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='tingkatan'
-                                                                            id="tingkatan" label='Tingkatan'
-                                                                            placeholder='Nama Tingkatan'
-                                                                            value="{{ $item->tingkatan }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='kelas'
-                                                                            id="kelas" label='Kelas'
-                                                                            placeholder='Nama Kelas'
-                                                                            value="{{ $item->kelas }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='keterangan'
-                                                                            id="keterangan" label='Keterangan'
-                                                                            placeholder='Keterangan'
-                                                                            value="{{ $item->keterangan }}"></x-input>
-                                                                    </div>
-                                                                </x-edit-modal>
-
-                                                                <button data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal-{{ $item->id }}"
-                                                                    class="btn btn-sm btn-danger">
-                                                                    <span class="bx bx-trash"> </span>
-                                                                </button>
-
-                                                                <x-delete-modal title='Hapus data' id="{{ $item->id }}"
-                                                                    fn="{{ route('kelas.destroy', $item->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </x-delete-modal>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -126,17 +67,36 @@
 @endsection
 
 @push('js')
-    <!--Data Tables js-->
-    <script src="{{ url('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            //Default data table
-            $('#table').DataTable();
-            var table = $('#example2').DataTable({
-                lengthChange: false,
-                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            $('#table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('kelas.index') }}",
+                columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                }, {
+                    data: 'kode',
+                    name: 'kode'
+                }, {
+                    data: 'tingkatan',
+                    name: 'tingkatan'
+                }, {
+                    data: 'kelas',
+                    name: 'kelas'
+                }, {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                }, {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                }]
             });
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

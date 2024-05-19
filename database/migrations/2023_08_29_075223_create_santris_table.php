@@ -19,12 +19,9 @@ return new class extends Migration
             $table->id();
             $table->string('no_induk', 8)->unique();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Kelas::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Kamar::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(WaliSantri::class)->constrained()->cascadeOnDelete();
             $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
-            $table->string('nik')->default('00000000000000000');
-            $table->string('kk')->default('00000000000000000');
+            $table->string('nik')->default('0000000000000000');
+            $table->string('kk')->default('0000000000000000');
             $table->bigInteger('whatsapp');
             $table->date('tanggal_lahir');
             $table->string('tempat_lahir');

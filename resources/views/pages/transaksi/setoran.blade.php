@@ -54,6 +54,54 @@
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
         });
+        $('#name').on('change', function() {
+            $('#spinner').show()
+            setTimeout(() => {
+                $.ajax({
+                    url: "{{ route('transaksi.index') }}",
+                    method: "GET",
+                    data: {
+                        no_induk: $(this).val(),
+                        jenis: "Setoran"
+                    },
+                    success: (res) => {
+                        if (res.data) {
+                            var data = res.data
+                            $('#santri_noinduk').val(data.no_induk)
+                            $('#santri_nama').val(data.name)
+                            $('#foto_santri').show()
+                            if (data.foto === 'santri.png') {
+                                $('#santri_profile').attr('src',
+                                    '/img/' + data
+                                    .foto)
+                            } else {
+                                $('#santri_profile').attr('src',
+                                    '/storage/uploads/santri/' + data
+                                    .foto)
+                            }
+                            $('#santri_id').val(data.id)
+                            $('#debit').focus()
+                            $('#saldo').text(data.saldo)
+                            $('#spinner').hide()
+                        } else {
+                            $('#spinner').hide()
+                            $('#santri_noinduk').val("")
+                            $('#santri_nama').val("")
+                            $('#foto_santri').hide()
+                            $('#saldo').text("000000")
+                            Lobibox.notify('error', {
+                                pauseDelayOnHover: true,
+                                icon: 'bx bx-error',
+                                continueDelayOnInactiveTab: false,
+                                position: 'top right',
+                                size: 'mini',
+                                msg: res.message
+                            });
+                        }
+                    }
+                })
+            }, 1000);
+        })
         $(document).ready(function() {
             $('#no_induk').on('input', function() {
                 if ($(this).val() !== '') {
@@ -65,7 +113,8 @@
                                 url: "{{ route('transaksi.index') }}",
                                 method: "GET",
                                 data: {
-                                    no_induk: $(this).val(), jenis: "Setoran"
+                                    no_induk: $(this).val(),
+                                    jenis: "Setoran"
                                 },
                                 success: (res) => {
                                     if (res.data) {

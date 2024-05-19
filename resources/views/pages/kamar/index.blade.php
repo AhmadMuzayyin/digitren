@@ -45,72 +45,6 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach ($kamar as $item)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->kode }}</td>
-                                                        <td>{{ $item->nama }}</td>
-                                                        <td>{{ $item->blok }}</td>
-                                                        <td>{{ $item->jumlah_santri }}</td>
-                                                        <td>{{ $item->maksimal_santri }}</td>
-                                                        <td>
-                                                            <div class="btn-group pull-right">
-                                                                <button data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal-{{ $item->id }}"
-                                                                    class="btn btn-sm btn-primary">
-                                                                    <span class="bx bx-edit"> </span>
-                                                                </button>
-
-                                                                <x-edit-modal title="Edit data kamar"
-                                                                    id="{{ $item->id }}"
-                                                                    fn="{{ route('kamar.update', $item->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('PATCH')
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='nama'
-                                                                            id="nama" label='Nama Kamar'
-                                                                            placeholder='Nama Kamar'
-                                                                            value="{{ $item->nama }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='blok'
-                                                                            id="blok" label='Blok'
-                                                                            placeholder='Nama Blok'
-                                                                            value="{{ $item->blok }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='number' name='jumlah_santri'
-                                                                            id="jumlah_santri" label='Jumlah Santri'
-                                                                            placeholder='Jumlah Santri'
-                                                                            value="{{ $item->jumlah_santri }}"></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='number' name='maksimal_santri'
-                                                                            id="maksimal_santri" label='Maksimal Santri'
-                                                                            placeholder='Maksimal Santri'
-                                                                            value="{{ $item->maksimal_santri }}"></x-input>
-                                                                    </div>
-                                                                </x-edit-modal>
-
-                                                                <button data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal-{{ $item->id }}"
-                                                                    class="btn btn-sm btn-danger">
-                                                                    <span class="bx bx-trash"> </span>
-                                                                </button>
-
-                                                                <x-delete-modal title='Hapus data' id="{{ $item->id }}"
-                                                                    fn="{{ route('kamar.destroy', $item->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </x-delete-modal>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -176,17 +110,40 @@
 @endsection
 
 @push('js')
-    <!--Data Tables js-->
-    <script src="{{ url('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             //Default data table
-            $('#table').DataTable();
-            var table = $('#example2').DataTable({
-                lengthChange: false,
-                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            $('#table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('kamar.index') }}",
+                columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                }, {
+                    data: 'kode',
+                    name: 'kode'
+                }, {
+                    data: 'nama',
+                    name: 'nama'
+                }, {
+                    data: 'blok',
+                    name: 'blok'
+                }, {
+                    data: 'jumlah_santri',
+                    name: 'jumlah_santri'
+                }, {
+                    data: 'maksimal_santri',
+                    name: 'maksimal_santri'
+                }, {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                }]
             });
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

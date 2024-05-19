@@ -30,7 +30,7 @@
                         </form>
                     </div>
                     <div class="col-12 col-lg-7">
-                        @if (Auth::user()->roles->first()->name !== 'Administrator')
+                        @if (Auth::user()->roles->first()->name !== 'Administrator' && Auth::user()->roles->first()->name != 'Keuangan')
                             <h5 class="fw-bold">Pengaturan Biodata</h5>
                             <form class="row g-3" action="{{ route('profil.biodata', $user->id) }}" method="POST">
                                 @csrf
@@ -134,103 +134,35 @@
     </div>
 </div>
 @push('js')
-    <script>
-        $(document).ready(function() {
-            var provinsiData = {!! json_encode($provinsi) !!};
-            $("#provinsi_id").empty();
-            $("#provinsi_id").append(
-                '<option value="" selected disabled>Pilih Provinsi</option>');
-            var prov = "{{ $user->santri->alamat_santri->provinsi->id }}";
-            $.each(provinsiData, function(key, value) {
-                var option = $('<option value="' + value.id + '">' + value
-                    .name + '</option>');
-                if (value.id == prov) {
-                    option.attr('selected', 'selected');
-                }
-                $("#provinsi_id").append(option);
-            });
-            var kab = "{{ $user->santri->alamat_santri->kabupaten->id }}";
-            $.ajax({
-                url: "{{ route('alamat.kabupaten') }}",
-                method: 'GET',
-                data: {
-                    provinsi_id: prov
-                },
-                success: function(data) {
-                    $("#kabupaten_id").empty();
-                    $.each(data, function(key, value) {
-                        var option = $('<option value="' + value.id + '">' + value
-                            .name + '</option>');
-                        if (value.id == kab) {
-                            option.attr('selected', 'selected');
-                        }
-                        $("#kabupaten_id").append(option);
-                    });
-                },
-                error: function(error) {
-                    console.log('Error:', error);
-                }
-            });
-            var kec = "{{ $user->santri->alamat_santri->kecamatan->id }}";
-            $.ajax({
-                url: "{{ route('alamat.kecamatan') }}",
-                method: 'GET',
-                data: {
-                    kabupaten_id: kab
-                },
-                success: function(data) {
-                    $("#kecamatan_id").empty();
-                    $.each(data, function(key, value) {
-                        var option = $('<option value="' + value.id + '">' + value
-                            .name + '</option>');
-                        if (value.id == kec) {
-                            option.attr('selected', 'selected');
-                        }
-                        $("#kecamatan_id").append(option);
-                    });
-                },
-                error: function(error) {
-                    console.log('Error:', error);
-                }
-            });
-            var kel = "{{ $user->santri->alamat_santri->kelurahan->id }}";
-            $.ajax({
-                url: "{{ route('alamat.kelurahan') }}",
-                method: 'GET',
-                data: {
-                    kecamatan_id: kec
-                },
-                success: function(data) {
-                    $("#kelurahan_id").empty();
-                    $.each(data, function(key, value) {
-                        var option = $('<option value="' + value.id + '">' + value
-                            .name + '</option>');
-                        if (value.id == kel) {
-                            option.attr('selected', 'selected');
-                        }
-                        $("#kelurahan_id").append(option);
-                    });
-                },
-                error: function(error) {
-                    console.log('Error:', error);
-                }
-            });
-
-            $("#provinsi_id").change(function() {
-                var selectedProvinsi = $(this).val();
-                var selectedKabupaten = "{{ $user->santri->alamat_santri->kabupaten->id }}";
+    @if (Auth::user()->roles->first()->name !== 'Administrator' && Auth::user()->roles->first()->name != 'Keuangan')
+        <script>
+            $(document).ready(function() {
+                var provinsiData = {!! json_encode($provinsi) !!};
+                $("#provinsi_id").empty();
+                $("#provinsi_id").append(
+                    '<option value="" selected disabled>Pilih Provinsi</option>');
+                var prov = "{{ $user->santri->alamat_santri->provinsi->id }}";
+                $.each(provinsiData, function(key, value) {
+                    var option = $('<option value="' + value.id + '">' + value
+                        .name + '</option>');
+                    if (value.id == prov) {
+                        option.attr('selected', 'selected');
+                    }
+                    $("#provinsi_id").append(option);
+                });
+                var kab = "{{ $user->santri->alamat_santri->kabupaten->id }}";
                 $.ajax({
                     url: "{{ route('alamat.kabupaten') }}",
                     method: 'GET',
                     data: {
-                        provinsi_id: selectedProvinsi
+                        provinsi_id: prov
                     },
                     success: function(data) {
                         $("#kabupaten_id").empty();
                         $.each(data, function(key, value) {
                             var option = $('<option value="' + value.id + '">' + value
                                 .name + '</option>');
-                            if (value.id == selectedKabupaten) {
+                            if (value.id == kab) {
                                 option.attr('selected', 'selected');
                             }
                             $("#kabupaten_id").append(option);
@@ -240,22 +172,19 @@
                         console.log('Error:', error);
                     }
                 });
-            })
-            $("#kabupaten_id").change(function() {
-                var kabupaten_id = $(this).val();
-                var selectedKecamatan = "{{ $user->santri->alamat_santri->kabupaten->id }}";
+                var kec = "{{ $user->santri->alamat_santri->kecamatan->id }}";
                 $.ajax({
                     url: "{{ route('alamat.kecamatan') }}",
                     method: 'GET',
                     data: {
-                        kabupaten_id: kabupaten_id
+                        kabupaten_id: kab
                     },
                     success: function(data) {
                         $("#kecamatan_id").empty();
                         $.each(data, function(key, value) {
                             var option = $('<option value="' + value.id + '">' + value
                                 .name + '</option>');
-                            if (value.id == selectedKecamatan) {
+                            if (value.id == kec) {
                                 option.attr('selected', 'selected');
                             }
                             $("#kecamatan_id").append(option);
@@ -265,22 +194,19 @@
                         console.log('Error:', error);
                     }
                 });
-            })
-            $("#kecamatan_id").change(function() {
-                var kecamatan_id = $(this).val();
-                var selectedKelurahan = "{{ $user->santri->alamat_santri->kelurahan->id }}";
+                var kel = "{{ $user->santri->alamat_santri->kelurahan->id }}";
                 $.ajax({
                     url: "{{ route('alamat.kelurahan') }}",
                     method: 'GET',
                     data: {
-                        kecamatan_id: kecamatan_id
+                        kecamatan_id: kec
                     },
                     success: function(data) {
                         $("#kelurahan_id").empty();
                         $.each(data, function(key, value) {
                             var option = $('<option value="' + value.id + '">' + value
                                 .name + '</option>');
-                            if (value.id == selectedKelurahan) {
+                            if (value.id == kel) {
                                 option.attr('selected', 'selected');
                             }
                             $("#kelurahan_id").append(option);
@@ -290,7 +216,83 @@
                         console.log('Error:', error);
                     }
                 });
+
+                $("#provinsi_id").change(function() {
+                    var selectedProvinsi = $(this).val();
+                    var selectedKabupaten = "{{ $user->santri->alamat_santri->kabupaten->id }}";
+                    $.ajax({
+                        url: "{{ route('alamat.kabupaten') }}",
+                        method: 'GET',
+                        data: {
+                            provinsi_id: selectedProvinsi
+                        },
+                        success: function(data) {
+                            $("#kabupaten_id").empty();
+                            $.each(data, function(key, value) {
+                                var option = $('<option value="' + value.id + '">' + value
+                                    .name + '</option>');
+                                if (value.id == selectedKabupaten) {
+                                    option.attr('selected', 'selected');
+                                }
+                                $("#kabupaten_id").append(option);
+                            });
+                        },
+                        error: function(error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                })
+                $("#kabupaten_id").change(function() {
+                    var kabupaten_id = $(this).val();
+                    var selectedKecamatan = "{{ $user->santri->alamat_santri->kabupaten->id }}";
+                    $.ajax({
+                        url: "{{ route('alamat.kecamatan') }}",
+                        method: 'GET',
+                        data: {
+                            kabupaten_id: kabupaten_id
+                        },
+                        success: function(data) {
+                            $("#kecamatan_id").empty();
+                            $.each(data, function(key, value) {
+                                var option = $('<option value="' + value.id + '">' + value
+                                    .name + '</option>');
+                                if (value.id == selectedKecamatan) {
+                                    option.attr('selected', 'selected');
+                                }
+                                $("#kecamatan_id").append(option);
+                            });
+                        },
+                        error: function(error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                })
+                $("#kecamatan_id").change(function() {
+                    var kecamatan_id = $(this).val();
+                    var selectedKelurahan = "{{ $user->santri->alamat_santri->kelurahan->id }}";
+                    $.ajax({
+                        url: "{{ route('alamat.kelurahan') }}",
+                        method: 'GET',
+                        data: {
+                            kecamatan_id: kecamatan_id
+                        },
+                        success: function(data) {
+                            $("#kelurahan_id").empty();
+                            $.each(data, function(key, value) {
+                                var option = $('<option value="' + value.id + '">' + value
+                                    .name + '</option>');
+                                if (value.id == selectedKelurahan) {
+                                    option.attr('selected', 'selected');
+                                }
+                                $("#kelurahan_id").append(option);
+                            });
+                        },
+                        error: function(error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                })
             })
-        })
-    </script>
+        </script>
+    @endif
 @endpush

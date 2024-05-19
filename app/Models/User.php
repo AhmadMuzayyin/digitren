@@ -29,20 +29,19 @@ class User extends Authenticatable
     {
         parent::boot();
         self::creating(function ($user) {
-            $activity = class_basename($user)." $user->name";
-            $user->CreateLog('Creatting '.$activity);
+            $activity = class_basename($user) . " $user->name";
+            $user->CreateLog('Creatting ' . $activity);
         });
 
         self::updating(function ($user) {
-            $activity = class_basename($user)." $user->name";
-            $user->CreateLog('Updating '.$activity);
+            $activity = class_basename($user) . " $user->name";
+            $user->CreateLog('Updating ' . $activity);
         });
         self::deleting(function ($user) {
-            $activity = class_basename($user)." $user->name";
-            $user->CreateLog('Deleting '.$activity);
+            $activity = class_basename($user) . " $user->name";
+            $user->CreateLog('Deleting ' . $activity);
         });
     }
-
     public function santri()
     {
         return $this->hasOne(Santri::class);

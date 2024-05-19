@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Santri;
+use App\Observers\SantriObserver;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
     }
 
     /**
@@ -19,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Paginator::useBootstrapFive();
+        Santri::observe(SantriObserver::class);
     }
 }

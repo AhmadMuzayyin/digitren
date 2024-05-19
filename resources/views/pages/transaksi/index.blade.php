@@ -55,6 +55,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <select name="name" id="name" class="form-control single-select">
+                                        <option value="" selected disabled>Pilih Santri</option>
+                                        @foreach ($santri as $model)
+                                            <option value="{{ $model->id }}">{{ $model->user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             @if (request()->get('jenis_transaksi') == null || request()->get('jenis_transaksi') == 'Setoran')
                                 @include('pages.transaksi.setoran')
@@ -81,8 +89,15 @@
         $(document).ready(function() {
             $('#select').on('change', function() {
                 window.location.href = "{{ route('transaksi.index') }}" + '?jenis_transaksi=' + $(this)
-                .val()
+                    .val()
             })
+            $('.single-select').select2({
+                theme: 'bootstrap4',
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
+                    'style',
+                placeholder: $(this).data('placeholder'),
+                allowClear: Boolean($(this).data('allow-clear')),
+            });
         })
     </script>
 @endpush

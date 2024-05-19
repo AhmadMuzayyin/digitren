@@ -6,14 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Toastr;
+use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-
-        return view('pages.users.index', compact('users'));
+        if (request()->ajax()) {
+            $users = User::with('roles')->whereNotIn('name', ['Administrator'])->get();
+            return DataTables::of($users)
+                ->addIndexColumn()
+                ->addColumn('action', 'pages.users.include.action')
+                ->toJson();
+        }
+        return view('pages.users.index');
     }
 
     public function store(Request $request)

@@ -7,25 +7,29 @@ class Helper
     public static function make_noinduk($params)
     {
         $last_tahun_masuk = substr($params['tahun_masuk'], 0, 4);
-        $get_santri_latest = Santri::where('jenis_kelamin', $params['gender'])->whereYear('tahun_masuk', $last_tahun_masuk)->orderBy('no_induk', 'desc')->get(['no_induk']);
-        // dd($get_santri_latest, $params, $last_tahun_masuk);
-        if (!$get_santri_latest->isEmpty()) {
-            $start_noinduk = substr($get_santri_latest[0]->no_induk, 4);
-            $next = str_pad((int) $start_noinduk + 1, strlen($start_noinduk), '0', STR_PAD_LEFT);
-            $noinduk = $params['tahun_masuk_hijriyah'] . $next;
-            return $noinduk;
-        }
-        if ($params['gender'] == 'Laki-Laki') {
-            $start_noinduk = '0001';
-            $noinduk = $params['tahun_masuk_hijriyah'] . $start_noinduk;
+        $jenis_kelamin = $params['gender'];
+        $tahun_masuk_hijriyah = $params['tahun_masuk_hijriyah'];
 
-            return $noinduk;
+        // Ambil no_induk terakhir langsung dengan mengambil satu data
+        $get_santri_latest = Santri::where('jenis_kelamin', $jenis_kelamin)
+            ->whereYear('tahun_masuk', $last_tahun_masuk)
+            ->orderBy('no_induk', 'desc')
+            ->first(['no_induk']);
+
+        if ($get_santri_latest) {
+            // Ambil nomor induk terakhir dan tambahkan 1
+            $start_noinduk = substr($get_santri_latest->no_induk, 4);
+            $next = (int)$start_noinduk + 1;
         } else {
-            $start_noinduk = '1001';
-            $noinduk = $params['tahun_masuk_hijriyah'] . $start_noinduk;
-
-            return $noinduk;
+            // Tentukan nomor awal berdasarkan jenis kelamin
+            $next = ($jenis_kelamin == 'Laki-Laki') ? 1 : 1001;
         }
+
+        // Format nomor induk berikutnya dengan padding zero
+        $next_noinduk = str_pad($next, 4, '0', STR_PAD_LEFT);
+        $noinduk = $tahun_masuk_hijriyah . $next_noinduk;
+
+        return $noinduk;
     }
 
     public static function isChecked($item, $array)

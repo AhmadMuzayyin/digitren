@@ -8,14 +8,20 @@ use App\Models\Kamar;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
+use Yajra\DataTables\Facades\DataTables;
 
 class KamarController extends Controller
 {
     public function index()
     {
-        $kamar = Kamar::all();
-
-        return view('pages.kamar.index', compact('kamar'));
+        if (request()->ajax()) {
+            $kamar = Kamar::get();
+            return DataTables::of($kamar)
+                ->addIndexColumn()
+                ->addColumn('action', 'pages.kamar.include.action')
+                ->toJson();
+        }
+        return view('pages.kamar.index');
     }
 
     public function store(Request $request)
@@ -49,7 +55,6 @@ class KamarController extends Controller
             'maksimal_santri' => 'required|numeric|min:0',
         ]);
         try {
-            $validate['kode'] = fake()->regexify('[A-Z]{5}[0-4]{5}');
             $kamar->update($validate);
             Toastr::success('Berhasil merubah data');
 

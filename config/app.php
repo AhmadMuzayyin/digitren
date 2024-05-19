@@ -175,6 +175,8 @@ return [
         Milon\Barcode\BarcodeServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         October\Rain\Config\ServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ])->toArray(),
 
     /*

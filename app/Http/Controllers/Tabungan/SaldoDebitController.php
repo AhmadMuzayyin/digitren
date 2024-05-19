@@ -10,15 +10,27 @@ use App\Models\TransaksiTabungan;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
+use Yajra\DataTables\Facades\DataTables;
 
 class SaldoDebitController extends Controller
 {
     public function index()
     {
-        $tabungan = Tabungan::with('santri')->get();
         $santri = Santri::all();
-
-        return view('pages.saldo_debit.index', compact('tabungan', 'santri'));
+        if (request()->ajax()) {
+            $tabungan = Tabungan::with('santri')->get();
+            return DataTables::of($tabungan)
+                ->addIndexColumn()
+                ->addColumn('action', 'pages.saldo_debit.include.action')
+                ->addcolumn('nama', function ($tabungan) {
+                    return $tabungan->santri->user->name;
+                })
+                ->addcolumn('no_induk', function ($tabungan) {
+                    return $tabungan->santri->no_induk;
+                })
+                ->toJson();
+        }
+        return view('pages.saldo_debit.index');
     }
 
     public function store(Request $request)
@@ -96,11 +108,11 @@ class SaldoDebitController extends Controller
     public function export($id)
     {
         $santri = Santri::with('user')->where('id', $id)->first();
-        $filname = $santri->user->name.' - '.$santri->desa;
+        $filname = $santri->user->name . ' - ' . $santri->desa;
 
         $tabungan = TransaksiTabungan::with('santri')->where('santri_id', $id)->get();
 
-        return Excel::download(new TabunganExport($tabungan), $filname.'_Tabungan.xlsx');
+        return Excel::download(new TabunganExport($tabungan), $filname . '_Tabungan.xlsx');
 
         return redirect()->back();
     }

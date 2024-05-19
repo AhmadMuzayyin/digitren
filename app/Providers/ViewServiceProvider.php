@@ -30,11 +30,10 @@ class ViewServiceProvider extends ServiceProvider
     {
         view()->composer('pages.santri.*', function ($view) {
             $kelas = Kelas::all();
-            $view->with('kelas', $kelas);
+            $view->with('classes', $kelas);
 
             $kamar = Kamar::all();
-            $view->with('kamar', $kamar);
-
+            $view->with('badroom', $kamar);
             $provinsi = Provinsi::all();
             $view->with('provinsi', $provinsi);
             $kabupaten = Kabupaten::all();
@@ -59,6 +58,14 @@ class ViewServiceProvider extends ServiceProvider
         view()->composer('pages.profil.*', function ($view) {
             $provinsi = Provinsi::all();
             $view->with('provinsi', $provinsi);
+        });
+        view()->composer('pages.users.*', function ($view) {
+            $roles = Role::all();
+            $view->with('roles', $roles);
+        });
+        view()->composer('pages.saldo_debit.*', function ($view) {
+            $santri = Santri::all();
+            $view->with('santri', $santri);
         });
     }
 }

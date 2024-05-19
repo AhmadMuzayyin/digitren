@@ -38,74 +38,6 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach ($users as $item)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->name }}</td>
-                                                        <td>{{ $item->email }}</td>
-                                                        <td>{{ $item->roles->first()->name }}</td>
-                                                        <td>
-                                                            <div class="btn-group pull-right">
-                                                                <button data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal-{{ $item->id }}"
-                                                                    class="btn btn-sm btn-primary">
-                                                                    <span class="bx bx-edit"> </span>
-                                                                </button>
-
-                                                                <x-edit-modal title="Edit data pengguna"
-                                                                    id="{{ $item->id }}"
-                                                                    fn="{{ route('users.update', $item->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('PATCH')
-                                                                    <div class="mb-3">
-                                                                        <x-input type='text' name='name'
-                                                                            id="name" label='Nama Lengkap'
-                                                                            placeholder='Nama Lengkap'
-                                                                            value="{{ $item->name }}"
-                                                                            attribute='required'></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-input type='email' name='email'
-                                                                            id="email" label='Email'
-                                                                            placeholder='Email' value="{{ $item->email }}"
-                                                                            attribute='required'></x-input>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <x-select-option id="role_id" name="role_id"
-                                                                            label="Jabatan">
-                                                                            <option value="" selected disabled>Pilih
-                                                                                jabatan</option>
-                                                                            @foreach ($roles as $role)
-                                                                                <option value="{{ $role->id }}"
-                                                                                    {{ $item->roles->first()->id == $role->id ? 'selected' : '' }}>
-                                                                                    {{ $role->name }}</option>
-                                                                            @endforeach
-                                                                        </x-select-option>
-                                                                    </div>
-                                                                </x-edit-modal>
-
-                                                                @if ($item->id > 1)
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#deleteModal-{{ $item->id }}"
-                                                                        class="btn btn-sm btn-danger">
-                                                                        <span class="bx bx-trash"> </span>
-                                                                    </button>
-
-                                                                    <x-delete-modal title='Hapus data'
-                                                                        id="{{ $item->id }}"
-                                                                        fn="{{ route('users.destroy', $item->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                    </x-delete-modal>
-                                                                @endif
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -150,17 +82,36 @@
 @endsection
 
 @push('js')
-    <!--Data Tables js-->
-    <script src="{{ url('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            //Default data table
-            $('#table').DataTable();
-            var table = $('#example2').DataTable({
-                lengthChange: false,
-                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            $('#table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('users.index') }}",
+                columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                }, {
+                    data: 'name',
+                    name: 'name'
+                }, {
+                    data: 'email',
+                    name: 'email'
+                }, {
+                    data: 'roles',
+                    render: function(data) {
+                        return data.map((item) => item.name)
+                    },
+                    name: 'roles'
+                }, {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                }]
             });
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

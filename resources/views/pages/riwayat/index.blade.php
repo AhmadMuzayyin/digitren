@@ -34,17 +34,6 @@
                                                     <th>Updated_at</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach ($riwayat as $item)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->user->name }}</td>
-                                                        <td>{{ $item->activity }}</td>
-                                                        <td>{{ $item->created_at->format('d F Y') }}</td>
-                                                        <td>{{ $item->updated_at->format('d F Y') }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -57,17 +46,39 @@
     </div>
 @endsection
 @push('js')
-    <!--Data Tables js-->
-    <script src="{{ url('assets/plugins/datatable/js/jquery.dataTables.min.js') }}" attribute="required"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
     <script>
         $(document).ready(function() {
             //Default data table
-            $('#table').DataTable();
-            var table = $('#example2').DataTable({
-                lengthChange: false,
-                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            $('#table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('riwayat.index') }}",
+                columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                }, {
+                    data: 'user',
+                    name: 'user'
+                }, {
+                    data: 'activity',
+                    name: 'activity'
+                }, {
+                    data: 'created_at',
+                    render: function(data) {
+                        return moment(data).format('DD MMMM YYYY');
+                    },
+                    name: 'created_at',
+                }, {
+                    data: 'updated_at',
+                    render: function(data) {
+                        return moment(data).format('DD MMMM YYYY');
+                    },
+                    name: 'updated_at',
+                }]
             });
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

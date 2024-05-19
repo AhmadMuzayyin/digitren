@@ -66,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
         // santri dan kelas santri
         Route::controller(SantriController::class)->as('santri.')->group(function () {
             Route::get('/santri', 'index')->name('index');
+            Route::get('/santri/{santri}/show', 'show')->name('show');
             Route::post('/santri', 'store')->name('store');
             Route::get('/santri/download', 'download')->name('download');
             Route::post('/santri/import', 'import')->name('import');

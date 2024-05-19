@@ -36,7 +36,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Jenis Transkasi</th>
+                                                    <th>Tanggal Transkasi</th>
                                                     <th>Setor</th>
                                                     <th>Tarik</th>
                                                     <th>Saldo</th>
@@ -46,7 +46,8 @@
                                                 @foreach ($data as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->jenis_transaksi }}</td>
+                                                        <td>{{ $item->tanggal_transaksi . '/' . $item->created_at->diffForHumans() }}
+                                                        </td>
                                                         <td>
                                                             @if ($item->jenis_transaksi === 'Setoran')
                                                                 @php

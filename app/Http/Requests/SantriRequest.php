@@ -31,14 +31,13 @@ class SantriRequest extends FormRequest
             'kelurahan_id' => 'required|exists:kelurahans,id',
             'dusun' => 'required|string',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
-            'nik' => 'required|digits:16',
-            'kk' => 'required|digits:16',
             'whatsapp' => 'required|string|max:13',
             'tanggal_lahir' => 'required|date',
             'tempat_lahir' => 'required|string',
             'tahun_masuk' => 'required|date',
             'nama_ayah' => 'required',
             'nama_ibu' => 'required',
+            'foto' => 'nullable|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

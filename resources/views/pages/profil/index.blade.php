@@ -17,21 +17,24 @@
                                     <div class="col-12 col-lg-7 border-right">
                                         <div class="d-md-flex align-items-center">
                                             <div class="mb-md-0 mb-3">
-                                                @if ($user->santri->foto === 'santri.png' || $user->santri->foto === '')
-                                                    <img src="{{ url('assets/images/avatars/avatar-1.png') }}"
-                                                        class="rounded-circle shadow" width="130" height="130"
-                                                        alt="santri.png" />
-                                                @else
-                                                    <img src="{{ url("storage/uploads/santri/{$user->santri->foto}") }}"
-                                                        class="rounded-circle shadow" width="70" alt="santri.png" />
-                                                @endif
+                                                @isset($user->santri->foto)
+                                                    @if ($user->santri->foto === 'santri.png' || $user->santri->foto === '')
+                                                        <img src="{{ url('assets/images/avatars/avatar-1.png') }}"
+                                                            class="rounded-circle shadow" width="130" height="130"
+                                                            alt="santri.png" />
+                                                    @else
+                                                        <img src="{{ url("storage/uploads/santri/{$user->santri->foto}") }}"
+                                                            class="rounded-circle shadow" width="70" alt="santri.png" />
+                                                    @endif
+                                                @endisset
                                             </div>
                                             <div class="ms-md-4 flex-grow-1">
                                                 <div class="d-flex align-items-center mb-1">
                                                     <h4 class="mb-0">{{ $user->name }}</h4>
                                                 </div>
                                                 <p class="text-primary"><i class='bx bx-buildings'></i>
-                                                    {{ $user->roles->first()->name }} - {{ $user->santri->no_induk }}
+                                                    {{ $user->roles->first()->name }} -
+                                                    {{ isset($user->santri) ? $user->santri->no_induk : '112' }}
                                                 </p>
                                             </div>
                                         </div>

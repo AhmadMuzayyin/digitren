@@ -6,14 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Toastr;
+use Yajra\DataTables\Facades\DataTables;
 
 class KelasController extends Controller
 {
     public function index()
     {
-        $kelas = Kelas::all();
-
-        return view('pages.kelas.index', compact('kelas'));
+        if (request()->ajax()) {
+            $kelas = Kelas::all();
+            return DataTables::of($kelas)
+                ->addIndexColumn()
+                ->addColumn('action', 'pages.kelas.include.action')
+                ->toJson();
+        }
+        return view('pages.kelas.index');
     }
 
     public function store(Request $request)
@@ -45,7 +51,6 @@ class KelasController extends Controller
             'keterangan' => 'nullable',
         ]);
         try {
-            $validate['kode'] = fake()->regexify('[A-Z]{5}[0-4]{5}');
             $kelas->update($validate);
             Toastr::success('Berhasil merubah data');
 

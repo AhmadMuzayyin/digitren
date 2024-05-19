@@ -19,6 +19,9 @@ class TransaksiController extends Controller
                 $query->where('no_induk', $noinduk);
             })->first();
             if ($santri) {
+                $saldo = Tabungan::whereHas('santri', function ($query) use ($noinduk) {
+                    $query->where('no_induk', $noinduk);
+                })->sum('saldo');
                 if (request()->get('jenis') == 'Penarikan') {
                     $tr = TransaksiTabungan::where('santri_id', $santri->santri->id)->whereDate('tanggal_transaksi', now()->toDateString())->where('jenis_transaksi', 'Penarikan')->get();
                     if (!$tr->isEmpty()) {
@@ -28,10 +31,9 @@ class TransaksiController extends Controller
                             'santri_id' => $santri->santri->id,
                             'no_induk' => $santri->santri->no_induk,
                             'name' => $santri->santri->user->name,
-                            'saldo' => number_format($santri->sum('saldo')),
+                            'saldo' => number_format($saldo),
                             'foto' => $santri->santri->foto,
                         ];
-
                         return response()->json(['data' => $data], 200);
                     }
                 } else {
@@ -39,18 +41,17 @@ class TransaksiController extends Controller
                         'santri_id' => $santri->santri->id,
                         'no_induk' => $santri->santri->no_induk,
                         'name' => $santri->santri->user->name,
-                        'saldo' => number_format($santri->sum('saldo')),
+                        'saldo' => number_format($saldo),
                         'foto' => $santri->santri->foto,
                     ];
-
                     return response()->json(['data' => $data], 200);
                 }
             }
 
             return response()->json(['message' => 'Tidak ada data santri dengan nomor induk <strong>' . $noinduk . '</strong>'], 200);
         }
-
-        return view('pages.transaksi.index');
+        $santri = Santri::with('user')->get(['no_induk as id', 'user_id']);
+        return view('pages.transaksi.index', compact('santri'));
     }
 
     public function store(Request $request)

@@ -2,7 +2,7 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div class="">
-            <img src="{{ url('assets/images/logo-icon.jpg') }}" class="logo-icon-2" alt="" />
+            <img src="{{ url('assets/images/logo-icon.png') }}" class="logo-icon-2" alt="" />
         </div>
         <div>
             <h4 class="logo-text">Digitren</h4>
@@ -36,12 +36,24 @@
                     <div class="menu-title">Kelas</div>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('santri.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('santri.index') }}">
+            <li>
+                <a class="has-arrow" href="javascript:;">
                     <div class="parent-icon icon-color-4"><i class="bx bx-user"></i>
                     </div>
                     <div class="menu-title">Santri</div>
                 </a>
+                <ul>
+                    <li class="{{ request()->routeIs('santri.*') ? 'mm-active' : '' }}">
+                        <a href="{{ route('santri.index') }}"><i class="bx bx-right-arrow-alt"></i>Santri
+                        </a>
+                    </li>
+                    @role('Administrator')
+                        <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
+                            <a href="{{ route('users.index') }}"><i class="bx bx-right-arrow-alt"></i>Pengguna
+                            </a>
+                        </li>
+                    @endrole
+                </ul>
             </li>
             {{-- <li class="{{ request()->routeIs('mapel.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('mapel.index') }}">
@@ -108,13 +120,6 @@
                     <div class="menu-title">Jabatan</div>
                 </a>
             </li> --}}
-            <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
-                <a href="{{ route('users.index') }}">
-                    <div class="parent-icon text-info"><i class="bx bx-user-circle"></i>
-                    </div>
-                    <div class="menu-title">Pengguna</div>
-                </a>
-            </li>
             <li class="{{ request()->routeIs('riwayat.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('riwayat.index') }}">
                     <div class="parent-icon icon-color-8"><i class="bx bx-history"></i>
