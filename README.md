@@ -10,7 +10,7 @@
 <a href="https://github.com/AhmadMuzayyin/digitren/network/members" target="_blank"><img src="https://img.shields.io/github/forks/AhmadMuzayyin/digitren" alt="Forks" /></a>
 </p>
 
-Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel](https://laravel.com) dengan versi [php](https://www.php.net/) 8.1
+Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel](https://laravel.com) dengan versi [php](https://www.php.net/) 8.2
 
 ## Role
 
@@ -25,9 +25,6 @@ Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel]
 -   CRUD Data Kamar
 -   CRUD Data Kelas
 -   CRUD Data Santri
--   CRUD Data Mata Pelajaran
--   CRUD Data Surat
--   CRUD Surat Izin Santri
 -   CRUD Tabungan Santri
 -   CRUD Transaksi Tabungan Santri
 -   CRUD Pengguna
@@ -46,25 +43,28 @@ Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel]
 -   CRUD Data Kamar
 -   CRUD Data Kelas
 -   CRUD Data Santri
--   CRUD Data Mata Pelajaran
--   CRUD Data Surat
--   CRUD Surat Izin Santri
 -   CRUD Tabungan Santri
 -   CRUD Transaksi Tabungan Santri
 -   CRUD Pengguna
 -   Read Riwayat
 -   Read dan Update Sinkronisasi Data ke Google Sheets
 
-## Fitur Santri (on going)
+## Fitur On Going
 
--   Dashboard
--   Read Nilai Raport
--   Read Saldo Tabungan
+-   Santri Dashboard
+-   CRUD Nilai Raport
+-   CRUD Saldo Tabungan
+-   CRUD Data Mata Pelajaran
+-   CRUD Data Surat
+-   CRUD Surat Izin Santri
+-   CRUD Transfer Saldo Tabungan
+-   Digitren Versi Desktop
+-   Digitren Versi Mobile
 
-# Fitur Lain
+# Fitur Unggulan
 
 -   Backup Data Santri ke [google sheets](https://youtu.be/y-sIJ30Z5CU?si=wX9O9RROgO-iZGZX)
--   Kartu Santri dengan barcode
+-   Kartu Santri dengan barcode [hubungi saya](https://wa.me/6285179695497?text=Halo%20Admin%20DIGITREN%20saya%20ingin%20membuat%20kartu%20santri%20dengan%20barcode)
 
 ## Instalasi
 
