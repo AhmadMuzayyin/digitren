@@ -45,7 +45,12 @@
                                             value="{{ isset($setting) ? $setting->whatsapp_api_key : old('whatsapp_api_key') }}" />
                                     </div>
                                     <div class="form-group mt-3">
-                                        <div class="form-check">
+                                        <x-input type="number" id="sender" name="sender" label="Nomor Pengirim Pesan"
+                                            value="{{ isset($setting) ? $setting->sender : old('sender') }}" />
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label for="Aktif">Fitur Kirim Pesan Whatsapp</label>
+                                        <div class="form-check mt-2">
                                             <input class="form-check-input" type="radio" name="whatsapp_feature[]"
                                                 id="Aktif" value="1"
                                                 {{ isset($setting) ? ($setting->whatsapp_feature == true ? 'checked' : '') : '' }}>

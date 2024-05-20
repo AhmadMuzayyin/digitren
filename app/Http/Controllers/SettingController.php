@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Whatsapp;
 use Toastr;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -78,6 +79,7 @@ class SettingController extends Controller
         $validate = $request->validated();
         try {
             $validate['whatsapp_feature'] = $validate['whatsapp_feature'][0];
+            $validate['sender'] = Whatsapp::make($validate['sender']);
             $logo = request()->file('logo');
             if (isset($logo) == true) {
                 $path = storage_path('app/public/uploads/setting/');
