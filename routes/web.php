@@ -11,6 +11,7 @@ use App\Http\Controllers\Rapor\RaportSantriController;
 use App\Http\Controllers\Riwayat\RiwayatController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Santri\SantriController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Sinkron\SinkronController;
 use App\Http\Controllers\Surat\JenisSuratController;
 use App\Http\Controllers\Surat\SuratController;
@@ -101,6 +102,13 @@ Route::middleware(['auth'])->group(function () {
         // riwayat
         Route::controller(RiwayatController::class)->as('riwayat.')->group(function () {
             Route::get('/riwayat', 'index')->name('index');
+        });
+        // setting
+        Route::controller(SettingController::class)->as('setting.')->group(function () {
+            Route::get('setting', 'index')->name('index');
+            Route::post('setting/store', 'store')->name('store');
+            Route::patch('setting/{setting}/update', 'update')->name('update');
+            Route::post('setting/whatsapp', 'whatsapp')->name('whatsapp');
         });
     });
 

@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('favicon')->nullable();
             $table->string('logo')->nullable();
+            $table->boolean('whatsapp_feature')->default(false)->nullable();
             $table->string('kts_master')->nullable();
+            $table->bigInteger('sender')->nullable();
             $table->string('whatsapp_api_key')->nullable();
             $table->timestamps();
         });

@@ -1,8 +1,10 @@
 <!--sidebar-wrapper-->
+@props(['setting'])
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div class="">
-            <img src="{{ url('assets/images/logo-icon.png') }}" class="logo-icon-2" alt="" />
+            <img src="{{ $setting != null ? url('storage/uploads/setting/', $setting->logo) : url('assets/images/logo-icon.png') }}"
+                class="logo-icon-2" alt="" />
         </div>
         <div>
             <h4 class="logo-text">Digitren</h4>

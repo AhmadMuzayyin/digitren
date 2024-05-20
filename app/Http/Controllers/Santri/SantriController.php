@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Santri;
 
 use App\Exports\SantriExport;
+use App\Helpers\Whatsapp;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SantriRequest;
 use App\Imports\SantriImport;
@@ -30,7 +31,8 @@ class SantriController extends Controller
         $santri = Santri::with([
             'user:id,name,email',
             'wali_santri',
-        ])->select('id', 'no_induk', 'jenis_kelamin', 'tanggal_lahir', 'user_id', 'foto', 'status', 'tahun_masuk');
+        ])->select('id', 'no_induk', 'jenis_kelamin', 'tanggal_lahir', 'user_id', 'foto', 'status', 'tahun_masuk')
+            ->orderBy('id', 'desc');
         // dd($santri->paginate(1));
         if (request()->ajax()) {
             return DataTables::of($santri)
@@ -82,13 +84,14 @@ class SantriController extends Controller
             ];
             $validate['no_induk'] = Helper::make_noinduk($params);
             // validate replace with column name
-            $validate['kamar_id'] = $validate['kamar'];
-            $validate['kelas_id'] = $validate['kelas'];
+            $kamar_santri['kamar_id'] = $validate['kamar'];
+            $kelas_santri['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
             $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
             $validate['whatsapp'] = $request->whatsapp;
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
+            $validate['whatsapp'] = Whatsapp::make($validate['whatsapp']);
             $foto = $request->file('foto');
             if (isset($foto) == true) {
                 $path = storage_path('app/public/uploads/santri/');
@@ -112,15 +115,17 @@ class SantriController extends Controller
                 'password' => bcrypt('password'),
                 'role_id' => 4,
             ]);
-            // insert wali santri
-            $wali = WaliSantri::create([
-                'nama_ayah' => $validate['nama_ayah'],
-                'nama_ibu' => $validate['nama_ibu'],
-            ]);
             $user->assignRole('Santri');
             $validate['user_id'] = $user->id;
-            $validate['wali_santri_id'] = $wali->id;
             $santri = Santri::create($validate);
+            KamarSantri::create([
+                'santri_id' => $santri->id,
+                'kamar_id' => $kamar_santri['kamar_id']
+            ]);
+            KelasSantri::create([
+                'santri_id' => $santri->id,
+                'kelas_id' => $kelas_santri['kelas_id']
+            ]);
             $alamat = AlamatSantri::create([
                 'santri_id' => $santri->id,
                 'provinsi_id' => $validate['provinsi_id'],
@@ -129,19 +134,18 @@ class SantriController extends Controller
                 'kelurahan_id' => $validate['kelurahan_id'],
                 'dusun' => $validate['dusun'],
             ]);
+            // insert wali santri
+            $wali = WaliSantri::create([
+                'santri_id' => $santri->id,
+                'nama_ayah' => $validate['nama_ayah'],
+                'nama_ibu' => $validate['nama_ibu'],
+            ]);
             if (!$santri) {
                 $user->delete();
                 $wali->delete();
                 $alamat->delete();
             } else {
                 User::find($validate['user_id'])->assignRole('Santri');
-            }
-            // update kamar
-            if (!$request->tanggal_boyong) {
-                $kamar = Kamar::where('id', $validate['kamar_id'])->first();
-                $kamar->update([
-                    'jumlah_santri' => $kamar->jumlah_santri + 1,
-                ]);
             }
             Toastr::success('Berhasil menambah data');
             return redirect()->back();
@@ -181,6 +185,7 @@ class SantriController extends Controller
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
             $validate['tanggal_boyong'] = $request->tanggal_boyong;
+            $validate['whatsapp'] = Whatsapp::make($validate['whatsapp']);
 
             $foto = $request->file('foto');
             if (isset($foto) == true) {
@@ -268,10 +273,6 @@ class SantriController extends Controller
     public function destroy(Santri $santri)
     {
         try {
-            $kamar = Kamar::findOrFail($santri->kamar_id);
-            $kamar->update([
-                'jumlah_santri' => $kamar->jumlah_santri - 1,
-            ]);
             if ($santri->foto != 'santri.png') {
                 $filePath = "public/uploads/santri/$santri->foto";
                 if (Storage::exists($filePath)) {
@@ -282,12 +283,12 @@ class SantriController extends Controller
             $santri->transaksi_tabungan()->delete();
             $santri->user()->delete();
             $santri->wali_santri()->delete();
+            $santri->kamar_santri()->delete();
+            $santri->kelas_santri()->delete();
             Toastr::success('Berhasil menghapus data');
-
             return to_route('santri.index');
         } catch (\Throwable $th) {
             Toastr::error('Gagal menghapus data');
-
             return redirect()->back();
         }
     }

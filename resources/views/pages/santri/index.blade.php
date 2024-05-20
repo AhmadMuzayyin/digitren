@@ -40,7 +40,6 @@
                                                     <th>#</th>
                                                     <th>No Induk</th>
                                                     <th>Nama</th>
-                                                    <th>Alamat</th>
                                                     <th>Jenis Kelamin</th>
                                                     <th>Tahun Masuk</th>
                                                     <th>Status</th>
@@ -130,18 +129,6 @@
                     data: 'user.name',
                     name: 'user.name',
                 }, {
-                    data: 'alamat_santri',
-                    render: function(data) {
-                        if (data != null) {
-                            return data.dusun + ', ' + data.kelurahan.name + ', ' + data
-                                .kecamatan
-                                .name + ', ' + data.kabupaten.name
-                        } else {
-                            return 'Alamat Belum Ada';
-                        }
-                    },
-                    name: 'alamat_santri',
-                }, {
                     data: 'jenis_kelamin',
                     name: 'jenis_kelamin',
                 }, {
@@ -154,9 +141,13 @@
                     data: 'foto',
                     render: function(data) {
                         if (data == 'santri.png') {
-                            return `<img src="/img/${data}" alt="santri" class="img-fluid rounded-circle" width="70px">`;
+                            return `<div class="d-flex justify-content-center">
+                            <img src="/img/${data}" alt="santri" class="img-fluid rounded-circle" width="70px">
+                            </div`;
                         } else {
-                            return `<img src="/storage/uploads/santri/${data}" alt="santri" class="img-fluid rounded-circle" width="70px">`;
+                            return `<div class="d-flex justify-content-center">
+                                <img src="/storage/uploads/santri/${data}" alt="santri" class="img-fluid " width="70px">
+                                </div>`;
                         }
                     },
                     name: 'foto',

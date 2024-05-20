@@ -175,7 +175,7 @@
 </div>
 <div class="row mb-2 mt-3">
     <div class="col">
-        @if (isset($item))
+        @if (isset($item) && isset($item->kelas_santri))
             <div class="mb-2">
                 <x-select-option name='kelas' id="kelas" label='Kelas'>
                     @foreach ($classes as $kls)
@@ -200,7 +200,7 @@
         @endif
     </div>
     <div class="col">
-        @if (isset($item))
+        @if (isset($item) && isset($item->kamar_santri))
             <div class="mb-2">
                 <x-select-option name='kamar' id="kamar" label='Kamar'>
                     @foreach ($badroom as $kmr)

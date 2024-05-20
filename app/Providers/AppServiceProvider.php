@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Santri;
+use App\Models\TransaksiTabungan;
 use App\Observers\SantriObserver;
+use App\Observers\TransaksiTabunganObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         Santri::observe(SantriObserver::class);
+        TransaksiTabungan::observe(TransaksiTabunganObserver::class);
     }
 }

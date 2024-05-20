@@ -28,6 +28,12 @@
                         <input type="text" class="form-control" placeholder="Nominal" name="kredit" id="kredit"
                             required>
                     </div>
+                    <div class="input-group mt-4">
+                        <span class="input-group-text" id="basic-addon1">Tujuan</span>
+                        <input type="text" class="form-control" placeholder="Beli Kitab" name="tujuan"
+                            id="tujuan">
+                    </div>
+                    <small class="text-white">Jika tujaun tidak diisi, default adalah uang jajan</small>
                     <div class="row mt-5">
                         <div class="col text-end">
                             <button type="submit" class="btn btn-warning">Simpan</button>

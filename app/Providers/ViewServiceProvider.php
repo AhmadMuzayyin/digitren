@@ -10,6 +10,8 @@ use App\Models\Kelas;
 use App\Models\Kelurahan;
 use App\Models\Provinsi;
 use App\Models\Santri;
+use App\Models\Setting;
+use App\Models\WhatsappMessage;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Role;
 
@@ -66,6 +68,10 @@ class ViewServiceProvider extends ServiceProvider
         view()->composer('pages.saldo_debit.*', function ($view) {
             $santri = Santri::all();
             $view->with('santri', $santri);
+        });
+        view()->composer('layouts.*', function ($view) {
+            $setting = Setting::first();
+            $view->with('setting', $setting);
         });
     }
 }

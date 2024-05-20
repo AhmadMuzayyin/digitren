@@ -5,7 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@yield('title', config('app.name'))</title>
-    <link rel="icon" href="{{ url('assets/images/favicon.jpg') }}" type="image/png" />
+    <link rel="icon"
+        href="{{ $setting != null ? url('storage/uploads/setting/', $setting->favicon) : url('assets/images/favicon-32x32.png') }}"
+        type="image/png" />
     <link href="{{ url('assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
@@ -32,7 +34,7 @@
 <body>
     <div class="wrapper">
         @if (request()->segment(1) != 'login')
-            <x-navbar></x-navbar>
+            <x-navbar :setting="$setting ?? null"></x-navbar>
             <x-header></x-header>
         @endif
         @yield('content')

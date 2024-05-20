@@ -82,8 +82,8 @@ class TransaksiController extends Controller
             }
             return redirect()->back();
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             Toastr::error('Gagal menyimpan data');
-
             return redirect()->back()->withInput();
         }
     }
@@ -114,6 +114,7 @@ class TransaksiController extends Controller
                             'jenis_transaksi' => $validate['jenis_transaksi'],
                             'jumlah_transaksi' => $validate['kredit'],
                             'saldo_saatini' => $tabungan->saldo - $validate['kredit'],
+                            'tujuan' => request()->get('tujuan') != null ? request()->get('tujuan') : 'Uang Jajan'
                         ]);
 
                         $tabungan->update([
