@@ -11,53 +11,60 @@
 </p>
 
 Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel](https://laravel.com) dengan versi [php](https://www.php.net/) 8.1
+
 ## Role
-- Admin
-- Keuangan
-- Pengurus
-- Santri
+
+-   Admin
+-   Keuangan
+-   Pengurus
+-   Santri
 
 ## Fitur Admin
-- Dashboard
-- CRUD Data Kamar
-- CRUD Data Kelas
-- CRUD Data Santri
-- CRUD Data Mata Pelajaran
-- CRUD Data Surat
-- CRUD Surat Izin Santri
-- CRUD Tabungan Santri
-- CRUD Transaksi Tabungan Santri
-- CRUD Pengguna
-- Read Riwayat
-- Read dan Update Sinkronisasi Data ke Google Sheets
+
+-   Dashboard
+-   CRUD Data Kamar
+-   CRUD Data Kelas
+-   CRUD Data Santri
+-   CRUD Data Mata Pelajaran
+-   CRUD Data Surat
+-   CRUD Surat Izin Santri
+-   CRUD Tabungan Santri
+-   CRUD Transaksi Tabungan Santri
+-   CRUD Pengguna
+-   Read Riwayat
+-   Read dan Update Sinkronisasi Data ke Google Sheets
 
 ## Fitur Keuangan
-- Dashboard
-- CRUD Tabungan Santri
-- CRUD Transaksi Tabungan Santri
+
+-   Dashboard
+-   CRUD Tabungan Santri
+-   CRUD Transaksi Tabungan Santri
 
 # Fitur Pengurus
-- Dashboard
-- CRUD Data Kamar
-- CRUD Data Kelas
-- CRUD Data Santri
-- CRUD Data Mata Pelajaran
-- CRUD Data Surat
-- CRUD Surat Izin Santri
-- CRUD Tabungan Santri
-- CRUD Transaksi Tabungan Santri
-- CRUD Pengguna
-- Read Riwayat
-- Read dan Update Sinkronisasi Data ke Google Sheets
+
+-   Dashboard
+-   CRUD Data Kamar
+-   CRUD Data Kelas
+-   CRUD Data Santri
+-   CRUD Data Mata Pelajaran
+-   CRUD Data Surat
+-   CRUD Surat Izin Santri
+-   CRUD Tabungan Santri
+-   CRUD Transaksi Tabungan Santri
+-   CRUD Pengguna
+-   Read Riwayat
+-   Read dan Update Sinkronisasi Data ke Google Sheets
 
 ## Fitur Santri (on going)
-- Dashboard
-- Read Nilai Raport
-- Read Saldo Tabungan
+
+-   Dashboard
+-   Read Nilai Raport
+-   Read Saldo Tabungan
 
 # Fitur Lain
-- Backup Data Santri ke [google sheets](https://youtu.be/y-sIJ30Z5CU?si=wX9O9RROgO-iZGZX)
-- Kartu Santri dengan barcode
+
+-   Backup Data Santri ke [google sheets](https://youtu.be/y-sIJ30Z5CU?si=wX9O9RROgO-iZGZX)
+-   Kartu Santri dengan barcode
 
 ## Instalasi
 
@@ -76,6 +83,7 @@ cd digitren
 # install dependency
 composer install
 ```
+
 ## Konfigurasi
 
 ```bash
@@ -97,6 +105,7 @@ DB_PASSWORD=root
 ```
 
 ## Contributing
+
 Pull requests dipersilakan. Untuk perubahan besar, harap buka issues terlebih dahulu untuk mendiskusikan apa yang ingin Anda ubah.
 
 Harap pastikan untuk memperbarui unit test sebagaimana mestinya.

@@ -15,7 +15,7 @@ class Santri
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role->name == 'Santri') {
+        if (auth()->user()->roles->first()->name == 'Santri') {
             return $next($request);
         }
         abort(401);
