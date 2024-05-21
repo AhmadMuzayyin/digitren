@@ -65,6 +65,7 @@ Adalah sebuah aplikasi berbasis website yang dibangun dengan framework [laravel]
 
 -   Backup Data Santri ke [google sheets](https://youtu.be/y-sIJ30Z5CU?si=wX9O9RROgO-iZGZX)
 -   Kartu Santri dengan barcode [hubungi saya](https://wa.me/6285179695497?text=Halo%20Admin%20DIGITREN%20saya%20ingin%20membuat%20kartu%20santri%20dengan%20barcode)
+-   Pesan notifikasi whatsapp transaksi tabungan [hubungi saya](https://wa.me/6285179695497?text=Halo%20Admin%20DIGITREN%20saya%20ingin%20mengaktifkan%20fitur%20pesan%20notifikasi%20whatsapp)
 
 ## Instalasi
 
