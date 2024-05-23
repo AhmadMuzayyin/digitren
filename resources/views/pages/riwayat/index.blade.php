@@ -46,7 +46,6 @@
     </div>
 @endsection
 @push('js')
-    <script src="https://momentjs.com/downloads/moment.js"></script>
     <script>
         $(document).ready(function() {
             //Default data table

@@ -49,8 +49,8 @@ class ViewServiceProvider extends ServiceProvider
             $roles = Role::all();
             $view->with('roles', $roles);
         });
-        view()->composer('pages.surat.*', function ($view) {
-            $santris = Santri::all();
+        view()->composer('pages.transfer.*', function ($view) {
+            $santris = Santri::whereHas('tabungan')->get();
             $view->with('santris', $santris);
         });
         view()->composer('pages.mapel.index', function ($view) {

@@ -60,49 +60,6 @@ class Santri extends Model
     {
         return $this->hasMany(Transfer::class, 'penerima_id');
     }
-    public function transfer(Santri $penerima, $jumlah, $keterangan = null)
-    {
-        DB::transaction(function () use ($penerima, $jumlah, $keterangan) {
-            // Pengirim
-            $pengirimTabungan = $this->tabungan;
-            if ($pengirimTabungan->saldo < $jumlah) {
-                Toastr::error('Saldo tidak mencukupi.');
-            }
-            $pengirimSaldoSebelumnya = $pengirimTabungan->saldo;
-            $pengirimTabungan->saldo -= $jumlah;
-            $pengirimTabungan->save();
-            $this->transaksi_tabungans()->create([
-                'tanggal_transaksi' => now(),
-                'jenis_transaksi' => 'Penarikan',
-                'jumlah_transaksi' => $jumlah,
-                'saldo_sebelumnya' => $pengirimSaldoSebelumnya,
-                'saldo_saatini' => $pengirimTabungan->saldo,
-                'tujuan' => 'Transfer ke ' . $penerima->id,
-                'keterangan' => $keterangan,
-            ]);
-            // Penerima
-            $penerimaTabungan = $penerima->tabungan;
-            $penerimaSaldoSebelumnya = $penerimaTabungan->saldo;
-            $penerimaTabungan->saldo += $jumlah;
-            $penerimaTabungan->save();
-            $penerima->transaksi_tabungans()->create([
-                'tanggal_transaksi' => now(),
-                'jenis_transaksi' => 'Setoran',
-                'jumlah_transaksi' => $jumlah,
-                'saldo_sebelumnya' => $penerimaSaldoSebelumnya,
-                'saldo_saatini' => $penerimaTabungan->saldo,
-                'tujuan' => 'Transfer dari ' . $this->id,
-                'keterangan' => $keterangan,
-            ]);
-            // Catat Transfer
-            Transfer::create([
-                'pengirim_id' => $this->id,
-                'penerima_id' => $penerima->id,
-                'jumlah_transfer' => $jumlah,
-                'keterangan' => $keterangan
-            ]);
-        });
-    }
     public static function boot()
     {
         parent::boot();

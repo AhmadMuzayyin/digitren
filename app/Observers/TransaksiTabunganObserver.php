@@ -13,7 +13,7 @@ class TransaksiTabunganObserver
     public function created(TransaksiTabungan $transaksiTabungan)
     {
         $setting = Setting::first();
-        if ($setting->whatsapp_feature == true) {
+        if (isset($setting) && $setting->whatsapp_feature == true) {
             if ($transaksiTabungan->jenis_transaksi == 'Setoran') {
                 $params = [
                     'nama' => $transaksiTabungan->santri->user->name,

@@ -72,6 +72,7 @@ class TransaksiController extends Controller
                     'tanggal_transaksi' => date('Y-m-d'),
                     'jenis_transaksi' => $validate['jenis_transaksi'],
                     'jumlah_transaksi' => $validate['debit'],
+                    'saldo_sebelumnya' => $tabungan->saldo,
                     'saldo_saatini' => $tabungan->saldo + $validate['debit'],
                 ]);
                 $tabungan->update([

@@ -17,7 +17,9 @@ use App\Http\Controllers\Surat\JenisSuratController;
 use App\Http\Controllers\Surat\SuratController;
 use App\Http\Controllers\Tabungan\SaldoDebitController;
 use App\Http\Controllers\Transaksi\TransaksiController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\Users\UsersController;
+use App\Models\Transfer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('set_theme', function (Illuminate\Http\Request $request) {
@@ -83,7 +85,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/update/modules', 'update')->name('update');
         });
     });
-
     Route::group(['middleware' => ['role:Administrator']], function () {
         // roles
         Route::controller(RoleController::class)->as('roles.')->group(function () {
@@ -111,7 +112,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('setting/whatsapp', 'whatsapp')->name('whatsapp');
         });
     });
-
     Route::group(['middleware' => ['role:Administrator|Keuangan']], function () {
         // saldo debit tabungan santri
         Route::controller(SaldoDebitController::class)->as('saldo_debit.')->group(function () {
@@ -126,6 +126,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/transaksi', 'index')->name('index');
             Route::post('/transaksi', 'store')->name('store');
             Route::patch('/transaksi/update', 'update')->name('update');
+        });
+        Route::controller(TransferController::class)->as('transfer.')->group(function () {
+            Route::get('/transfer', 'index')->name('index');
+            Route::post('/transfer/store', 'store')->name('store');
         });
     });
     Route::controller(AlamatController::class)->as('alamat.')->group(function () {

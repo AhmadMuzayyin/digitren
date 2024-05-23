@@ -65,6 +65,7 @@
         <script src="{{ url('assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
         <script src="{{ url('assets/plugins/datatable/js/jquery.dataTables.min.js') }}" attribute="required"></script>
         <script src="{{ url('assets/plugins/select2/js/select2.min.js') }}"></script>
+        <script src="https://momentjs.com/downloads/moment.js"></script>
         @if (flash()->message)
             <script>
                 Lobibox.notify("{{ flash()->class }}", {

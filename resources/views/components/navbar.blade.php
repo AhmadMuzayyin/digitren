@@ -97,14 +97,22 @@
             <li class="menu-label">Tabungan</li>
             <li class="{{ request()->routeIs('saldo_debit.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('saldo_debit.index') }}">
-                    <div class="parent-icon icon-color-5"><i class="bx bx-dollar"></i>
+                    <div class="parent-icon icon-color-5"><i class='bx bx-wallet-alt'></i>
                     </div>
                     <div class="menu-title">Tabungan</div>
                 </a>
             </li>
+            <li class="{{ request()->routeIs('transfer.*') ? 'mm-active' : '' }}">
+                <a href="{{ route('transfer.index') }}">
+                    <div class="parent-icon icon-color-1"><i class="bx bx-transfer-alt"></i>
+                    </div>
+                    <div class="menu-title">Transfer</div>
+                </a>
+            </li>
+            <!-- transfer -->
             <li class="{{ request()->routeIs('transaksi.*') ? 'mm-active' : '' }}">
                 <a href="{{ route('transaksi.index') }}">
-                    <div class="parent-icon icon-color-7"><i class="bx bx-transfer-alt"></i>
+                    <div class="parent-icon icon-color-7"><i class='bx bx-money'></i>
                     </div>
                     <div class="menu-title">Transaksi</div>
                 </a>
