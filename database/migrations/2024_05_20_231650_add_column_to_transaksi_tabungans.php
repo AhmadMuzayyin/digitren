@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transaksi_tabungans', function (Blueprint $table) {
+            $table->bigInteger('saldo_sebelumnya')->after('jumlah_transaksi')->nullable();
             $table->bigInteger('keterangan')->after('saldo_saatini')->nullable();
         });
     }
