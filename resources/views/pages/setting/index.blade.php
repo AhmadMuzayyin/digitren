@@ -66,6 +66,21 @@
                                             Pastikan nomor whatsapp santri semuanya terisi dengan benar
                                         </p>
                                     </div>
+                                    <div class="form-group mt-3">
+                                        <label for="Aktif">Fitur Rekam Aktifitas Pengguna</label>
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="radio" name="log_activity[]"
+                                                id="Aktif" value="1"
+                                                {{ isset($setting) ? ($setting->log_activity == true ? 'checked' : '') : '' }}>
+                                            <label class="form-check-label" for="Aktif">Aktif</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="log_activity[]"
+                                                id="Tidak Aktif" value="0"
+                                                {{ isset($setting) ? ($setting->log_activity == false ? 'checked' : '') : '' }}>
+                                            <label class="form-check-label" for="Tidak Aktif">Tidak Aktif</label>
+                                        </div>
+                                    </div>
                                     <div class="form-group mt-2">
                                         <button class="btn btn-info">Update</button>
                                     </div>

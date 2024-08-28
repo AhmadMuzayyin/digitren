@@ -117,6 +117,8 @@ class SantriController extends Controller
             ]);
             $user->assignRole('Santri');
             $validate['user_id'] = $user->id;
+            $validate['nik'] = request()->input('nik');
+            $validate['kk'] = request()->input('kk');
             $santri = Santri::create($validate);
             KamarSantri::create([
                 'santri_id' => $santri->id,
@@ -260,6 +262,8 @@ class SantriController extends Controller
                     'nama_ibu' => $validate['nama_ibu'],
                 ]);
             }
+            $validate['nik'] = request()->input('nik');
+            $validate['kk'] = request()->input('kk');
             $santri->update($validate);
             Toastr::success('Berhasil merubah data');
             return redirect()->back();

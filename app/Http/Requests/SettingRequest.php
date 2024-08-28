@@ -25,7 +25,8 @@ class SettingRequest extends FormRequest
             'logo' => ['required', 'mimes:png,jpg', 'max:5020'],
             'favicon' => ['required', 'mimes:png,jpg', 'max:5020'],
             'whatsapp_api_key' => ['required', 'string', 'min:32', 'max:32'],
-            'whatsapp_feature' => ['required']
+            'whatsapp_feature' => ['required'],
+            'log_activity' => ['required'],
         ];
     }
 }

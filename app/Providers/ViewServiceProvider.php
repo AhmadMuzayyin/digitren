@@ -33,17 +33,16 @@ class ViewServiceProvider extends ServiceProvider
         view()->composer('pages.santri.*', function ($view) {
             $kelas = Kelas::all();
             $view->with('classes', $kelas);
-
             $kamar = Kamar::all();
             $view->with('badroom', $kamar);
             $provinsi = Provinsi::all();
             $view->with('provinsi', $provinsi);
-            $kabupaten = Kabupaten::all();
-            $view->with('kabupaten', $kabupaten);
-            $kecamatan = Kecamatan::all();
-            $view->with('kecamatan', $kecamatan);
-            $kelurahan = Kelurahan::all();
-            $view->with('kelurahan', $kelurahan);
+            // $kabupaten = Kabupaten::all();
+            // $view->with('kabupaten', $kabupaten);
+            // $kecamatan = Kecamatan::all();
+            // $view->with('kecamatan', $kecamatan);
+            // $kelurahan = Kelurahan::all();
+            // $view->with('kelurahan', $kelurahan);
         });
         view()->composer('pages.users.index', function ($view) {
             $roles = Role::all();

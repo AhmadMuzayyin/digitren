@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kts_master')->nullable();
             $table->bigInteger('sender')->nullable();
             $table->string('whatsapp_api_key')->nullable();
+            $table->boolean('log_activity')->default(false)->nullable();
             $table->timestamps();
         });
     }
