@@ -244,12 +244,4 @@
             <x-input type='file' label='Foto' id="foto" name='foto'></x-input>
         </div>
     </div>
-    <div class="col">
-        <div class="mb-2">
-            <x-input type="date" label='Tanggal Boyong' id="tanggal_boyong" name='tanggal_boyong'
-                placeholder='Tanggal Boyong'
-                value="{{ isset($item) ? $item->tanggal_boyong : old('tanggal_boyong') }}"></x-input>
-            <small class="text-muted" style="font-style: italic">Hanya jika sudah boyong</small>
-        </div>
-    </div>
 </div>

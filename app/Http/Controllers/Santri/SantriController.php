@@ -87,7 +87,7 @@ class SantriController extends Controller
             $kamar_santri['kamar_id'] = $validate['kamar'];
             $kelas_santri['kelas_id'] = $validate['kelas'];
             $validate['tahun_masuk_hijriyah'] = str_replace('/', '-', $date->toHijri()->isoFormat('L'));
-            $validate['status'] = isset($request->tanggal_boyong) == true ? 'Santri Alumni' : 'Santri Aktif';
+            $validate['status'] = 'Santri Aktif';
             $validate['whatsapp'] = $request->whatsapp;
             $tgl = Carbon::parse($request->tanggal_boyong);
             $validate['tanggal_boyong_hijriyah'] = isset($request->tanggal_boyong) ? str_replace('/', '-', $tgl->toHijri()->isoFormat('LL')) : '';
